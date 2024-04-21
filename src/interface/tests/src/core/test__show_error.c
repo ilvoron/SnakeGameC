@@ -27,7 +27,7 @@ void _TestShowError1(struct Settings* Settings) {
 		show_error(i);
 		freopen(DEFAULT_OUT, "a", stdout);
 		if (CompareFiles(TEMP_FILE, TEMP_FILE_ERR)) { PrintOK(false, false); }
-		else { PrintBAD(false, true); }
+		else { PrintBAD(false, false); }
 		testedErrors++;
 	}
 

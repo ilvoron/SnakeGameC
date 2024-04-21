@@ -45,7 +45,7 @@ const struct InputTrigger INPUT_TRIGGERS_DEFAULT[I__COUNT] = {
 
 const struct Speed SPEED_DEFAULT = {1, 10, 3, 3, 3};
 
-const struct Skin SKIN_DEFAULT = {'#', '*', '.', '$', '+',
+const struct Skin SKIN_DEFAULT = {219, '*', ' ', '$', '+',
 	"Use \"%s\" and \"%s\" to change menu item. Press \"%s\" to select",
 	{
 		"Start game",
@@ -382,7 +382,7 @@ void render_frame() {
 							if (board.snake.body[0].x == x && board.snake.body[0].y == y) {
 								printf("%c", _settings->skin.snakeHead);
 							} else {
-								printf("%c", _settings->skin.snakeBody);
+								printf("%c", _settings->skin.snakeBody, _settings->skin.snakeBody);
 							}
 							continue;
 						}
