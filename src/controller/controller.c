@@ -47,7 +47,7 @@ void Updater(struct Settings settings) {
 				diff = get_time() - lastframe;				// Считаем время с последнего обновления экрана
 				if (diff > frameTime * inaccuracy) {		// Если время обновления больше периода обновления с некоторой погрешностью
 					update_game_state(&(settings.gameState)); // Проверяем состояние игры у BOARD
-//					render_frame();							// Отрисовка экрана
+					render_frame();							// Отрисовка экрана
 					lastframe = get_time();					// Фиксируем время последнего обновления 
 					Sleep(frameTime);						// Задержка потока в мс
 
