@@ -92,6 +92,8 @@ int _inputDelay = 10000;
 HANDLE _hThread = NULL;
 DWORD _dwThreadId;
 DWORD _originalConsoleMode;
+HANDLE _console;
+CONSOLE_SCREEN_BUFFER_INFO _screen;
 
 void _set_non_blocking_mode() {
     HANDLE hStdin;
@@ -330,6 +332,8 @@ void init_interface(struct Settings* settings) {
 	while (_hThread == NULL) {
 		_hThread = CreateThread(NULL, 0, _key_handler_in_game, &_threadNumber, 0, &_dwThreadId);
 	}
+	_console = GetStdHandle(STD_OUTPUT_HANDLE);
+	GetConsoleScreenBufferInfo(_console, &_screen);
 }
 
 void close_interface() {
@@ -481,43 +485,40 @@ void render_frame() {
 					COORD coords;
 					COORD coordsBefore;
 					DWORD _writtenChars;
-					CONSOLE_SCREEN_BUFFER_INFO screen;
-					HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-					GetConsoleScreenBufferInfo(console, &screen);
-					coordsBefore = screen.dwCursorPosition;
+					coordsBefore = _screen.dwCursorPosition;
 					
 					if (_apple.x != board.apple.x || _apple.y != board.apple.y) {
 						coords.X = _apple.x; coords.Y = _apple.y;
-						FillConsoleOutputCharacter(console, _settings->skin.freeCell, 1, coords, &_writtenChars);
+						FillConsoleOutputCharacter(_console, _settings->skin.freeCell, 1, coords, &_writtenChars);
 						coords.X = board.apple.x; coords.Y = board.apple.y;
-						FillConsoleOutputCharacter(console, _settings->skin.appleCell, 1, coords, &_writtenChars);
+						FillConsoleOutputCharacter(_console, _settings->skin.appleCell, 1, coords, &_writtenChars);
 					}
 					
 					if (board.snake.length == 1) {
 						coords.X = _snakeHead.x; coords.Y = _snakeHead.y;
-						FillConsoleOutputCharacter(console, _settings->skin.freeCell, 1, coords, &_writtenChars);
+						FillConsoleOutputCharacter(_console, _settings->skin.freeCell, 1, coords, &_writtenChars);
 						coords.X = board.snake.body[0].x; coords.Y = board.snake.body[0].y;
-						FillConsoleOutputCharacter(console, _settings->skin.snakeHead, 1, coords, &_writtenChars);
+						FillConsoleOutputCharacter(_console, _settings->skin.snakeHead, 1, coords, &_writtenChars);
 					} else if (_snakeLength != board.snake.length) {
 						coords.X = _snakeHead.x; coords.Y = _snakeHead.y;
-						FillConsoleOutputCharacter(console, _settings->skin.snakeBody, 1, coords, &_writtenChars);
+						FillConsoleOutputCharacter(_console, _settings->skin.snakeBody, 1, coords, &_writtenChars);
 						coords.X = board.snake.body[0].x; coords.Y = board.snake.body[0].y;
-						FillConsoleOutputCharacter(console, _settings->skin.snakeHead, 1, coords, &_writtenChars);
+						FillConsoleOutputCharacter(_console, _settings->skin.snakeHead, 1, coords, &_writtenChars);
 						coords.X = 0; coords.Y = board.height;
-						SetConsoleCursorPosition(console, coords);
+						SetConsoleCursorPosition(_console, coords);
 						printf(_settings->skin.ingameLabel, board.snake.length, (board.width-2)*(board.height-2), _settings->inputTriggers[I_LEFT].keyLabels[0], _settings->inputTriggers[I_UP].keyLabels[0], _settings->inputTriggers[I_RIGHT].keyLabels[0], _settings->inputTriggers[I_DOWN].keyLabels[0], _settings->inputTriggers[I_RETURN].keyLabels[0]);
 						printf("\n");
 						fflush(stdout);
 					} else {
 						coords.X = _snakeHead.x; coords.Y = _snakeHead.y;
-						FillConsoleOutputCharacter(console, _settings->skin.snakeBody, 1, coords, &_writtenChars);
+						FillConsoleOutputCharacter(_console, _settings->skin.snakeBody, 1, coords, &_writtenChars);
 						coords.X = board.snake.body[0].x; coords.Y = board.snake.body[0].y;
-						FillConsoleOutputCharacter(console, _settings->skin.snakeHead, 1, coords, &_writtenChars);
+						FillConsoleOutputCharacter(_console, _settings->skin.snakeHead, 1, coords, &_writtenChars);
 						coords.X = _snakeTail.x; coords.Y = _snakeTail.y;
-						FillConsoleOutputCharacter(console, _settings->skin.freeCell, 1, coords, &_writtenChars);
+						FillConsoleOutputCharacter(_console, _settings->skin.freeCell, 1, coords, &_writtenChars);
 					}
 
-					SetConsoleCursorPosition(console, coordsBefore);
+					SetConsoleCursorPosition(_console, coordsBefore);
 				}
 				
 				_apple = board.apple;

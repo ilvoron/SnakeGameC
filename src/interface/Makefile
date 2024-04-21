@@ -2,7 +2,7 @@ GCC = x86_64-w64-mingw32-gcc
 SRCd = src
 SRCd_global = ..
 OBJd = obj
-OUTf = interface.exe
+OUTf = interface.a
 SRCfs = $(wildcard $(SRCd)/*.c $(SRCd_global)/*.c)
 OBJfs = $(patsubst $(SRCd)/%,$(OBJd)/%,$(SRCfs:.c=.o))
 
