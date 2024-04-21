@@ -1,6 +1,6 @@
-#ifndef BOARD_H
-#define BOARD_H
+#ifndef BOARD_PLUG_H
+#define BOARD_PLUG_H
 
-struct Board get_board();
+extern struct Board get_board();
 
 #endif

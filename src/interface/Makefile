@@ -7,9 +7,9 @@ SRCfs = $(wildcard $(SRCd)/*.c $(SRCd_global)/*.c)
 OBJfs = $(patsubst $(SRCd)/%,$(OBJd)/%,$(SRCfs:.c=.o))
 
 ifeq ($(OS),Windows_NT)
-    COPY_CMD = copy
+	COPY_CMD = copy
 else
-    COPY_CMD = cp
+	COPY_CMD = cp
 endif
 
 main: copy $(OBJfs)

@@ -4,11 +4,11 @@
 #include <windows.h>
 
 enum ConsoleColor {
-    colorDefault,
-    colorGreen,
-    colorYellow,
-    colorRed,
-    colorBlue
+	colorDefault,
+	colorGreen,
+	colorYellow,
+	colorRed,
+	colorBlue
 };
 
 void SetConsoleTextColor(enum ConsoleColor color);

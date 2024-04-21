@@ -96,18 +96,18 @@ HANDLE _console;
 CONSOLE_SCREEN_BUFFER_INFO _screen;
 
 void _set_non_blocking_mode() {
-    HANDLE hStdin;
-    DWORD fdwMode, cRead;
+	HANDLE hStdin;
+	DWORD fdwMode, cRead;
 	GetConsoleMode(hStdin, &_originalConsoleMode);
-    hStdin = GetStdHandle(STD_INPUT_HANDLE);
-    fdwMode &= ~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT);
-    fdwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-    SetConsoleMode(hStdin, fdwMode);
+	hStdin = GetStdHandle(STD_INPUT_HANDLE);
+	fdwMode &= ~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT);
+	fdwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+	SetConsoleMode(hStdin, fdwMode);
 }
 
 void _restore_default_mode() {
-    HANDLE hStdin;
-    SetConsoleMode(hStdin, _originalConsoleMode);
+	HANDLE hStdin;
+	SetConsoleMode(hStdin, _originalConsoleMode);
 }
 
 void _clear_screen() {
@@ -366,7 +366,7 @@ void show_menu() {
 					break;
 				default: break;
 			}
-        }
+		}
 	}
 	
 	_settings->gameState = _gameState;
@@ -545,7 +545,7 @@ void show_end_game(enum END_GAME_CODE endGameCode) {
 		key = _get_key();
 		if (key.input == I_CONFIRM || key.input == I_RETURN) {
 			inEndGame = false;
-        }
+		}
 	}
 }
 

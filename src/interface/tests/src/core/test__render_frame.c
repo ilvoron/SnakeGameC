@@ -39,7 +39,7 @@ void _TestRenderFrame1_1(struct Settings* Settings) {
 	_OutMap(get_board(), Settings);
 	freopen(TEMP_FILE, "w", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
@@ -58,7 +58,7 @@ void _TestRenderFrame1_2(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -75,7 +75,7 @@ void _TestRenderFrame1_3(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -92,7 +92,7 @@ void _TestRenderFrame1_4(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -109,7 +109,7 @@ void _TestRenderFrame1_5(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -126,7 +126,7 @@ void _TestRenderFrame1_6(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -143,7 +143,7 @@ void _TestRenderFrame1_7(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -161,7 +161,7 @@ void _TestRenderFrame2_1(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -179,7 +179,7 @@ void _TestRenderFrame2_2(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -197,7 +197,7 @@ void _TestRenderFrame2_3(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -215,7 +215,7 @@ void _TestRenderFrame2_4(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -233,7 +233,7 @@ void _TestRenderFrame2_5(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -251,7 +251,7 @@ void _TestRenderFrame2_6(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -269,7 +269,7 @@ void _TestRenderFrame2_7(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -287,7 +287,7 @@ void _TestRenderFrame2_8(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -304,7 +304,7 @@ void _TestRenderFrame3_1(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -322,7 +322,7 @@ void _TestRenderFrame3_2(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -341,7 +341,7 @@ void _TestRenderFrame3_3(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -359,7 +359,7 @@ void _TestRenderFrame3_4(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -377,7 +377,7 @@ void _TestRenderFrame3_5(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
@@ -395,7 +395,7 @@ void _TestRenderFrame3_6(struct Settings* Settings) {
 	render_frame();
 	freopen(DEFAULT_OUT, "a", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
