@@ -9,6 +9,8 @@
 
 // private
 
+bool _hasTestShowMenuBad = false;
+
 void _GenerateExpectedOutput(struct Settings* Settings) {
 	for (int i = 0; i < GS__MENU_COUNT; i++) {
 		switch (i) {
@@ -55,7 +57,7 @@ void _TestShowMenu1(struct Settings* Settings) {
 	usleep(10000);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_SM_0)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestShowMenuBad = true; }
 }
 
 void _TestShowMenu2_1(struct Settings* Settings) {
@@ -71,7 +73,7 @@ void _TestShowMenu2_1(struct Settings* Settings) {
 	usleep(10000);
 
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_SM_0)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestShowMenuBad = true; }
 }
 
 void _TestShowMenu2_2(struct Settings* Settings) {
@@ -87,7 +89,7 @@ void _TestShowMenu2_2(struct Settings* Settings) {
 	usleep(10000);
 
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_SM_1)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestShowMenuBad = true; }
 }
 
 void _TestShowMenu2_3(struct Settings* Settings) {
@@ -104,7 +106,7 @@ void _TestShowMenu2_3(struct Settings* Settings) {
 	usleep(10000);
 
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_SM_2)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestShowMenuBad = true; }
 }
 
 void _TestShowMenu2_4(struct Settings* Settings) {
@@ -122,7 +124,7 @@ void _TestShowMenu2_4(struct Settings* Settings) {
 	usleep(10000);
 
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_SM_3)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestShowMenuBad = true; }
 }
 
 void _TestShowMenu2_5(struct Settings* Settings) {
@@ -141,7 +143,7 @@ void _TestShowMenu2_5(struct Settings* Settings) {
 	usleep(10000);
 
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_SM_3)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestShowMenuBad = true; }
 }
 
 void _TestShowMenu3_1(struct Settings* Settings) {
@@ -155,7 +157,7 @@ void _TestShowMenu3_1(struct Settings* Settings) {
 	usleep(10000);
 
 	if (Settings->gameState == GS_MENU_START) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestShowMenuBad = true; }
 }
 
 void _TestShowMenu3_2(struct Settings* Settings) {
@@ -173,7 +175,7 @@ void _TestShowMenu3_2(struct Settings* Settings) {
 	usleep(10000);
 
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_SPEED)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestShowMenuBad = true; }
 }
 
 void _TestShowMenu3_3(struct Settings* Settings) {
@@ -192,7 +194,7 @@ void _TestShowMenu3_3(struct Settings* Settings) {
 	usleep(10000);
 
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_RT)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestShowMenuBad = true; }
 }
 
 void _TestShowMenu3_4(struct Settings* Settings) {
@@ -210,12 +212,12 @@ void _TestShowMenu3_4(struct Settings* Settings) {
 	usleep(10000);
 
 	if (Settings->gameState == GS_MENU_EXIT) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestShowMenuBad = true; }
 }
 
 // public
 
-void TestShowMenu(struct Settings* Settings) {
+bool TestShowMenu(struct Settings* Settings) {
 	printf("Testing ");
 	PrintSTATUS(false, false, "show_menu()");
 	printf("...\n");
@@ -235,5 +237,7 @@ void TestShowMenu(struct Settings* Settings) {
 	printf("Testing ");
 	PrintSTATUS(false, false, "show_menu()");
 	printf("... ");
-	PrintOK(false, true);
+	if (_hasTestShowMenuBad) { PrintBAD(false, true); }
+	else { PrintOK(false, true); }
+	return _hasTestShowMenuBad;
 }

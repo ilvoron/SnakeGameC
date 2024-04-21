@@ -7,12 +7,19 @@ OBJd = obj
 TMPd = tmp
 OUTf = interface_ut.a
 EXEf = interface_ut.exe
-CPYfs = ../src/interface.c ../src/interface.h ../../global.h
+CPYfs = ../interface.a ../src/interface.h ../../global.h
+MAKEf = ../
 SRCfs = $(wildcard $(SRCd_imp)/*.c $(SRCd_core)/*.c $(SRCd_mimic)/*.c)
 OBJfs = $(patsubst $(SRCd)/%,$(OBJd)/%,$(SRCfs:.c=.o))
 
-main: copy $(OBJfs)
+main: make_interface copy $(OBJfs)
 	ar rcs $(OUTf) $(OBJfs)
+
+exe: make_interface copy $(OBJfs)
+	${GCC} ${OBJfs} -o ${EXEf} -L $(SRCd_imp)/*
+	
+make_interface:
+	make -C $(MAKEf)
 
 $(OBJd)/%.o: $(SRCd)/%.c
 	mkdir -p $(dir $@)
@@ -32,6 +39,3 @@ debug:
 	@echo "Source files: $(SRCfs)"
 	@echo "Object files: $(OBJfs)"
 	@echo "Copy files: $(CPYfs)"
-
-exe: copy $(OBJfs)
-	${GCC} ${OBJfs} -o ${EXEf}

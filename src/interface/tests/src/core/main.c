@@ -14,33 +14,22 @@
 #include "test__close_interface.h"
 
 struct Settings Settings;
-
-/*void __test__render_frame() {
-	render_frame();
-}
-
-void __test__show_end_game() {
-	show_end_game(EG_WIN);
-}
-
-void __test__show_error() {
-	enum ERROR_CODE errCode = ERR_NO;
-	show_error(errCode);
-}*/
+bool hasBad = false;
 
 int main() {
 	system(Concat("mkdir ", TEMP_PATH));
 	freopen(DEFAULT_OUT, "w", stdout);
 	printf("Start testing...\n");
 	TestInitInterface(&Settings);
-	TestShowMenu(&Settings);
-	TestRenderFrame(&Settings);
-	TestShowEndGame(&Settings);
-	TestShowError(&Settings);
+	hasBad = TestShowMenu(&Settings) ^ hasBad;
+	hasBad = TestRenderFrame(&Settings) ^ hasBad;
+	hasBad = TestShowEndGame(&Settings) ^ hasBad;
+	hasBad = TestShowError(&Settings) ^ hasBad;
 	TestCloseInterface();
 	FreeTools();
 	FreeBoard();
 	ClearKeyInputBuffer();
 	printf("Testing was completed... ");
-	PrintOK(false, false);
+	if (hasBad) { PrintBAD(false, false); }
+	else { PrintOK(false, false); }
 }

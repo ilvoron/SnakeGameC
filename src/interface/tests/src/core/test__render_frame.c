@@ -8,6 +8,8 @@
 #include "output.h"
 #include "consts.h"
 
+bool _hasTestRenderFrameBad = false;
+
 void _OutMap(struct Board Board, struct Settings* Settings) {
 	freopen(TEMP_FILE_MAP, "w", stdout);
 	for (int y = 0; y < Board.height; y++) {
@@ -26,11 +28,6 @@ void _OutMap(struct Board Board, struct Settings* Settings) {
 	
 	printf(Settings->skin.ingameLabel, Board.snake.length, (Board.width-2)*(Board.height-2), Settings->inputTriggers[I_LEFT].keyLabels[0], Settings->inputTriggers[I_UP].keyLabels[0], Settings->inputTriggers[I_RIGHT].keyLabels[0], Settings->inputTriggers[I_DOWN].keyLabels[0], Settings->inputTriggers[I_RETURN].keyLabels[0]);
 	printf("\n");
-	/*SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-							  NULL);
-	show_menu();
-	usleep(10000);*/
 	freopen(DEFAULT_OUT, "a", stdout);
 }
 
@@ -48,7 +45,7 @@ void _TestRenderFrame1_1(struct Settings* Settings) {
 	freopen(DEFAULT_OUT, "a", stdout);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame1_2(struct Settings* Settings) {
@@ -65,7 +62,7 @@ void _TestRenderFrame1_2(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame1_3(struct Settings* Settings) {
@@ -82,7 +79,7 @@ void _TestRenderFrame1_3(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame1_4(struct Settings* Settings) {
@@ -99,7 +96,7 @@ void _TestRenderFrame1_4(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame1_5(struct Settings* Settings) {
@@ -116,7 +113,7 @@ void _TestRenderFrame1_5(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame1_6(struct Settings* Settings) {
@@ -133,7 +130,7 @@ void _TestRenderFrame1_6(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame1_7(struct Settings* Settings) {
@@ -150,7 +147,7 @@ void _TestRenderFrame1_7(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame2_1(struct Settings* Settings) {
@@ -168,7 +165,7 @@ void _TestRenderFrame2_1(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame2_2(struct Settings* Settings) {
@@ -186,7 +183,7 @@ void _TestRenderFrame2_2(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame2_3(struct Settings* Settings) {
@@ -204,7 +201,7 @@ void _TestRenderFrame2_3(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame2_4(struct Settings* Settings) {
@@ -222,7 +219,7 @@ void _TestRenderFrame2_4(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame2_5(struct Settings* Settings) {
@@ -240,7 +237,7 @@ void _TestRenderFrame2_5(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame2_6(struct Settings* Settings) {
@@ -258,7 +255,7 @@ void _TestRenderFrame2_6(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame2_7(struct Settings* Settings) {
@@ -276,7 +273,7 @@ void _TestRenderFrame2_7(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame2_8(struct Settings* Settings) {
@@ -294,7 +291,7 @@ void _TestRenderFrame2_8(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame3_1(struct Settings* Settings) {
@@ -311,7 +308,7 @@ void _TestRenderFrame3_1(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame3_2(struct Settings* Settings) {
@@ -329,7 +326,7 @@ void _TestRenderFrame3_2(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame3_3(struct Settings* Settings) {
@@ -348,7 +345,7 @@ void _TestRenderFrame3_3(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame3_4(struct Settings* Settings) {
@@ -366,7 +363,7 @@ void _TestRenderFrame3_4(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame3_5(struct Settings* Settings) {
@@ -384,7 +381,7 @@ void _TestRenderFrame3_5(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 void _TestRenderFrame3_6(struct Settings* Settings) {
@@ -402,13 +399,13 @@ void _TestRenderFrame3_6(struct Settings* Settings) {
 							  NULL);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_MAP)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestRenderFrameBad = true; }
 }
 
 
 // public
 
-void TestRenderFrame(struct Settings* Settings) {
+bool TestRenderFrame(struct Settings* Settings) {
 	printf("Testing ");
 	PrintSTATUS(false, false, "render_frame()");
 	printf("...\n");
@@ -438,5 +435,7 @@ void TestRenderFrame(struct Settings* Settings) {
 	printf("Testing ");
 	PrintSTATUS(false, false, "render_frame()");
 	printf("... ");
-	PrintOK(false, true);
+	if (_hasTestRenderFrameBad) { PrintBAD(false, true); }
+	else { PrintOK(false, true); }
+	return _hasTestRenderFrameBad;
 };
