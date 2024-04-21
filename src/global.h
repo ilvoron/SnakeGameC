@@ -9,7 +9,10 @@ struct Point {
 	int y;
 };
 
-enum ERROR_CODE {
+enum ERROR_CODE{
+	EC_1,
+	EC_2,
+	EC_3,
 	ERR_NO,
 	ERR__COUNT
 };
@@ -120,6 +123,7 @@ struct Skin {
 };
 
 struct Settings {
+	enum ERROR_CODE errorCode;
 	enum GAME_STATE gameState;
 	enum RENDER_TYPE renderType;
 	struct Speed speed;
