@@ -1,0 +1,46 @@
+This is show_end_game
+This is end_game
+This is show_end_game
+This is end_game
+This is show_end_game
+This is end_game
+This is end_game
+
+This is change_direction
+Direction: 0
+This is render_frame
+This is change_direction
+Direction: 1
+This is render_frame
+This is change_direction
+Direction: 2
+This is render_frame
+This is change_direction
+Direction: 3
+This is render_frame
+
+This is init_interface
+This is show_menu
+This is start_game
+This is update_game_state 1
+This is update_game_state 2
+This is update_game_state 3
+This is update_game_state 4
+This is show_end_game
+This is show_end_game
+This is end_game
+This is show_menu
+This is close_interface
+
+Uncorrect work Updater
+
+Number of function calls:
+ show_end_game - 2
+ end_game - 1
+ show_menu - 2
+ start_game - 1
+ update_game_state - 4
+ render_frame - 0
+ change_direction - 0
+ close_interface - 1
+ init_interface - 1

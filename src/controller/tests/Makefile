@@ -12,15 +12,15 @@ all : clean copy $(TARGET)
 	
 $(TARGET) : $(OBJ)
 	$(CC) $(OBJ) -o $(TARGET)
-	
-#$(PREF_OBJ)/controller.o: ../controller.c
-#	$(CC) $< -o $@ -Isrc
 
 $(PREF_OBJ)/%.o : $(PREF_SRC)%.c 
 	$(CC) -c $< -o $@ -Isrc
+
 copy:
-	mkdir -p 
-	cp ../controller.c ../controller.h ../../global.h
+	xcopy /y ..\controller.c src
+	xcopy /y ..\controller.h src
+	xcopy /y ..\..\global.h src
+	
 clean :
 	del Output.txt $(TARGET) $(PREF_OBJ)\*.o 
 
