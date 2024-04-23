@@ -1,9 +1,6 @@
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 #include "snake.h"
-#include "snake.c"
-
+#include "global.h"
+#include <stdio.h>
 //test.c
 
 void test_move_snake(){
