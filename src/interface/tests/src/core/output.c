@@ -19,7 +19,7 @@ void _BackupDefaultConsoleAttributes() {
 // public
 
 void SetConsoleTextColor(enum ConsoleColor color) {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	WORD attributes = 0;
 	if (!isBackupedOriginalConsoleAttributes) { _BackupDefaultConsoleAttributes(); }
 	switch (color) {

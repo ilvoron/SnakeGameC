@@ -19,11 +19,11 @@ const char TEMP_FILE_ERR[] = "tmp/_out_err.tmp";
 const char DEFAULT_OUT[] = "CON";
 
 char* Concat(const char* str1, const char* str2) {
-    size_t len1 = strlen(str1);
-    size_t len2 = strlen(str2);
-    size_t len_total = len1 + len2;
-    char *result = (char *)malloc((len_total + 1) * sizeof(char));
-    strcpy(result, str1);
-    strcat(result, str2);
-    return result;
+	size_t len1 = strlen(str1);
+	size_t len2 = strlen(str2);
+	size_t len_total = len1 + len2;
+	char *result = (char *)malloc((len_total + 1) * sizeof(char));
+	strcpy(result, str1);
+	strcat(result, str2);
+	return result;
 }

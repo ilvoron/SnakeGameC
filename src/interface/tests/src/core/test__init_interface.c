@@ -34,7 +34,7 @@ void _TestInitInterface1(struct Settings* Settings) {
 	Settings->inGameKeyHandler = &_KeyHandler;
 	for (int i = 0; i < I__COUNT; ++i) {
 		Settings->inputTriggers[i] = INPUT_TRIGGERS_DEFAULT[i];
-    }
+	}
 	
 	init_interface(Settings);
 	PrintOK(false, true);

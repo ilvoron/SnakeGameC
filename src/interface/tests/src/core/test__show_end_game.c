@@ -9,6 +9,8 @@
 #include "tools.h"
 #include "board.h"
 
+bool _hasTestShowEndGameBad = false;
+
 void _GenerateEndGames(struct Settings* Settings) {
 	GenerateBoard(5, 5);
 	struct Board board = get_board();
@@ -30,14 +32,14 @@ void _TestShowEndGame1(struct Settings* Settings) {
 	
 	freopen(TEMP_FILE, "w", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	show_end_game(EG_WIN);
 	freopen(DEFAULT_OUT, "a", stdout);
 	usleep(10000);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_EG_WIN)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestShowEndGameBad = true; }
 }
 
 void _TestShowEndGame2(struct Settings* Settings) {
@@ -46,19 +48,19 @@ void _TestShowEndGame2(struct Settings* Settings) {
 	
 	freopen(TEMP_FILE, "w", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-	                          Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
 							  NULL);
 	show_end_game(EG_LOSE);
 	freopen(DEFAULT_OUT, "a", stdout);
 	usleep(10000);
 	
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_EG_LOSE)) { PrintOK(false, true); }
-	else { PrintBAD(false, true); }
+	else { PrintBAD(false, true); _hasTestShowEndGameBad = true; }
 }
 
 // public
 
-void TestShowEndGame(struct Settings* Settings) {
+bool TestShowEndGame(struct Settings* Settings) {
 	printf("Testing ");
 	PrintSTATUS(false, false, "show_end_game()");
 	printf("...\n");
@@ -70,5 +72,7 @@ void TestShowEndGame(struct Settings* Settings) {
 	printf("Testing ");
 	PrintSTATUS(false, false, "show_end_game()");
 	printf("... ");
-	PrintOK(false, true);	
+	if (_hasTestShowEndGameBad) { PrintBAD(false, true); }
+	else { PrintOK(false, true); }
+	return _hasTestShowEndGameBad;
 };

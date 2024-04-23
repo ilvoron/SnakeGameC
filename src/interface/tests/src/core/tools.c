@@ -12,8 +12,8 @@ DWORD dwThreadId = 0;
 
 typedef struct {
 	unsigned int keysCount;
-    int* keyCodes;
-    unsigned int* delays;
+	int* keyCodes;
+	unsigned int* delays;
 	bool* cleanBefore;
 	const char* cleanPath;
 } ARGS;
@@ -39,34 +39,34 @@ DWORD WINAPI _SimulateKeyPress(LPVOID lpParam) {
 // public
 
 bool CompareFiles(const char file1Path[], const char file2Path[]) {
-    FILE *file1 = fopen(file1Path, "rb");
-    FILE *file2 = fopen(file2Path, "rb");
-    if (file1 == NULL || file2 == NULL) {
-        if (file1) { fclose(file1); }
-        if (file2) { fclose(file2); }
-        return false;
-    }
+	FILE *file1 = fopen(file1Path, "rb");
+	FILE *file2 = fopen(file2Path, "rb");
+	if (file1 == NULL || file2 == NULL) {
+		if (file1) { fclose(file1); }
+		if (file2) { fclose(file2); }
+		return false;
+	}
 
-    int ch1, ch2;
-    do {
-        ch1 = fgetc(file1);
-        ch2 = fgetc(file2);
-        if (ch1 != ch2) {
-            fclose(file1);
-            fclose(file2);
-            return false;
-        }
-    } while (ch1 != EOF && ch2 != EOF);
+	int ch1, ch2;
+	do {
+		ch1 = fgetc(file1);
+		ch2 = fgetc(file2);
+		if (ch1 != ch2) {
+			fclose(file1);
+			fclose(file2);
+			return false;
+		}
+	} while (ch1 != EOF && ch2 != EOF);
 
-    if (ch1 != ch2) {
-        fclose(file1);
-        fclose(file2);
-        return false;
-    }
+	if (ch1 != ch2) {
+		fclose(file1);
+		fclose(file2);
+		return false;
+	}
 
-    fclose(file1);
-    fclose(file2);
-    return true;
+	fclose(file1);
+	fclose(file2);
+	return true;
 }
 
 void SimulateKeyPress(int keyCode) {
@@ -83,7 +83,7 @@ void SimulateKeyPressAssync(unsigned int keysCount, ...) {
 	args->delays = (unsigned int*)malloc(sizeof(unsigned int) * keysCount);
 	args->cleanBefore = (bool*)malloc(sizeof(bool) * keysCount);
 	va_list argsV;
-    va_start(argsV, keysCount);
+	va_start(argsV, keysCount);
 	for (int i = 0; i < keysCount * 3; ++i) {
 		switch (i % 3) {
 			case 0: args->keyCodes[i / 3] = va_arg(argsV, int); break;
@@ -91,9 +91,9 @@ void SimulateKeyPressAssync(unsigned int keysCount, ...) {
 			case 2: args->cleanBefore[i / 3] = va_arg(argsV, int); break;
 			default: break;
 		}
-    }
+	}
 	args->cleanPath = va_arg(argsV, const char*);
-    va_end(argsV);
+	va_end(argsV);
 	if (dwThreadId != 0) {
 		CloseHandle(hThread);
 		hThread = NULL;
