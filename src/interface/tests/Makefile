@@ -1,49 +1,103 @@
-COMPILER = x86_64-w64-mingw32-gcc
-BUILD_DIR = .
-BUILD_FILE_LIB = libinterface_test.a
-BUILD_FILE_EXE = interface_test.exe
-SRC_DIR = src
-SRC_DIR_CORE = $(SRC_DIR)/core
-SRC_DIR_MIMIC = $(SRC_DIR)/mimic
-SRC_DIR_IMPORTED = $(SRC_DIR)/imported
-SRC_FILES_IMPORTED = ../libinterface.a ../src/interface.h ../../global.h
-SRC_FILES = $(wildcard $(SRC_DIR_IMPORTED)/*.c $(SRC_DIR_CORE)/*.c $(SRC_DIR_MIMIC)/*.c)
-OBJ_DIR = obj
-OBJ_FILES = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC_FILES:.c=.o))
-TMP_DIR = temp
-INTERFACE_MAKEFILE_DIR = ..
+COMPILER := x86_64-w64-mingw32-gcc
+BUILD_DIR := .
+BUILD_FILE_LIB := libinterface_test.a
+BUILD_FILE_EXE := interface_test.exe
+SRC_DIR := src
+SRC_DIR_CORE := $(SRC_DIR)/core
+SRC_DIR_MIMIC := $(SRC_DIR)/mimic
+SRC_DIR_IMPORTED := $(SRC_DIR)/imported
+SRC_FILES_IMPORTED := ../libinterface.a ../src/interface.h ../../global.h
+SRC_FILES := $(wildcard $(SRC_DIR_IMPORTED)/*.c $(SRC_DIR_CORE)/*.c $(SRC_DIR_MIMIC)/*.c)
+OBJ_DIR := obj
+OBJ_FILES := $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC_FILES:.c=.o))
+OBJ_TARGETS := $(subst \,/,$(OBJ_FILES))
+TMP_DIR := temp
+INTERFACE_MAKEFILE_DIR := ..
+
+
+
+ifeq ($(OS),Windows_NT)
+BUILD_DIR := $(subst /,\,$(BUILD_DIR))
+BUILD_FILE_LIB := $(subst /,\,$(BUILD_FILE_LIB))
+BUILD_FILE_EXE := $(subst /,\,$(BUILD_FILE_EXE))
+SRC_DIR := $(subst /,\,$(SRC_DIR))
+SRC_DIR_CORE := $(subst /,\,$(SRC_DIR_CORE))
+SRC_DIR_MIMIC := $(subst /,\,$(SRC_DIR_MIMIC))
+SRC_DIR_IMPORTED := $(subst /,\,$(SRC_DIR_IMPORTED))
+SRC_FILES_IMPORTED := $(subst /,\,$(SRC_FILES_IMPORTED))
+SRC_FILES := $(subst /,\,$(SRC_FILES))
+OBJ_DIR := $(subst /,\,$(OBJ_DIR))
+OBJ_FILES := $(subst /,\,$(OBJ_FILES))
+OBJ_TARGETS := $(subst /,\,$(OBJ_TARGETS))
+TMP_DIR := $(subst /,\,$(TMP_DIR))
+INTERFACE_MAKEFILE_DIR := $(subst /,\,$(INTERFACE_MAKEFILE_DIR))
+else
+BUILD_DIR := $(subst \,/,$(BUILD_DIR))
+BUILD_FILE_LIB := $(subst \,/,$(BUILD_FILE_LIB))
+BUILD_FILE_EXE := $(subst \,/,$(BUILD_FILE_EXE))
+SRC_DIR := $(subst \,/,$(SRC_DIR))
+SRC_DIR_CORE := $(subst \,/,$(SRC_DIR_CORE))
+SRC_DIR_MIMIC := $(subst \,/,$(SRC_DIR_MIMIC))
+SRC_DIR_IMPORTED := $(subst \,/,$(SRC_DIR_IMPORTED))
+SRC_FILES_IMPORTED := $(subst \,/,$(SRC_FILES_IMPORTED))
+SRC_FILES := $(subst \,/,$(SRC_FILES))
+OBJ_DIR := $(subst \,/,$(OBJ_DIR))
+OBJ_FILES := $(subst \,/,$(OBJ_FILES))
+OBJ_TARGETS := $(subst \,/,$(OBJ_TARGETS))
+TMP_DIR := $(subst \,/,$(TMP_DIR))
+INTERFACE_MAKEFILE_DIR := $(subst \,/,$(INTERFACE_MAKEFILE_DIR))
+endif
+
+
 
 main: copy $(OBJ_FILES)
 ifeq ($(OS),Windows_NT)
-	ar rcs "$(subst /,\,$(BUILD_DIR)\$(BUILD_FILE_LIB))" $(foreach file,$(OBJ_FILES),"$(subst /,\,$(file))") $(foreach file,$(SRC_FILES_IMPORTED),"$(subst /,\,$(SRC_DIR_IMPORTED)\$(notdir $(file)))")
+	ar rcs "$(BUILD_DIR)\$(BUILD_FILE_LIB)" $(foreach file,$(OBJ_FILES),"$(file)") $(foreach file,$(SRC_FILES_IMPORTED),"$(SRC_DIR_IMPORTED)\$(notdir $(file))")
 else
-	ar rcs "$(subst \,/,$(BUILD_DIR)/$(BUILD_FILE_LIB))" $(foreach file,$(OBJ_FILES),"$(subst \,/,$(file))") $(foreach file,$(SRC_FILES_IMPORTED),"$(subst \,/,$(SRC_DIR_IMPORTED)/$(notdir $(file)))")
+	ar rcs "$(BUILD_FILE_LIB)" $(foreach file,$(OBJ_FILES),"$(file)") $(foreach file,$(SRC_FILES_IMPORTED),"$(SRC_DIR_IMPORTED)/$(notdir $(file))")
 endif
+
+
 
 exe: copy $(OBJ_FILES)
 ifeq ($(OS),Windows_NT)
-	$(COMPILER) $(foreach file,$(OBJ_FILES),"$(subst /,\,$(file))") -o "$(subst /,\,$(BUILD_DIR)\$(BUILD_FILE_EXE))" $(foreach file,$(SRC_FILES_IMPORTED),"$(subst /,\,$(SRC_DIR_IMPORTED)\$(notdir $(file)))")
+	$(COMPILER) $(foreach file,$(OBJ_FILES),"$(file)") -o "$(BUILD_DIR)\$(BUILD_FILE_EXE)" $(foreach file,$(SRC_FILES_IMPORTED),"$(SRC_DIR_IMPORTED)\$(notdir $(file))")
 else
-	$(COMPILER) $(foreach file,$(OBJ_FILES),"$(subst \,/,$(file))") -o "$(subst \,/,$(BUILD_DIR)/$(BUILD_FILE_EXE))" $(foreach file,$(SRC_FILES_IMPORTED),"$(subst \,/,$(SRC_DIR_IMPORTED)/$(notdir $(file)))")
+	$(COMPILER) $(foreach file,$(OBJ_FILES),"$(file))") -o "$(BUILD_DIR)/$(BUILD_FILE_EXE)" $(foreach file,$(SRC_FILES_IMPORTED),"$(SRC_DIR_IMPORTED)/$(notdir $(file))")
 endif
+
+
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 ifeq ($(OS),Windows_NT)
 	if not exist "$(subst /,\,$(dir $@))" mkdir "$(subst /,\,$(dir $@))"
-	$(COMPILER) -c "$(subst /,\,$<)" -o "$(subst /,\,$@)" -I "$(subst /,\,$(SRC_DIR))" -I "$(subst /,\,$(SRC_DIR_IMPORTED))" -I "$(subst /,\,$(SRC_DIR_CORE))" -I "$(subst /,\,$(SRC_DIR_MIMIC))"
+	$(COMPILER) -c "$(subst /,\,$<)" -o "$(subst /,\,$@)" -I "$(SRC_DIR)" -I "$(SRC_DIR_IMPORTED)" -I "$(SRC_DIR_CORE)" -I "$(SRC_DIR_MIMIC)"
 else
 	mkdir -p "$(subst \,/,$(dir $@))"
-	$(COMPILER) -c "$(subst \,/,$<)" -o "$(subst \,/,$@)" -I "$(subst \,/,$(SRC_DIR))" -I "$(subst \,/,$(SRC_DIR_IMPORTED))" -I "$(subst \,/,$(SRC_DIR_CORE))" -I "$(subst \,/,$(SRC_DIR_MIMIC))"
+	$(COMPILER) -c "$(subst \,/,$<)" -o "$(subst \,/,$@)" -I "$(SRC_DIR)" -I "$(SRC_DIR_IMPORTED)" -I "$(SRC_DIR_CORE)" -I "$(SRC_DIR_MIMIC)"
 endif
+
+
 
 copy:
 ifeq ($(OS),Windows_NT)
-	if not exist "$(subst /,\,$(SRC_DIR_IMPORTED))" mkdir "$(subst /,\,$(SRC_DIR_IMPORTED))"
-	$(foreach file,$(SRC_FILES_IMPORTED),xcopy /Y /Q "$(subst /,\,$(file))" "$(subst /,\,$(SRC_DIR_IMPORTED))" &)
+	if not exist "$(SRC_DIR_IMPORTED)" mkdir "$(SRC_DIR_IMPORTED)"
+	$(foreach file,$(SRC_FILES_IMPORTED),xcopy /Y /Q "$(file)" "$(SRC_DIR_IMPORTED)" &&)
 else
-	mkdir -p "$(subst \,/,$(SRC_DIR_IMPORTED))"
-	cp $(foreach file,$(SRC_FILES_IMPORTED),"$(subst \,/,$(file))") "$(subst \,/,$(SRC_DIR_IMPORTED))"
+	mkdir -p "$(SRC_DIR_IMPORTED)"
+	cp $(foreach file,$(SRC_FILES_IMPORTED),"$(file)") "$(SRC_DIR_IMPORTED)"
 endif
+
+
+
+interface:
+ifeq ($(OS),Windows_NT)
+	$(MAKE) -C "$(subst /,\,$(INTERFACE_MAKEFILE_DIR))"
+else
+	$(MAKE) -C "$(subst \,/,$(INTERFACE_MAKEFILE_DIR))"
+endif
+
+
 
 clean:
 ifeq ($(OS),Windows_NT)
@@ -56,14 +110,10 @@ else
 	rm -rf "$(subst \,/,$(SRC_DIR_IMPORTED))" "$(subst \,/,$(OBJ_DIR))" "$(subst \,/,$(TMP_DIR))" "$(subst \,/,$(BUILD_FILE_LIB))" "$(subst \,/,$(BUILD_FILE_EXE))"
 endif
 
-interface:
-ifeq ($(OS),Windows_NT)
-	$(MAKE) -C "$(subst /,\,$(INTERFACE_MAKEFILE_DIR))"
-else
-	$(MAKE) -C "$(subst \,/,$(INTERFACE_MAKEFILE_DIR))"
-endif
+
 
 debug:
+	@echo [DEBUG INFORMATION]
 	@echo "Compiler: $(COMPILER)"
 	@echo "Build directory: $(BUILD_FILE)"
 	@echo "Build library file: $(BUILD_FILE_LIB)"
@@ -76,5 +126,6 @@ debug:
 	@echo "Source files: $(SRC_FILES)"
 	@echo "Object files directory: $(OBJ_DIR)"
 	@echo "Object files: $(OBJ_FILES)"
+	@echo "Object files targets: $(OBJ_TARGETS)"
 	@echo "Temporary files directory: $(TMP_DIR)"
 	@echo "Interface module makefile directory: $(INTERFACE_MAKEFILE_DIR)"
