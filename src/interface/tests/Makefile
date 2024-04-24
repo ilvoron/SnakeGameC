@@ -46,7 +46,11 @@ endif
 
 clean:
 ifeq ($(OS),Windows_NT)
-	rmdir /S /Q "$(subst /,\,$(SRCd_imp))" "$(subst /,\,$(OBJd))" "$(subst /,\,$(TMPd))" "$(subst /,\,$(OUTf))" "$(subst /,\,$(EXEf))"
+	if exist "$(subst /,\,$(SRCd_imp))" rmdir /Q /S "$(subst /,\,$(SRCd_imp))"
+	if exist "$(subst /,\,$(OBJd))" rmdir /Q /S "$(subst /,\,$(OBJd))"
+	if exist "$(subst /,\,$(TMPd))" rmdir /Q /S "$(subst /,\,$(TMPd))"
+	if exist "$(subst /,\,$(OUTf))" del /Q "$(subst /,\,$(OUTf))"
+	if exist "$(subst /,\,$(EXEf))" del /Q "$(subst /,\,$(EXEf))"
 else
 	rm -rf "$(SRCd_imp)" "$(OBJd)" "$(TMPd)" "$(OUTf)" "$(EXEf)"
 endif

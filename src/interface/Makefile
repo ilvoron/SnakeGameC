@@ -22,7 +22,7 @@ endif
 
 $(OBJd)/%.o: $(SRCd)/%.c
 ifeq ($(OS),Windows_NT)
-	mkdir "$(dir $(subst /,\,$@))"
+	if not exist "$(subst /,\,$(dir $@))" mkdir "$(subst /,\,$(dir $@))"
 	$(GCC) -c "$(subst /,\,$<)" -o "$(subst /,\,$@)"
 else
 	mkdir -p "$(dir $@)"
@@ -31,7 +31,9 @@ endif
 
 clean:
 ifeq ($(OS),Windows_NT)
-	rmdir /S /Q "$(subst /,\,$(OBJd))" "$(subst /,\,$(OUTf))"
+	if exist "$(subst /,\,$(OBJd))" rmdir /Q /S "$(subst /,\,$(OBJd))"
+	if exist "$(subst /,\,$(OUTf))" del /Q "$(subst /,\,$(OUTf))"
+	if exist "$(subst /,\,$(SRCd)\$(notdir $(SRCf_global)))" del /Q "$(subst /,\,$(SRCd)\$(notdir $(SRCf_global)))"
 else
 	rm -rf "$(OBJd)" "$(OUTf)"
 endif
