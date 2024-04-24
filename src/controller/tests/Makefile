@@ -3,8 +3,8 @@ CC = gcc
 
 PREF_SRC = ./src/
 PREF_OBJ = obj
-
-SRC = $(wildcard $(PREF_SRC)*.c) 
+PREF_TMP = tmp
+SRC = $(wildcard $(PREF_TMP)/*.c) 
 OBJ = $(patsubst $(PREF_SRC)%.c, $(PREF_OBJ)/%.o, $(SRC))
 
 all : clean copy $(TARGET)
@@ -13,15 +13,15 @@ all : clean copy $(TARGET)
 $(TARGET) : $(OBJ)
 	$(CC) $(OBJ) -o $(TARGET)
 
-$(PREF_OBJ)/%.o : $(PREF_SRC)%.c 
-	$(CC) -c $< -o $@ -Isrc
+$(PREF_OBJ)/%.o : $(PREF_TMP)/%.c $(PREF_TMP)/*.c
+	$(CC) -c $< -o $@ -Isrc -Itmp
 
 copy:
-	xcopy /y ..\controller.c src
-	xcopy /y ..\controller.h src
-	xcopy /y ..\..\global.h src
+	xcopy /y ..\src\controller.c tmp
+	xcopy /y ..\src\controller.h tmp
+	xcopy /y ..\..\global.h tmp
+	xcopy /y src tmp
 	
 clean :
-	del Output.txt $(TARGET) $(PREF_OBJ)\*.o 
-
+	del /q Output.txt $(TARGET) $(PREF_OBJ)\*.o $(PREF_TMP)
 

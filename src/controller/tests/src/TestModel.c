@@ -4,7 +4,7 @@
 int Choice;
 int SEG; int EG; int SM; int SG; int UGS; int RF; int CD; int CI; int II; int TestChoice = 1;
 
-const struct Speed SPEED_DEFAULT = {1, 10, 1, 3, 3};
+const struct Speed SPEED_DEFAULT = {1, 3, 1, 3, 3};
 
 const struct Skin SKIN_DEFAULT = {'#', '*', '.', '$', '+',
 	"menu item",

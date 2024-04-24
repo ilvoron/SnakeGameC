@@ -1,5 +1,19 @@
 #include "controller.h"
 
+const struct Speed SPEED_DEFAULT = {1, 3, 1, 3, 3};
+
+const struct Skin SKIN_DEFAULT = {'#', '*', '.', '$', '+',
+	"menu item",
+	{
+		"Start",
+		"Change speed",
+		"Exit"
+	},
+	"Enter the speed of snake",
+	"Score",
+	"You lose!"
+};
+
 int main(){
 	struct Settings settings;
 		
