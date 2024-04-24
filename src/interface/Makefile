@@ -8,6 +8,8 @@ OBJ_DIR := obj
 OBJ_FILES := $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC_FILES:.c=.o))
 OBJ_TARGETS := $(subst \,/,$(OBJ_FILES))
 
+
+
 ifeq ($(OS),Windows_NT)
 BUILD_DIR := $(subst /,\,$(BUILD_DIR))
 BUILD_FILE := $(subst /,\,$(BUILD_FILE))
@@ -26,6 +28,8 @@ OBJ_DIR := $(subst \,/,$(OBJ_DIR))
 OBJ_FILES := $(subst \,/,$(OBJ_FILES))
 endif
 
+
+
 main: copy $(OBJ_TARGETS)
 ifeq ($(OS),Windows_NT)
 	@echo Archiving object files to a library ($(foreach file,$(OBJ_FILES),"$(file)") --^> "$(BUILD_DIR)\$(BUILD_FILE)")...
@@ -35,6 +39,8 @@ else
 	@ar rcs "$(BUILD_DIR)/$(BUILD_FILE)" $(foreach file,$(OBJ_FILES),"$(file)")
 endif
 	@echo Done!
+
+
 
 copy:
 ifeq ($(OS),Windows_NT)
@@ -46,26 +52,68 @@ else
 endif
 	@echo Done!
 
+
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 ifeq ($(OS),Windows_NT)
 	@echo Compiling source file ("$(subst /,\,$<)" --^> "$(subst /,\,$@)")...
-	@if not exist "$(subst /,\,$(dir $@))" @echo     Creating a directory for the object file ("$(subst /,\,$(dir $@))") && @mkdir "$(subst /,\,$(dir $@))" && @echo     Done!
+	@if not exist "$(subst /,\,$(dir $@))" (\
+		@echo     Creating a directory for the object file ^("$(subst /,\,$(dir $@))"^) &&\
+		@mkdir "$(subst /,\,$(dir $@))" &&\
+		@echo     Done!\
+	)
 	@$(COMPILER) -c "$(subst /,\,$<)" -o "$(subst /,\,$@)"
 else
 	@echo Compiling source file ("$(subst \,/,$<)" --^> "$(subst \,/,$@)")...
-	@if not exist "$(subst \,/,$(dir $@))" @echo     Creating a directory for the object file ("$(subst \,/,$(dir $@))") && @mkdir -p "$(subst \,/,$(dir $@))" && @echo     Done!
+	@if not exist "$(subst \,/,$(dir $@))" (\
+		@echo     Creating a directory for the object file ^("$(subst \,/,$(dir $@))"^) &&\
+		@mkdir -p "$(subst \,/,$(dir $@))" &&\
+		@echo     Done!\
+	)
 	@$(COMPILER) -c "$(subst \,/,$<)" -o "$(subst \,/,$@)"
 endif
 	@echo Done!
 
+
+
 clean:
+	@echo Cleaning up...
 ifeq ($(OS),Windows_NT)
-	if exist "$(OBJ_DIR)" rmdir /Q /S "$(OBJ_DIR)"
-	if exist "$(BUILD_FILE)" del /Q "$(BUILD_FILE)"
-	if exist "$(SRC_DIR)\$(notdir $(SRC_GLOBAL))" del /Q "$(SRC_DIR)\$(notdir $(SRC_GLOBAL))"
+	@if exist "$(OBJ_DIR)" (\
+		@echo     Deleting folder "$(OBJ_DIR)"... &&\
+		@rmdir /Q /S "$(OBJ_DIR)" &&\
+		@echo     Done!\
+	)
+	@if exist "$(BUILD_FILE)" (\
+		@echo     Deleting file "$(BUILD_FILE)"... &&\
+		@del /Q "$(BUILD_FILE)" &&\
+		@echo     Done!\
+	)
+	@if exist "$(SRC_DIR)\$(notdir $(SRC_GLOBAL))" (\
+		@echo     Deleting file "$(SRC_DIR)\$(notdir $(SRC_GLOBAL))"... &&\
+		@del /Q "$(SRC_DIR)\$(notdir $(SRC_GLOBAL))" &&\
+		@echo     Done!\
+	)
 else
-	rm -rf "$(OBJ_DIR)" "$(BUILD_FILE)" "$(SRC_DIR)/$(notdir $(SRC_GLOBAL))"
+	@if exist "$(OBJ_DIR)" (\
+		@echo     Deleting folder "$(OBJ_DIR)"... &&\
+		@rm -rf "$(OBJ_DIR)" &&\
+		@echo     Done!\
+	)
+	@if exist "$(BUILD_FILE)" (\
+		@echo     Deleting file "$(BUILD_FILE)"... &&\
+		@rm -rf "$(BUILD_FILE)" &&\
+		@echo     Done!\
+	)
+	@if exist "$(SRC_DIR)/$(notdir $(SRC_GLOBAL))" (\
+		@echo     Deleting file "$(SRC_DIR)/$(notdir $(SRC_GLOBAL))"... &&\
+		@rm -rf "$(SRC_DIR)/$(notdir $(SRC_GLOBAL))" &&\
+		@echo     Done!\
+	)
 endif
+	@echo Done!
+
+
 
 debug:
 	@echo [DEBUG INFORMATION]
