@@ -8,7 +8,7 @@ PREF_TMP = tmp
 SRC = $(wildcard $(PREF_SRC)/*.c)
 OBJ = $(patsubst $(PREF_SRC)/%, $(PREF_OBJ)/%, $(SRC:.c=.o))
 
-all : test copy $(TARGET)	
+all : test copy $(TARGET) clean
 
 $(TARGET): $(OBJ)
 	ar rcs $@ $(OBJ)
@@ -25,7 +25,7 @@ debug :
 	@echo "Module folders: $(MFS)"
 
 clean :
-	del /q $(TARGET) $(PREF_TMP) $(PREF_OBJ)
+	del /q $(PREF_TMP) $(PREF_OBJ)
 
 test :
 	make -C tests/
