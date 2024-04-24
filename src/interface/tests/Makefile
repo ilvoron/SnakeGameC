@@ -1,68 +1,80 @@
-GCC = x86_64-w64-mingw32-gcc
-SRCd = src
-SRCd_imp = $(SRCd)/imported
-SRCd_core = $(SRCd)/core
-SRCd_mimic = $(SRCd)/mimic
-OBJd = obj
-TMPd = tmp
-OUTf = libinterface_ut.a
-EXEf = interface_ut.exe
-CPYfs = ../libinterface.a ../src/interface.h ../../global.h
-MAKEd = ..
-SRCfs = $(wildcard $(SRCd_imp)/*.c $(SRCd_core)/*.c $(SRCd_mimic)/*.c)
-OBJfs = $(patsubst $(SRCd)/%,$(OBJd)/%,$(SRCfs:.c=.o))
+COMPILER = x86_64-w64-mingw32-gcc
+BUILD_DIR = .
+BUILD_FILE_LIB = libinterface_test.a
+BUILD_FILE_EXE = interface_test.exe
+SRC_DIR = src
+SRC_DIR_CORE = $(SRC_DIR)/core
+SRC_DIR_MIMIC = $(SRC_DIR)/mimic
+SRC_DIR_IMPORTED = $(SRC_DIR)/imported
+SRC_FILES_IMPORTED = ../libinterface.a ../src/interface.h ../../global.h
+SRC_FILES = $(wildcard $(SRC_DIR_IMPORTED)/*.c $(SRC_DIR_CORE)/*.c $(SRC_DIR_MIMIC)/*.c)
+OBJ_DIR = obj
+OBJ_FILES = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC_FILES:.c=.o))
+TMP_DIR = temp
+INTERFACE_MAKEFILE_DIR = ..
 
-main: copy $(OBJfs)
+main: copy $(OBJ_FILES)
 ifeq ($(OS),Windows_NT)
-	ar rcs "$(subst /,\,$(OUTf))" $(foreach file,$(OBJfs),"$(subst /,\,$(file))") $(foreach file,$(CPYfs),"$(subst /,\,$(SRCd_imp)/$(notdir $(file)))")
+	ar rcs "$(subst /,\,$(BUILD_DIR)\$(BUILD_FILE_LIB))" $(foreach file,$(OBJ_FILES),"$(subst /,\,$(file))") $(foreach file,$(SRC_FILES_IMPORTED),"$(subst /,\,$(SRC_DIR_IMPORTED)\$(notdir $(file)))")
 else
-	ar rcs "$(OUTf)" $(foreach file,$(OBJfs),"$(file)") $(foreach file,$(CPYfs),"$(SRCd_imp)/$(notdir $(file))")
+	ar rcs "$(subst \,/,$(BUILD_DIR)/$(BUILD_FILE_LIB))" $(foreach file,$(OBJ_FILES),"$(subst \,/,$(file))") $(foreach file,$(SRC_FILES_IMPORTED),"$(subst \,/,$(SRC_DIR_IMPORTED)/$(notdir $(file)))")
 endif
 
-exe: copy $(OBJfs)
+exe: copy $(OBJ_FILES)
 ifeq ($(OS),Windows_NT)
-	$(GCC) $(foreach file,$(OBJfs),"$(subst /,\,$(file))") -o "$(subst /,\,$(EXEf))" $(foreach file,$(CPYfs),"$(subst /,\,$(SRCd_imp)\$(notdir $(file)))")
+	$(COMPILER) $(foreach file,$(OBJ_FILES),"$(subst /,\,$(file))") -o "$(subst /,\,$(BUILD_DIR)\$(BUILD_FILE_EXE))" $(foreach file,$(SRC_FILES_IMPORTED),"$(subst /,\,$(SRC_DIR_IMPORTED)\$(notdir $(file)))")
 else
-	$(GCC) $(foreach file,$(OBJfs),"$(file)") -o "$(EXEf)" $(foreach file,$(CPYfs),"$(SRCd_imp)/$(notdir $(file))")
+	$(COMPILER) $(foreach file,$(OBJ_FILES),"$(subst \,/,$(file))") -o "$(subst \,/,$(BUILD_DIR)/$(BUILD_FILE_EXE))" $(foreach file,$(SRC_FILES_IMPORTED),"$(subst \,/,$(SRC_DIR_IMPORTED)/$(notdir $(file)))")
 endif
 
-$(OBJd)/%.o: $(SRCd)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 ifeq ($(OS),Windows_NT)
 	if not exist "$(subst /,\,$(dir $@))" mkdir "$(subst /,\,$(dir $@))"
-	$(GCC) -c "$(subst /,\,$<)" -o "$(subst /,\,$@)" -I "$(subst /,\,$(SRCd))" -I "$(subst /,\,$(SRCd_imp))" -I "$(subst /,\,$(SRCd_core))" -I "$(subst /,\,$(SRCd_mimic))"
+	$(COMPILER) -c "$(subst /,\,$<)" -o "$(subst /,\,$@)" -I "$(subst /,\,$(SRC_DIR))" -I "$(subst /,\,$(SRC_DIR_IMPORTED))" -I "$(subst /,\,$(SRC_DIR_CORE))" -I "$(subst /,\,$(SRC_DIR_MIMIC))"
 else
-	mkdir -p "$(dir $@)"
-	$(GCC) -c "$<" -o "$@" -I "$(SRCd)" -I "$(SRCd_imp)" -I "$(SRCd_core)" -I "$(SRCd_mimic)"
+	mkdir -p "$(subst \,/,$(dir $@))"
+	$(COMPILER) -c "$(subst \,/,$<)" -o "$(subst \,/,$@)" -I "$(subst \,/,$(SRC_DIR))" -I "$(subst \,/,$(SRC_DIR_IMPORTED))" -I "$(subst \,/,$(SRC_DIR_CORE))" -I "$(subst \,/,$(SRC_DIR_MIMIC))"
 endif
 
 copy:
 ifeq ($(OS),Windows_NT)
-	if not exist "$(subst /,\,$(SRCd_imp))\" mkdir "$(subst /,\,$(SRCd_imp))"
-	$(foreach file,$(CPYfs),xcopy /Y /Q "$(subst /,\,$(file))" "$(subst /,\,$(SRCd_imp))" &)
+	if not exist "$(subst /,\,$(SRC_DIR_IMPORTED))" mkdir "$(subst /,\,$(SRC_DIR_IMPORTED))"
+	$(foreach file,$(SRC_FILES_IMPORTED),xcopy /Y /Q "$(subst /,\,$(file))" "$(subst /,\,$(SRC_DIR_IMPORTED))" &)
 else
-	mkdir -p "$(SRCd_imp)"
-	cp $(foreach file,$(CPYfs),"$(file)") "$(SRCd_imp)"
+	mkdir -p "$(subst \,/,$(SRC_DIR_IMPORTED))"
+	cp $(foreach file,$(SRC_FILES_IMPORTED),"$(subst \,/,$(file))") "$(subst \,/,$(SRC_DIR_IMPORTED))"
 endif
 
 clean:
 ifeq ($(OS),Windows_NT)
-	if exist "$(subst /,\,$(SRCd_imp))" rmdir /Q /S "$(subst /,\,$(SRCd_imp))"
-	if exist "$(subst /,\,$(OBJd))" rmdir /Q /S "$(subst /,\,$(OBJd))"
-	if exist "$(subst /,\,$(TMPd))" rmdir /Q /S "$(subst /,\,$(TMPd))"
-	if exist "$(subst /,\,$(OUTf))" del /Q "$(subst /,\,$(OUTf))"
-	if exist "$(subst /,\,$(EXEf))" del /Q "$(subst /,\,$(EXEf))"
+	if exist "$(subst /,\,$(SRC_DIR_IMPORTED))" rmdir /Q /S "$(subst /,\,$(SRC_DIR_IMPORTED))"
+	if exist "$(subst /,\,$(OBJ_DIR))" rmdir /Q /S "$(subst /,\,$(OBJ_DIR))"
+	if exist "$(subst /,\,$(TMP_DIR))" rmdir /Q /S "$(subst /,\,$(TMP_DIR))"
+	if exist "$(subst /,\,$(BUILD_FILE_LIB))" del /Q "$(subst /,\,$(BUILD_FILE_LIB))"
+	if exist "$(subst /,\,$(BUILD_FILE_EXE))" del /Q "$(subst /,\,$(BUILD_FILE_EXE))"
 else
-	rm -rf "$(SRCd_imp)" "$(OBJd)" "$(TMPd)" "$(OUTf)" "$(EXEf)"
+	rm -rf "$(subst \,/,$(SRC_DIR_IMPORTED))" "$(subst \,/,$(OBJ_DIR))" "$(subst \,/,$(TMP_DIR))" "$(subst \,/,$(BUILD_FILE_LIB))" "$(subst \,/,$(BUILD_FILE_EXE))"
 endif
 
 interface:
 ifeq ($(OS),Windows_NT)
-	mingw32-make -C "$(subst /,\,$(MAKEd))"
+	$(MAKE) -C "$(subst /,\,$(INTERFACE_MAKEFILE_DIR))"
 else
-	make -C "$(MAKEd)"
+	$(MAKE) -C "$(subst \,/,$(INTERFACE_MAKEFILE_DIR))"
 endif
 
 debug:
-	@echo "Source files: $(SRCfs)"
-	@echo "Object files: $(OBJfs)"
-	@echo "Copy files: $(CPYfs)"
+	@echo "Compiler: $(COMPILER)"
+	@echo "Build directory: $(BUILD_FILE)"
+	@echo "Build library file: $(BUILD_FILE_LIB)"
+	@echo "Build executable file: $(BUILD_FILE_EXE)"
+	@echo "Source files directory: $(SRC_DIR)"
+	@echo "Source core files directory: $(SRC_DIR_CORE)"
+	@echo "Source mimic files directory: $(SRC_DIR_MIMIC)"
+	@echo "Source imported files directory: $(SRC_DIR_IMPORTED)"
+	@echo "Source imported files: $(SRC_FILES_IMPORTED)"
+	@echo "Source files: $(SRC_FILES)"
+	@echo "Object files directory: $(OBJ_DIR)"
+	@echo "Object files: $(OBJ_FILES)"
+	@echo "Temporary files directory: $(TMP_DIR)"
+	@echo "Interface module makefile directory: $(INTERFACE_MAKEFILE_DIR)"

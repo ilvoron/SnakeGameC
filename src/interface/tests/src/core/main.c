@@ -30,6 +30,12 @@ int main() {
 	FreeBoard();
 	ClearKeyInputBuffer();
 	printf("Testing was completed... ");
-	if (hasBad) { PrintBAD(false, false); }
-	else { PrintOK(false, false); }
+	if (hasBad) {
+		PrintBAD(false, false);
+		return -1;
+	}
+	else {
+		PrintOK(false, false);
+		return 0;
+	}
 }

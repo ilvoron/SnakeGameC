@@ -1,43 +1,50 @@
-GCC = x86_64-w64-mingw32-gcc
-SRCd = src
-SRCf_global = ../global.h
-OBJd = obj
-OUTf = libinterface.a
-SRCfs = $(wildcard $(SRCd)/*.c $(SRCd_global)/*.c)
-OBJfs = $(patsubst $(SRCd)/%,$(OBJd)/%,$(SRCfs:.c=.o))
+COMPILER = x86_64-w64-mingw32-gcc
+BUILD_DIR = .
+BUILD_FILE = libinterface.a
+SRC_DIR = src
+SRC_GLOBAL = ../global.h
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR_global)/*.c)
+OBJ_DIR = obj
+OBJ_FILES = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC_FILES:.c=.o))
 
-main: copy $(OBJfs)
+main: copy $(OBJ_FILES)
 ifeq ($(OS),Windows_NT)
-	ar rcs "$(subst /,\,$(OUTf))" $(foreach file,$(OBJfs),"$(subst /,\,$(file))")
+	ar rcs "$(subst /,\,$(BUILD_DIR)\$(BUILD_FILE))" $(foreach file,$(OBJ_FILES),"$(subst /,\,$(file))")
 else
-	ar rcs "$(OUTf)" $(foreach file,$(OBJfs),"$(file)")
+	ar rcs "$(subst \,/,$(BUILD_DIR)/$(BUILD_FILE))" $(foreach file,$(OBJ_FILES),"$(subst \,/,$(file))")
 endif
 
 copy:
 ifeq ($(OS),Windows_NT)
-	xcopy /Y /Q "$(subst /,\,$(SRCf_global))" "$(subst /,\,$(SRCd))"
+	xcopy /Y /Q "$(subst /,\,$(SRC_GLOBAL))" "$(subst /,\,$(SRC_DIR))"
 else
-	cp "$(SRCf_global)" "$(SRCd)"
+	cp "$(subst \,/,$(SRC_GLOBAL))" "$(subst \,/,$(SRC_DIR))"
 endif
 
-$(OBJd)/%.o: $(SRCd)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 ifeq ($(OS),Windows_NT)
 	if not exist "$(subst /,\,$(dir $@))" mkdir "$(subst /,\,$(dir $@))"
-	$(GCC) -c "$(subst /,\,$<)" -o "$(subst /,\,$@)"
+	$(COMPILER) -c "$(subst /,\,$<)" -o "$(subst /,\,$@)"
 else
-	mkdir -p "$(dir $@)"
-	$(GCC) -c "$<" -o "$@"
+	mkdir -p "$(subst \,/,$(dir $@))"
+	$(COMPILER) -c "$(subst \,/,$<)" -o "$(subst \,/,$@)"
 endif
 
 clean:
 ifeq ($(OS),Windows_NT)
-	if exist "$(subst /,\,$(OBJd))" rmdir /Q /S "$(subst /,\,$(OBJd))"
-	if exist "$(subst /,\,$(OUTf))" del /Q "$(subst /,\,$(OUTf))"
-	if exist "$(subst /,\,$(SRCd)\$(notdir $(SRCf_global)))" del /Q "$(subst /,\,$(SRCd)\$(notdir $(SRCf_global)))"
+	if exist "$(subst /,\,$(OBJ_DIR))" rmdir /Q /S "$(subst /,\,$(OBJ_DIR))"
+	if exist "$(subst /,\,$(BUILD_FILE))" del /Q "$(subst /,\,$(BUILD_FILE))"
+	if exist "$(subst /,\,$(SRC_DIR)\$(notdir $(SRC_GLOBAL)))" del /Q "$(subst /,\,$(SRC_DIR)\$(notdir $(SRC_GLOBAL)))"
 else
-	rm -rf "$(OBJd)" "$(OUTf)"
+	rm -rf "$(subst \,/,$(OBJ_DIR))" "$(subst \,/,$(BUILD_FILE))" "$(subst \,/,$(SRC_DIR)/$(notdir $(SRC_GLOBAL)))"
 endif
 
 debug:
-	@echo "Source files: $(SRCfs)"
-	@echo "Object files: $(OBJfs)"
+	@echo "Compiler: $(COMPILER)"
+	@echo "Build directory: $(BUILD_FILE)"
+	@echo "Build file: $(BUILD_FILE)"
+	@echo "Source files directory: $(SRC_DIR)"
+	@echo "Source global file: $(SRC_GLOBAL)"
+	@echo "Source files: $(SRC_FILES)"
+	@echo "Object files directory: $(OBJ_DIR)"
+	@echo "Object files: $(OBJ_FILES)"
