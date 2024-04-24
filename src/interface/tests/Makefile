@@ -5,50 +5,57 @@ SRCd_core = $(SRCd)/core
 SRCd_mimic = $(SRCd)/mimic
 OBJd = obj
 TMPd = tmp
-OUTf = interface_ut.a
+OUTf = libinterface_ut.a
 EXEf = interface_ut.exe
-CPYfs = ../interface.a ../src/interface.h ../../global.h
-MAKEf = ../
+CPYfs = ../libinterface.a ../src/interface.h ../../global.h
+MAKEd = ..
 SRCfs = $(wildcard $(SRCd_imp)/*.c $(SRCd_core)/*.c $(SRCd_mimic)/*.c)
 OBJfs = $(patsubst $(SRCd)/%,$(OBJd)/%,$(SRCfs:.c=.o))
 
+main: copy $(OBJfs)
 ifeq ($(OS),Windows_NT)
-	COPY_CMD = copy
+	ar rcs "$(subst /,\,$(OUTf))" $(foreach file,$(OBJfs),"$(subst /,\,$(file))") $(foreach file,$(CPYfs),"$(subst /,\,$(SRCd_imp)/$(notdir $(file)))")
 else
-	COPY_CMD = cp
+	ar rcs "$(OUTf)" $(foreach file,$(OBJfs),"$(file)") $(foreach file,$(CPYfs),"$(SRCd_imp)/$(notdir $(file))")
 endif
 
-main: make_interface copy $(OBJfs)
-	ar rcs $(OUTf) $(OBJfs)
-
-exe: make_interface copy $(OBJfs)
-	${GCC} ${OBJfs} -o ${EXEf} -L $(SRCd_imp)/*
-	
-make_interface:
-	make -C $(MAKEf)
+exe: copy $(OBJfs)
+ifeq ($(OS),Windows_NT)
+	$(GCC) $(foreach file,$(OBJfs),"$(subst /,\,$(file))") -o "$(subst /,\,$(EXEf))" $(foreach file,$(CPYfs),"$(subst /,\,$(SRCd_imp)\$(notdir $(file)))")
+else
+	$(GCC) $(foreach file,$(OBJfs),"$(file)") -o "$(EXEf)" $(foreach file,$(CPYfs),"$(SRCd_imp)/$(notdir $(file))")
+endif
 
 $(OBJd)/%.o: $(SRCd)/%.c
 ifeq ($(OS),Windows_NT)
-	mkdir $(dir $@)
+	if not exist "$(subst /,\,$(dir $@))" mkdir "$(subst /,\,$(dir $@))"
+	$(GCC) -c "$(subst /,\,$<)" -o "$(subst /,\,$@)" -I "$(subst /,\,$(SRCd))" -I "$(subst /,\,$(SRCd_imp))" -I "$(subst /,\,$(SRCd_core))" -I "$(subst /,\,$(SRCd_mimic))"
 else
-	mkdir -p $(dir $@)
+	mkdir -p "$(dir $@)"
+	$(GCC) -c "$<" -o "$@" -I "$(SRCd)" -I "$(SRCd_imp)" -I "$(SRCd_core)" -I "$(SRCd_mimic)"
 endif
-	$(GCC) -c $< -o $@ -I $(SRCd) -I $(SRCd_imp) -I $(SRCd_core) -I $(SRCd_mimic)
 
 copy:
 ifeq ($(OS),Windows_NT)
-	mkdir "$(abspath $(SRCd_imp))"
-	$(foreach file,$(CPYfs),copy "$(abspath $(file))" "$(abspath $(SRCd_imp)\$(notdir $(file)))")
+	if not exist "$(subst /,\,$(SRCd_imp))\" mkdir "$(subst /,\,$(SRCd_imp))"
+	$(foreach file,$(CPYfs),xcopy /Y /Q "$(subst /,\,$(file))" "$(subst /,\,$(SRCd_imp))" &)
 else
-	mkdir -p $(SRCd_imp)
-	cp $(CPYfs) $(SRCd_imp)
+	mkdir -p "$(SRCd_imp)"
+	cp $(foreach file,$(CPYfs),"$(file)") "$(SRCd_imp)"
 endif
 
 clean:
 ifeq ($(OS),Windows_NT)
-	rmdir /S /Q $(SRCd_imp) $(OBJd) $(TMPd) $(OUTf) $(EXEf)
+	rmdir /S /Q "$(subst /,\,$(SRCd_imp))" "$(subst /,\,$(OBJd))" "$(subst /,\,$(TMPd))" "$(subst /,\,$(OUTf))" "$(subst /,\,$(EXEf))"
 else
-	rm -rf $(SRCd_imp) $(OBJd) $(TMPd) $(OUTf) $(EXEf)
+	rm -rf "$(SRCd_imp)" "$(OBJd)" "$(TMPd)" "$(OUTf)" "$(EXEf)"
+endif
+
+interface:
+ifeq ($(OS),Windows_NT)
+	mingw32-make -C "$(subst /,\,$(MAKEd))"
+else
+	make -C "$(MAKEd)"
 endif
 
 debug:
