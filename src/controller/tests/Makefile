@@ -1,19 +1,24 @@
 TARGET = TestProject.exe
+TESTAr = libTestModel.a
 CC = gcc
+
 
 PREF_SRC = ./src/
 PREF_OBJ = obj
 PREF_TMP = tmp
 SRC = $(wildcard $(PREF_TMP)/*.c) 
-OBJ = $(patsubst $(PREF_SRC)%.c, $(PREF_OBJ)/%.o, $(SRC))
+OBJ = $(patsubst $(PREF_TMP)%.c, $(PREF_OBJ)/%.o, $(SRC))
 
 all : clean copy $(TARGET)
 	$(TARGET)
 	
-$(TARGET) : $(OBJ)
-	$(CC) $(OBJ) -o $(TARGET)
+$(TARGET) : $(TESTAr)
+	$(CC) -o $(TARGET) -L. -lTestModel
 
-$(PREF_OBJ)/%.o : $(PREF_TMP)/%.c $(PREF_TMP)/*.c
+$(TESTAr): $(OBJ)
+	ar rcs $@ $(OBJ)
+
+$(PREF_OBJ)/%.o : $(PREF_TMP)/%.c 
 	$(CC) -c $< -o $@ -Isrc -Itmp
 
 copy:
