@@ -5,7 +5,7 @@ prepare:
 	mkdir -p obj
 
 copy :
-	cp ..\snake.c ..\snake.h ..\..\global.h src
+	cp ..\src\snake.c ..\src\snake.h ..\..\global.h src
 
 test.o : src\test.c
 	gcc -c src\test.c -o obj\test.o
