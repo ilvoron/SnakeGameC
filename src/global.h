@@ -41,6 +41,7 @@ struct Snake{
 struct Board {
 	int width;
 	int height;
+	int free_cells;
 	char wall_cell;
 	char free_cell;
 	char** map;

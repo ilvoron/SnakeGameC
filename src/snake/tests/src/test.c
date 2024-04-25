@@ -1,9 +1,11 @@
 #include "snake.h"
 #include "global.h"
 #include <stdio.h>
+#include <stdbool.h>
 //test.c
 
-void test_move_snake(){
+bool test_move_snake(){
+	bool isFailed = false;
 	printf("Test func move_snake\n");
 	struct Snake snake;
 	create_snake(&(snake),10,10);
@@ -18,6 +20,7 @@ void test_move_snake(){
 		printf("OK\n");
 	}
 	else{
+		isFailed = true;
 		printf("ERROR\n");
 	}
 	//test 2 (движение влево)
@@ -30,6 +33,7 @@ void test_move_snake(){
 		printf("OK\n");
 	}
 	else{
+		isFailed = true;
 		printf("ERROR\n");
 	}
 	//test 3 (движение вниз)
@@ -42,6 +46,7 @@ void test_move_snake(){
 		printf("OK\n");
 	}
 	else{
+		isFailed = true;
 		printf("ERROR\n");
 	}
 	//test 4 (движение вверх)
@@ -54,6 +59,7 @@ void test_move_snake(){
 		printf("OK\n");
 	}
 	else{
+		isFailed = true;
 		printf("ERROR\n");
 	}
 	//test 5 (передвижение змеи без изменения направления
@@ -66,14 +72,14 @@ void test_move_snake(){
 		printf("OK\n");
 	}
 	else {
+		isFailed = true;
 		printf("ERROR\n");
 	}
-	
-	
-	
-	
+	return isFailed;
 }
-void test_creare_snake(){
+
+bool test_creare_snake(){
+	bool isFailed = false;
 	printf("Test func create_snake\n");
 	struct Snake snake;
 	create_snake(&(snake),10,10);
@@ -82,22 +88,33 @@ void test_creare_snake(){
 	if (snake.direction == DIR_UP){
 		printf("OK\n");
 	}
-	else{ printf("ERROR\n"); }
+	else{
+		printf("ERROR\n");
+		isFailed = true;
+	}
 	//test 2 (проверка bodyMaxWidth и bodyMaxHeight)
 	printf("TEST 2: ");
 	if (snake.bodyMaxWidth ==8 &&  snake.bodyMaxHeight ==8){
 		printf("OK\n");
 	}
-	else{ printf("ERROR\n"); }
+	else{
+		printf("ERROR\n");
+		isFailed = true;
+	}
 	//test 3 (проверка создания головы змеи)
 	printf("TEST 3: ");
 	if (snake.body[0].x == 5 && snake.body[0].y == 5){
 		printf("OK\n");
 	}
-	else{ printf("ERROR\n"); }
+	else{
+		printf("ERROR\n");
+		isFailed = true;
+	}
+	return isFailed;
 }
 
-void test_grow_snake(){
+bool test_grow_snake(){
+	bool isFailed = false;
 	printf("Test func grow_snake\n");
 	struct Snake snake;
 	create_snake(&(snake),10,10);
@@ -107,7 +124,10 @@ void test_grow_snake(){
 	if (snake.length==2){
 		printf("OK\n");
 	}
-	else{ printf("ERROR\n"); }
+	else{
+		printf("ERROR\n");
+		isFailed = true;
+	}
 	// test 2 (длина не изменяется при передвижении)
 	printf("TEST 2: ");
 	create_snake(&(snake),10,10);
@@ -117,11 +137,15 @@ void test_grow_snake(){
 	if (snake.length==2){
 		printf("OK\n");
 	}
-	else{ printf("ERROR\n"); }
-	
+	else{
+		printf("ERROR\n");
+		isFailed = true;
+	}
+	return isFailed;
 }
 
-void test_check_snake(){
+bool test_check_snake(){
+	bool isFailed = false;
 	printf("Test func check_snake\n");
 	struct Snake snake;
 	create_snake(&(snake),10,10);
@@ -130,7 +154,10 @@ void test_check_snake(){
 	if (check_snake(&(snake),0)==true){
 		printf("OK\n");
 	}
-	else{ printf("ERROR\n"); }
+	else{
+		printf("ERROR\n");
+		isFailed = true;
+	}
 	//test 2 (змея не столкнулась)
 	printf("TEST 2: ");
 	move_snake(&(snake));
@@ -143,6 +170,7 @@ void test_check_snake(){
 	for (int i = 0; i <snake.length;i++){
 		if (!check_snake(&(snake),i)){
 			printf("ERROR\n");
+			isFailed = true;
 			flag=true;
 			break;
 		}
@@ -173,11 +201,15 @@ void test_check_snake(){
 			break;
 		}
 	}
-	if (flag1==false){ printf("ERROR\n");}
+	if (flag1==false){
+		printf("ERROR\n");
+		isFailed = true;
+	}
+	return isFailed;
 }
 
-void test_delete_snake(){
-	
+bool test_delete_snake(){
+	bool isFailed = false;
 	printf("Test func delete_snake\n");
 	struct Snake snake;
 	//Test 1 (тест отчистки bodyMap)
@@ -185,13 +217,13 @@ void test_delete_snake(){
 	create_snake(&(snake),10,10);
 	delete_snake(&(snake));
 	if (snake.bodyMap==NULL){ printf("OK\n"); }
-	else{ printf("ERROR\n"); }
+	else{ printf("ERROR\n"); isFailed = true; }
 	//Test 2 (тест отчистки body)
 	printf("TEST 2: ");
 	create_snake(&(snake),10,10);
 	delete_snake(&(snake));
 	if (snake.body==NULL){ printf("OK\n"); }
-	else{ printf("ERROR\n"); }
+	else{ printf("ERROR\n"); isFailed = true; }
 	
 }
 
@@ -200,12 +232,16 @@ void test_delete_snake(){
 
 
 int main(){
+	bool isFailed = false;
 	printf("Start testing module snake...\n");
-	test_move_snake();
-	test_creare_snake();
-	test_grow_snake();
-	test_check_snake();
-	test_delete_snake();
+	isFailed = test_move_snake() ^ isFailed;
+	isFailed = test_creare_snake() ^ isFailed;
+	isFailed = test_grow_snake() ^ isFailed;
+	isFailed = test_check_snake() ^ isFailed;
+	isFailed = test_delete_snake() ^ isFailed;
 	printf("End testing module snake\n");
+	if (isFailed) {
+		return -1;
+	}
 	return 0;
 }

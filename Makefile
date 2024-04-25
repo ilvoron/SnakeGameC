@@ -6,27 +6,26 @@ OBJ_DIR = obj
 MODULES = board controller interface snake
 MODULES_MAKEFILES_DIRS = $(foreach lib,$(MODULES),src/$(lib))
 MODULES_LIBS = $(foreach lib,$(MODULES),src/$(lib)/lib$(lib).a)
-MODULES_LIBS_CURRENT = $(foreach lib,$(MODULES),$(OBJ_DIR)/lib$(lib).a)
 
-main: tests modules copy
+main: tests_overall modules_overall copy
 ifeq ($(OS),Windows_NT)
-	$(COMPILER) "$(subst /,\,$(SRC_MAIN))" $(foreach lib,$(MODULES_LIBS_CURRENT),"$(subst /,\,$(lib))") -o "$(subst /,\,$(EXE_FILE))"
+	$(COMPILER) "$(subst /,\,$(SRC_MAIN))" -o "$(subst /,\,$(EXE_FILE))" -L "$(subst /,\,$(OBJ_DIR))"
 else
-	$(COMPILER) "$(subst \,/,$(SRC_MAIN))" $(foreach lib,$(MODULES_LIBS_CURRENT),"$(subst \,/,$(lib))") -o "$(subst \,/,$(EXE_FILE))"
+	$(COMPILER) "$(subst \,/,$(SRC_MAIN))" -o "$(subst \,/,$(EXE_FILE))" -L "$(subst \,/,$(OBJ_DIR))"
 endif
 
-tests:
+tests_overall:
 ifeq ($(OS),Windows_NT)
-	cmd /c $(MAKE) -C "$(subst /,\,$(TESTS_MAKEFILE))" || exit /b $$?
+	cmd /c $(MAKE) -C "$(subst /,\,$(TESTS_MAKEFILE))" COMPILER=$(COMPILER) || exit \b
 else
-	$(MAKE) -C "$(subst \,/,$(TESTS_MAKEFILE))" || exit $$?
+	$(MAKE) -C "$(subst \,/,$(TESTS_MAKEFILE))" COMPILER=$(COMPILER) || exit $$?
 endif
 
-modules:
+modules_overall:
 ifeq ($(OS),Windows_NT)
-	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) -C "$(subst /,\,$(module))" &)
+	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) -C "$(subst /,\,$(module))" COMPILER=$(COMPILER) &)
 else
-	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) -C "$(subst \,/,$(module))" &)
+	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) -C "$(subst \,/,$(module))" COMPILER=$(COMPILER) &)
 endif
 
 copy:
@@ -40,10 +39,10 @@ endif
 
 clean:
 ifeq ($(OS),Windows_NT)
-	$(MAKE) clean -C "$(subst /,\,$(TESTS_MAKEFILE))"
+	$(MAKE) clean -C "$(subst /,\,$(TESTS_MAKEFILE))" COMPILER=$(COMPILER)
 	if exist "$(subst /,\,$(OBJ_DIR))" rmdir /Q /S "$(subst /,\,$(OBJ_DIR))"
 else
-	$(MAKE) clean -C "$(subst \,/,$(TESTS_MAKEFILE))"
+	$(MAKE) clean -C "$(subst \,/,$(TESTS_MAKEFILE))" COMPILER=$(COMPILER)
 	rm -rf "$(subst \,/,$(OBJ_DIR))"
 endif
 
@@ -56,4 +55,3 @@ debug:
 	@echo "Modules: $(MODULES)"
 	@echo "Modules makefiles directories: $(MODULES_MAKEFILES_DIRS)"
 	@echo "Modules libs: $(MODULES_LIBS)"
-	@echo "Modules libs for overall test: $(MODULES_LIBS_CURRENT)"

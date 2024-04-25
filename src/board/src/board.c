@@ -7,6 +7,7 @@
 #include "global.h"
 
 struct Board _board;
+int NUM_FUNK = 0;
 
 // private
 
@@ -16,6 +17,7 @@ int _randInt(int from, int to) {
 }
 
 void _create_apple() {
+	NUM_FUNK++;
 	int apple_cell = _randInt(1, _board.free_cells);
 
 	int cells = 0;
@@ -34,6 +36,7 @@ void _create_apple() {
 }
 
 void _create_map() {
+	NUM_FUNK++;
 	_board.map = (char**)malloc(sizeof(char*) * _board.height);
 	for (int y = 0; y < _board.height; y++) {
 		_board.map[y] = (char*)malloc(sizeof(char) * _board.width);
@@ -48,6 +51,7 @@ void _create_map() {
 }
 
 enum GAME_STATE _check_collision() {
+	NUM_FUNK++;
 	int x; int y;
 	for (int i = 0; i < _board.snake.length; i++) {
 		x = _board.snake.body[i].x;

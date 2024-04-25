@@ -12,25 +12,25 @@ TESTS_MAKEFILES_DIRS = $(foreach lib,$(MODULES),../src/$(lib)/tests)
 TESTS_LIBS = $(foreach lib,$(MODULES),../src/$(lib)/tests/lib$(lib)_test.a)
 TESTS_LIBS_CURRENT = $(foreach lib,$(MODULES),$(OBJ_DIR)/lib$(lib)_test.a)
 
-main: modules tests copy exe
+main: modules tests copy exec
 ifeq ($(OS),Windows_NT)
-	$(foreach lib,$(MODULES), cmd /c "$(subst /,\,$(EXE_DIR)\$(lib)_test.exe)" || exit /b $$? & )
+	$(foreach lib,$(MODULES),cmd /c "$(subst /,\,$(EXE_DIR)\$(lib)_test.exe)" || @echo TEST WAS FAILED... EXITING... & exit \b &\)
 else
 	$(foreach lib,$(MODULES), "$(subst \,/,$(EXE_DIR)\$(lib)_test.exe)" || exit $$? & )
 endif
 
 modules:
 ifeq ($(OS),Windows_NT)
-	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) -C "$(subst /,\,$(module))" &)
+	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) -C "$(subst /,\,$(module))" COMPILER=$(COMPILER) &)
 else
-	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) -C "$(subst \,/,$(module))" &)
+	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) -C "$(subst \,/,$(module))" COMPILER=$(COMPILER) &)
 endif
 
 tests:
 ifeq ($(OS),Windows_NT)
-	$(foreach test,$(TESTS_MAKEFILES_DIRS),$(MAKE) -C "$(subst /,\,$(test))" &)
+	$(foreach test,$(TESTS_MAKEFILES_DIRS),$(MAKE) -C "$(subst /,\,$(test))" COMPILER=$(COMPILER) &)
 else
-	$(foreach test,$(TESTS_MAKEFILES_DIRS),$(MAKE) -C "$(subst \,/,$(test))" &)
+	$(foreach test,$(TESTS_MAKEFILES_DIRS),$(MAKE) -C "$(subst \,/,$(test))" COMPILER=$(COMPILER) &)
 endif
 
 copy:
@@ -44,26 +44,27 @@ else
 	cp $(foreach lib,$(TESTS_LIBS),"$(subst \,/,$(lib))") "$(OBJ_DIR)"
 endif
 
-exe:
+exec:
 ifeq ($(OS),Windows_NT)
 	if not exist "$(subst /,\,$(EXE_DIR))\" mkdir "$(subst /,\,$(EXE_DIR))"
-	$(foreach i,$(words $(MODULES)),$(COMPILER) "$(subst /,\,$(word $(i),$(TESTS_LIBS_CURRENT)))" "$(subst /,\,$(word $(i),$(MODULES_LIBS_CURRENT)))" -o "$(subst /,\,"$(EXE_DIR)\$(word $(i),$(MODULES))_test.exe))
+	$(foreach module,$(MODULES),$(COMPILER) "$(subst /,\,$(OBJ_DIR)\lib$(module)_test.a)" "$(subst /,\,$(OBJ_DIR)\lib$(module).a)" -o "$(subst /,\,$(EXE_DIR)\$(module)_test.exe)" &)
 else
 	mkdir -p "$(subst \,/,$(EXE_DIR))"
-	$(foreach i,$(words $(MODULES)),$(COMPILER) "$(subst \,/,$(word $(i),$(TESTS_LIBS_CURRENT)))" "$(subst \,/,$(word $(i),$(MODULES_LIBS_CURRENT)))" -o "$(subst \,/,"$(EXE_DIR)/$(word $(i),$(MODULES))_test.exe))
+	$(foreach i,$(shell seq 1 $(words $(MODULES))),$(COMPILER) "$(subst \,/,$(word $(i),$(TESTS_LIBS_CURRENT)))" "$(subst \,/,$(word $(i),$(MODULES_LIBS_CURRENT)))" -o "$(subst \,/,$(EXE_DIR)/$(word $(i),$(MODULES))_test.exe)")
 endif
 
 clean:
 ifeq ($(OS),Windows_NT)
-	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) clean -C "$(subst /,\,$(module))" &)
-	$(foreach test,$(TESTS_MAKEFILES_DIRS),$(MAKE) clean -C "$(subst /,\,$(test))" &)
+	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) clean -C "$(subst /,\,$(module))" COMPILER=$(COMPILER) &)
+	$(foreach test,$(TESTS_MAKEFILES_DIRS),$(MAKE) clean -C "$(subst /,\,$(test))" COMPILER=$(COMPILER) &)
+	$(foreach txtFile,$(wildcard ./*.txt),del /Q "$(subst /,\,$(txtFile))" &)
 	if exist "$(subst /,\,$(OBJ_DIR))" rmdir /Q /S "$(subst /,\,$(OBJ_DIR))"
 	if exist "$(subst /,\,$(EXE_DIR))" rmdir /Q /S "$(subst /,\,$(EXE_DIR))"
 	if exist "$(subst /,\,$(TMP_DIR))" rmdir /Q /S "$(subst /,\,$(TMP_DIR))"
 else
-	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) clean -C "$(subst \,/,$(module))" &)
-	$(foreach test,$(TESTS_MAKEFILES_DIRS),$(MAKE) clean -C "$(subst \,/,$(test))" &)
-	rm -rf "$(subst \,/,$(OBJ_DIR))" "$(subst \,/,$(EXE_DIR))" "$(subst \,/,$(TMP_DIR))"
+	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) clean -C "$(subst \,/,$(module))" COMPILER=$(COMPILER) &)
+	$(foreach test,$(TESTS_MAKEFILES_DIRS),$(MAKE) clean -C "$(subst \,/,$(test))" COMPILER=$(COMPILER) &)
+	rm -rf "$(subst \,/,$(OBJ_DIR))" "$(subst \,/,$(EXE_DIR))" "$(subst \,/,$(TMP_DIR))" "$(subst \,/,$(wildcard ./*.txt))"
 endif
 
 debug:

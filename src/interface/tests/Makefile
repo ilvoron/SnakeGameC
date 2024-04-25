@@ -28,7 +28,6 @@ SRC_FILES_IMPORTED := $(subst /,\,$(SRC_FILES_IMPORTED))
 SRC_FILES := $(subst /,\,$(SRC_FILES))
 OBJ_DIR := $(subst /,\,$(OBJ_DIR))
 OBJ_FILES := $(subst /,\,$(OBJ_FILES))
-OBJ_TARGETS := $(subst /,\,$(OBJ_TARGETS))
 TMP_DIR := $(subst /,\,$(TMP_DIR))
 INTERFACE_MAKEFILE_DIR := $(subst /,\,$(INTERFACE_MAKEFILE_DIR))
 else
@@ -43,27 +42,26 @@ SRC_FILES_IMPORTED := $(subst \,/,$(SRC_FILES_IMPORTED))
 SRC_FILES := $(subst \,/,$(SRC_FILES))
 OBJ_DIR := $(subst \,/,$(OBJ_DIR))
 OBJ_FILES := $(subst \,/,$(OBJ_FILES))
-OBJ_TARGETS := $(subst \,/,$(OBJ_TARGETS))
 TMP_DIR := $(subst \,/,$(TMP_DIR))
 INTERFACE_MAKEFILE_DIR := $(subst \,/,$(INTERFACE_MAKEFILE_DIR))
 endif
 
 
 
-main: copy $(OBJ_FILES)
+main: copy $(OBJ_TARGETS)
 ifeq ($(OS),Windows_NT)
 	ar rcs "$(BUILD_DIR)\$(BUILD_FILE_LIB)" $(foreach file,$(OBJ_FILES),"$(file)") $(foreach file,$(SRC_FILES_IMPORTED),"$(SRC_DIR_IMPORTED)\$(notdir $(file))")
 else
-	ar rcs "$(BUILD_FILE_LIB)" $(foreach file,$(OBJ_FILES),"$(file)") $(foreach file,$(SRC_FILES_IMPORTED),"$(SRC_DIR_IMPORTED)/$(notdir $(file))")
+	ar rcs "$(BUILD_DIR)/$(BUILD_FILE_LIB)" $(foreach file,$(OBJ_FILES),"$(file)") $(foreach file,$(SRC_FILES_IMPORTED),"$(SRC_DIR_IMPORTED)/$(notdir $(file))")
 endif
 
 
 
-exe: copy $(OBJ_FILES)
+exe: copy $(OBJ_TARGETS)
 ifeq ($(OS),Windows_NT)
 	$(COMPILER) $(foreach file,$(OBJ_FILES),"$(file)") -o "$(BUILD_DIR)\$(BUILD_FILE_EXE)" $(foreach file,$(SRC_FILES_IMPORTED),"$(SRC_DIR_IMPORTED)\$(notdir $(file))")
 else
-	$(COMPILER) $(foreach file,$(OBJ_FILES),"$(file))") -o "$(BUILD_DIR)/$(BUILD_FILE_EXE)" $(foreach file,$(SRC_FILES_IMPORTED),"$(SRC_DIR_IMPORTED)/$(notdir $(file))")
+	$(COMPILER) $(foreach file,$(OBJ_FILES),"$(file)") -o "$(BUILD_DIR)/$(BUILD_FILE_EXE)" $(foreach file,$(SRC_FILES_IMPORTED),"$(SRC_DIR_IMPORTED)/$(notdir $(file))")
 endif
 
 
@@ -82,7 +80,7 @@ endif
 copy:
 ifeq ($(OS),Windows_NT)
 	if not exist "$(SRC_DIR_IMPORTED)" mkdir "$(SRC_DIR_IMPORTED)"
-	$(foreach file,$(SRC_FILES_IMPORTED),xcopy /Y /Q "$(file)" "$(SRC_DIR_IMPORTED)" &&)
+	$(foreach file,$(SRC_FILES_IMPORTED),@xcopy /Y /Q "$(file)" "$(SRC_DIR_IMPORTED)" &)
 else
 	mkdir -p "$(SRC_DIR_IMPORTED)"
 	cp $(foreach file,$(SRC_FILES_IMPORTED),"$(file)") "$(SRC_DIR_IMPORTED)"
@@ -114,18 +112,18 @@ endif
 
 debug:
 	@echo [DEBUG INFORMATION]
-	@echo "Compiler: $(COMPILER)"
-	@echo "Build directory: $(BUILD_FILE)"
-	@echo "Build library file: $(BUILD_FILE_LIB)"
-	@echo "Build executable file: $(BUILD_FILE_EXE)"
-	@echo "Source files directory: $(SRC_DIR)"
-	@echo "Source core files directory: $(SRC_DIR_CORE)"
-	@echo "Source mimic files directory: $(SRC_DIR_MIMIC)"
-	@echo "Source imported files directory: $(SRC_DIR_IMPORTED)"
-	@echo "Source imported files: $(SRC_FILES_IMPORTED)"
-	@echo "Source files: $(SRC_FILES)"
-	@echo "Object files directory: $(OBJ_DIR)"
-	@echo "Object files: $(OBJ_FILES)"
-	@echo "Object files targets: $(OBJ_TARGETS)"
-	@echo "Temporary files directory: $(TMP_DIR)"
-	@echo "Interface module makefile directory: $(INTERFACE_MAKEFILE_DIR)"
+	@echo "Compiler (COMPILER): $(COMPILER)"
+	@echo "Build directory (BUILD_FILE): $(BUILD_FILE)"
+	@echo "Build library file (BUILD_FILE_LIB): $(BUILD_FILE_LIB)"
+	@echo "Build executable file (BUILD_FILE_EXE): $(BUILD_FILE_EXE)"
+	@echo "Source files directory (SRC_DIR): $(SRC_DIR)"
+	@echo "Source core files directory (SRC_DIR_CORE): $(SRC_DIR_CORE)"
+	@echo "Source mimic files directory (SRC_DIR_MIMIC): $(SRC_DIR_MIMIC)"
+	@echo "Source imported files directory (SRC_DIR_IMPORTED): $(SRC_DIR_IMPORTED)"
+	@echo "Source imported files (SRC_FILES_IMPORTED): $(SRC_FILES_IMPORTED)"
+	@echo "Source files (SRC_FILES): $(SRC_FILES)"
+	@echo "Object files directory (OBJ_DIR): $(OBJ_DIR)"
+	@echo "Object files (OBJ_FILES): $(OBJ_FILES)"
+	@echo "Object files targets (OBJ_TARGETS): $(OBJ_TARGETS)"
+	@echo "Temporary files directory (TMP_DIR): $(TMP_DIR)"
+	@echo "Interface module makefile directory (INTERFACE_MAKEFILE_DIR): $(INTERFACE_MAKEFILE_DIR)"

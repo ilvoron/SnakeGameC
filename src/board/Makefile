@@ -1,11 +1,11 @@
 COMPILER = x86_64-w64-mingw32-gcc
-TARGET = libcontroller.a
+TARGET = libboard.a
 
 PREF_SRC = src
 PREF_OBJ = obj
 PREF_TMP = tmp
 
-SRC := $(wildcard $(PREF_SRC)/*.c)
+SRC := $(wildcard $(PREF_SRC)/*.c) $(PREF_SRC)/board.c
 OBJ := $(patsubst $(PREF_SRC)/%, $(PREF_OBJ)/%, $(SRC:.c=.o))
 OBJ_TARGETS := $(subst \,/,$(OBJ))
 
@@ -25,31 +25,26 @@ SRC := $(subst \,/,$(SRC))
 OBJ := $(subst \,/,$(OBJ))
 endif
 
-all: copy $(OBJ_TARGETS)
+main: copy $(OBJ_TARGETS)
 	ar rcs $(TARGET) $(OBJ)
 
 copy:
 ifeq ($(OS),Windows_NT)
 	if not exist $(PREF_TMP) mkdir $(PREF_TMP)
-	xcopy /y /q $(PREF_SRC)\controller.c $(PREF_TMP)
-	xcopy /y /q $(PREF_SRC)\controller.h $(PREF_TMP)
-	xcopy /y /q ..\global.h $(PREF_TMP)
+	xcopy /Y /Q $(PREF_SRC) $(PREF_TMP)
+	xcopy /Y /Q ..\global.h $(PREF_TMP)
 else
 	mkdir -p $(PREF_TMP)
-	cp $(PREF_SRC)/controller.c $(PREF_SRC)/controller.h ../global.h $(PREF_TMP)
+	cp ../global.h $(PREF_SRC)/* $(PREF_TMP)
 endif
 
 $(PREF_OBJ)/%.o: $(PREF_TMP)/%.c
 ifeq ($(OS),Windows_NT)
 	if not exist $(PREF_OBJ) mkdir $(PREF_OBJ)
-	$(COMPILER) -c $< -o $@ -Itmp -Itests\src
 else
 	mkdir -p $(PREF_OBJ)
-	$(COMPILER) -c $< -o $@ -Itmp -Itests/src
 endif
-
-debug:
-	@echo "Module folders: $(MFS)"
+	$(COMPILER) -c $< -o $@ -I$(PREF_TMP)
 
 clean:
 ifeq ($(OS),Windows_NT)
@@ -59,8 +54,3 @@ ifeq ($(OS),Windows_NT)
 else
 	rm -rf $(PREF_TMP) $(PREF_OBJ) $(TARGET)
 endif
-
-test:
-	make -C tests/
-	make clean -C tests/
-
