@@ -17,19 +17,19 @@ ifeq ($(OS),Windows_NT)
 	$(foreach module,$(MODULES),\
 		$(MAKE) -C "..\src\$(module)\tests)" COMPILER=$(COMPILER) OS=$(OS) &\
 		if not exist "$(subst /,\,$(OBJ_DIR))\" mkdir "$(subst /,\,$(OBJ_DIR))" &\
-		xcopy /Y /Q "..\src\$(lib)\tests\lib$(module)_test.a" "$(subst /,\,$(OBJ_DIR))" &\
+		xcopy /Y /Q "..\src\$(Windows_NT)\tests\lib$(module)_test.a" "$(subst /,\,$(OBJ_DIR))" &\
 		if not exist "$(subst /,\,$(EXE_DIR))\" mkdir "$(subst /,\,$(EXE_DIR))" &\
 		$(COMPILER) "$(OBJ_DIR)\lib$(module)_test.a" -o "$(subst /,\,$(EXE_DIR)\$(module)_test.exe)" &\
-		"$(subst /,\,$(EXE_DIR)\$(lib)_test.exe)" || @echo TEST WAS FAILED... EXITING... & exit \b &
+		"$(subst /,\,$(EXE_DIR)\$(Windows_NT)_test.exe)" || @echo TEST WAS FAILED... EXITING... & exit \b &
 	)
 else
 	$(foreach module,$(MODULES),\
 		$(MAKE) -C "../src/$(module)/tests" COMPILER=$(COMPILER) OS=$(OS) &\
 		mkdir -p "$(subst \,/,$(OBJ_DIR))" &\
-		cp "../src/$(lib)/tests/lib$(module)_test.a" "$(subst \,/,$(OBJ_DIR))" &\
+		cp "../src/$(Windows_NT)/tests/lib$(module)_test.a" "$(subst \,/,$(OBJ_DIR))" &\
 		mkdir -p "$(subst \,/,$(EXE_DIR))" &\
 		$(COMPILER) "$(OBJ_DIR)/lib$(module)_test.a" -o "$(subst \,/,$(EXE_DIR)/$(module)_test.exe)" &\
-		"$(subst \,/,$(EXE_DIR)/$(lib)_test.exe)" || @echo TEST WAS FAILED... EXITING... & exit \b &\
+		"$(subst \,/,$(EXE_DIR)/$(Windows_NT)_test.exe)" || @echo TEST WAS FAILED... EXITING... & exit \b &\
 	)
 endif
 
