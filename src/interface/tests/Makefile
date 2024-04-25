@@ -48,7 +48,7 @@ endif
 
 
 
-main: copy $(OBJ_TARGETS)
+main: interface copy $(OBJ_TARGETS)
 ifeq ($(OS),Windows_NT)
 	ar rcs "$(BUILD_DIR)\$(BUILD_FILE_LIB)" $(foreach file,$(OBJ_FILES),"$(file)") $(foreach file,$(SRC_FILES_IMPORTED),"$(SRC_DIR_IMPORTED)\$(notdir $(file))")
 else

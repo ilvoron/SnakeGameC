@@ -16,7 +16,7 @@ endif
 
 tests_overall:
 ifeq ($(OS),Windows_NT)
-	cmd /c $(MAKE) -C "$(subst /,\,$(TESTS_MAKEFILE))" COMPILER=$(COMPILER) || exit \b
+	$(MAKE) -C "$(subst /,\,$(TESTS_MAKEFILE))" COMPILER=$(COMPILER) || exit \b
 else
 	$(MAKE) -C "$(subst \,/,$(TESTS_MAKEFILE))" COMPILER=$(COMPILER) || exit $$?
 endif
