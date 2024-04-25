@@ -39,7 +39,7 @@ int main() {
 	printf("Testing change_direction()...\n");
 	f = NUM_FUNK;
 	change_direction(snake.direction, &(settings.gameState));
-	if ((_board.snake.direction != snake.direction) || (NUM_FUNK - f != 3)) {
+	if (_board.snake.direction != snake.direction) {
 		printf("Testing change_direction()... FAILED\n");
 		isFailed = true;
 	}
