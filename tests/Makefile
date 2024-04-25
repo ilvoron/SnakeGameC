@@ -20,7 +20,7 @@ ifeq ($(OS),Windows_NT)
 		xcopy /Y /Q "..\src\$(module)\tests\lib$(module)_test.a" "$(subst /,\,$(OBJ_DIR))" &\
 		if not exist "$(subst /,\,$(EXE_DIR))\" mkdir "$(subst /,\,$(EXE_DIR))" &\
 		$(COMPILER) "$(OBJ_DIR)\lib$(module)_test.a" -o "$(subst /,\,$(EXE_DIR)\$(module)_test.exe)" &\
-		"$(subst /,\,$(EXE_DIR)\$(module)_test.exe)" || @echo TEST WAS FAILED... EXITING... & exit \b &\
+		cmd /c "$(subst /,\,$(EXE_DIR)\$(module)_test.exe)" || @echo TEST WAS FAILED... EXITING... & exit \b &\
 	)
 else
 	$(foreach module,$(MODULES),\
