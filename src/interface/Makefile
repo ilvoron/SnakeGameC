@@ -14,7 +14,7 @@ main: copy $(OBJ_FILES)
 
 copy:
 	if not exist "$(TMP_DIR)" mkdir "$(TMP_DIR)"
-	xcopy /Y /Q "$(SRC_GLOBAL)" "$(TMP_DIR)"
+	xcopy /Y /Q "$(SRC_GLOBAL)" "$(TMP_DIR)" >nul 2>&1
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	if not exist "$(dir $@)" @mkdir "$(dir $@)"

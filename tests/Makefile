@@ -5,11 +5,15 @@ CLEAN_FILES = *.txt
 MODULES = controller interface board snake
 
 main: $(MODULES)
+	@echo --^> All tests have been successfully completed
 
 $(MODULES):
-	if not exist "$(BIN_DIR)" mkdir "$(BIN_DIR)"
-	$(MAKE) exe -C "../src/$@/tests" COMPILER="$(COMPILER)" OS="$(OS)" BUILD_DIR="$(abspath $(BIN_DIR))" BUILD_FILE_EXE="lib$@_test.exe"
-	"$(BIN_DIR)\lib$@_test.exe" || @echo. & @echo TEST WAS FAILED... EXITING... & exit \b
+	@if not exist "$(BIN_DIR)" mkdir "$(BIN_DIR)"
+	@echo --^> Make an executable file to test module "$@"...
+	@$(MAKE) -s exe -C "../src/$@/tests" COMPILER="$(COMPILER)" OS="$(OS)" BUILD_DIR="$(abspath $(BIN_DIR))" BUILD_FILE_EXE="lib$@_test.exe"
+	@echo --^> Testing module "$@"...
+	@"$(BIN_DIR)\lib$@_test.exe" || @echo. & @echo --^> Test was failed... Exiting... & exit \b
+	@echo --^> Testing module "$@"... Success!
 
 clean:
 	$(foreach module,$(MODULES),$(MAKE) clean -C "../src/$(module)/tests" COMPILER="$(COMPILER)" OS="$(OS)"&)

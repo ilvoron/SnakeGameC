@@ -26,7 +26,7 @@ interface:
 
 copy:
 	if not exist "$(TMP_DIR)" mkdir "$(TMP_DIR)"
-	$(foreach file,$(SRC_FILES_IMPORTED),xcopy /Y /Q "$(file)" "$(TMP_DIR)" &)
+	$(foreach file,$(SRC_FILES_IMPORTED),xcopy /Y /Q "$(file)" "$(TMP_DIR)" >nul 2>&1 &)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	if not exist "$(dir $@)" mkdir "$(dir $@)"
