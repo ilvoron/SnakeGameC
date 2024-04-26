@@ -7,6 +7,7 @@ MODULES = controller interface board snake
 
 main: test_modules $(MODULES)
 	$(COMPILER) "$(SRC_MAIN)" -o "$(EXE_FILE)" $(foreach module,$(MODULES),-I "src\$(module)\src") -I "src" -L "$(OBJ_DIR)" $(foreach module,$(MODULES),-l "$(module)")
+	@echo --^> Executable project file is ready to use!
 
 test_modules:
 	$(MAKE) -C "$(TESTS_MAKEFILE_DIR)" COMPILER=$(COMPILER) OS="$(OS)" || exit \b
