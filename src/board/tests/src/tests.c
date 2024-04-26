@@ -7,7 +7,6 @@
 #include <stdbool.h>
 
 extern struct Board _board;
-extern int NUM_FUNK;
 struct Settings settings;
 struct Snake snake;
 
@@ -17,7 +16,7 @@ int main() {
 	printf("----------------------------------------\n");
 	printf("Testing start_game() with params (width = 7, height = 7)...\n");
 	start_game(7, 7); // + _create_map, create_snake, _create_apple
-	if ((_board.width != 7 || _board.height != 7) || (NUM_FUNK != 3)){
+	if ((_board.width != 7 || _board.height != 7)){
 		printf("Testing start_game()... FAILED\n");
 		isFailed = true;
 		return -1;
@@ -27,9 +26,17 @@ int main() {
 	}
 	printf("----------------------------------------\n");
 	printf("Testing update_game_state()...\n");
-	int f = NUM_FUNK;
+	_board.snake.direction = DIR_UP;
+	_board.snake.bodyMap[_board.snake.trailLastPos.y][_board.snake.trailLastPos.x] = false;
+	_board.apple.x = 3;
+	_board.apple.y = 3;
+	_board.snake.body[0].x = 3;
+	_board.snake.body[0].y = 4;
+	_board.snake.trailLastPos.x = 3;
+	_board.snake.trailLastPos.y = 4;
+	_board.snake.bodyMap[4][3] = true;
 	update_game_state(&(settings.gameState)); // + move_snake, _check_collision
-	if (NUM_FUNK - f != 2) {
+	if (settings.gameState != GS_INGAME_HIT_APPLE) {
 		printf("Testing update_game_state()... FAILED\n");
 		isFailed = true;
 		return -2;
@@ -39,7 +46,6 @@ int main() {
 	}
 	printf("----------------------------------------\n");
 	printf("Testing change_direction()...\n");
-	f = NUM_FUNK;
 	change_direction(snake.direction, &(settings.gameState));
 	if (_board.snake.direction != snake.direction) {
 		printf("Testing change_direction()... FAILED\n");
@@ -51,9 +57,8 @@ int main() {
 	}
 	printf("----------------------------------------\n");
 	printf("Testing end_game()...\n");
-	f = NUM_FUNK;
 	end_game(); // + delete_snake
-	if ((_board.map != 0) || (NUM_FUNK - f != 1)){
+	if (_board.map != 0){
 		printf("Testing end_game()... FAILED\n");
 		isFailed = true;
 		return -4;

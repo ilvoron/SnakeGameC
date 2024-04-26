@@ -5,10 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 
-extern int NUM_FUNK;
-
 void create_snake(struct Snake* snake, int boardWidth, int boardHeight) {
-	NUM_FUNK++;
 	snake->length = 1;
 	snake->direction = DIR_UP;
 	snake->bodyMaxWidth = boardWidth - 2;
@@ -27,14 +24,12 @@ void create_snake(struct Snake* snake, int boardWidth, int boardHeight) {
 }
 
 void delete_snake(struct Snake* snake) {
-	NUM_FUNK++;
 	free(snake->body);
 	for (int y = 0; y < snake->bodyMaxHeight + 2; y++) { free(snake->bodyMap[y]); }
 	free(snake->bodyMap);
 }
 
 void move_snake(struct Snake* snake) {
-	NUM_FUNK++;
 	snake->trailLastPos.x = snake->body[snake->length - 1].x;
 	snake->trailLastPos.y = snake->body[snake->length - 1].y;
 	snake->bodyMap[snake->body[snake->length - 1].y][snake->body[snake->length - 1].x] = false;
