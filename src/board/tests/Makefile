@@ -1,63 +1,35 @@
 COMPILER = x86_64-w64-mingw32-gcc
-TARGET = libboard_test.a
-TARGET_EXE = test.exe
+BUILD_DIR = .
+BUILD_FILE_LIB = libboard_test.a
+BUILD_FILE_EXE = libboard_test.exe
+SRC_DIR = src
+OBJ_DIR = obj
+TMP_DIR = temp
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c) $(SRC_DIR)/board.c
+OBJ_FILES = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC_FILES:.c=.o))
 
-PREF_SRC = src
-PREF_OBJ = obj
-PREF_TMP = tmp
+main: copy $(OBJ_FILES)
+	if not exist "$(BUILD_DIR)" mkdir "$(BUILD_DIR)"
+	ar rcs "$(BUILD_DIR)\$(BUILD_FILE_LIB)" $(foreach file,$(OBJ_FILES),"$(file)")
 
-SRC := $(wildcard $(PREF_SRC)/*.c) $(PREF_SRC)/board.c
-OBJ := $(patsubst $(PREF_SRC)/%, $(PREF_OBJ)/%, $(SRC:.c=.o))
-OBJ_TARGETS := $(subst \,/,$(OBJ))
-
-ifeq ($(OS),Windows_NT)
-TARGET := $(subst /,\,$(TARGET))
-TARGET_EXE := $(subst /,\,$(TARGET_EXE))
-PREF_SRC := $(subst /,\,$(PREF_SRC))
-PREF_OBJ := $(subst /,\,$(PREF_OBJ))
-PREF_TMP := $(subst /,\,$(PREF_TMP))
-SRC := $(subst /,\,$(SRC))
-OBJ := $(subst /,\,$(OBJ))
-else
-TARGET := $(subst \,/,$(TARGET))
-TARGET_EXE := $(subst \,/,$(TARGET_EXE))
-PREF_SRC := $(subst \,/,$(PREF_SRC))
-PREF_OBJ := $(subst \,/,$(PREF_OBJ))
-PREF_TMP := $(subst \,/,$(PREF_TMP))
-SRC := $(subst \,/,$(SRC))
-OBJ := $(subst \,/,$(OBJ))
-endif
-
-main: copy $(OBJ_TARGETS)
-	ar rcs $(TARGET) $(OBJ)
-	$(COMPILER) $(TARGET) -o $(TARGET_EXE)
+exe: copy $(OBJ_FILES)
+	if not exist "$(BUILD_DIR)" mkdir "$(BUILD_DIR)"
+	ar rcs "$(BUILD_DIR)\$(BUILD_FILE_LIB)" $(foreach file,$(OBJ_FILES),"$(file)")
+	$(COMPILER) "$(BUILD_DIR)\$(BUILD_FILE_LIB)" -o "$(BUILD_DIR)\$(BUILD_FILE_EXE)"
 
 copy:
-ifeq ($(OS),Windows_NT)
-	if not exist $(PREF_TMP) mkdir $(PREF_TMP)
-	xcopy /Y /Q $(PREF_SRC) $(PREF_TMP)
-	xcopy /Y /Q ..\src\board.c $(PREF_TMP)
-	xcopy /Y /Q ..\src\board.h $(PREF_TMP)
-	xcopy /Y /Q ..\..\global.h $(PREF_TMP)
-else
-	mkdir -p $(PREF_TMP)
-	cp ../src/board.c ../src/board.h ../../global.h $(PREF_SRC)/* $(PREF_TMP)
-endif
+	if not exist "$(TMP_DIR)" mkdir "$(TMP_DIR)"
+	xcopy /Y /Q "$(SRC_DIR)" "$(TMP_DIR)"
+	xcopy /Y /Q ..\src\board.c "$(TMP_DIR)"
+	xcopy /Y /Q ..\src\board.h "$(TMP_DIR)"
+	xcopy /Y /Q ..\..\global.h "$(TMP_DIR)"
 
-$(PREF_OBJ)/%.o: $(PREF_TMP)/%.c
-ifeq ($(OS),Windows_NT)
-	if not exist $(PREF_OBJ) mkdir $(PREF_OBJ)
-else
-	mkdir -p $(PREF_OBJ)
-endif
-	$(COMPILER) -c $< -o $@ -I$(PREF_TMP)
+$(OBJ_DIR)/%.o: $(TMP_DIR)/%.c
+	if not exist "$(OBJ_DIR)" mkdir "$(OBJ_DIR)"
+	$(COMPILER) -c "$<" -o "$@" -I "$(TMP_DIR)"
 
 clean:
-ifeq ($(OS),Windows_NT)
-	if exist $(PREF_TMP) rmdir /Q /S $(PREF_TMP)
-	if exist $(PREF_OBJ) rmdir /Q /S $(PREF_OBJ)
-	if exist $(TARGET) del /Q $(TARGET)
-	if exist $(TARGET_EXE) del /Q $(TARGET_EXE)
-else
-	rm -rf $(PREF_TMP) $(PREF_OBJ) $(TARGET) $(TARGET_EXE)
-endif
+	if exist "$(TMP_DIR)" rmdir /Q /S "$(TMP_DIR)"
+	if exist "$(OBJ_DIR)" rmdir /Q /S "$(OBJ_DIR)"
+	if exist "$(BUILD_FILE_LIB)" del /Q "$(BUILD_FILE_LIB)"
+	if exist "$(BUILD_FILE_EXE)" del /Q "$(BUILD_FILE_EXE)"

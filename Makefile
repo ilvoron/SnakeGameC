@@ -1,50 +1,23 @@
 COMPILER = x86_64-w64-mingw32-gcc
-TESTS_MAKEFILE = tests
+TESTS_MAKEFILE_DIR = tests
 SRC_MAIN = src/main.c
 EXE_FILE = snake.exe
 OBJ_DIR = obj
 MODULES = board controller interface snake
-MODULES_MAKEFILES_DIRS = $(foreach lib,$(MODULES),src/$(lib))
-MODULES_LIBS = $(foreach lib,$(MODULES),src/$(lib)/lib$(lib).a)
 
-main: tests_overall modules_overall copy
-ifeq ($(OS),Windows_NT)
-	$(COMPILER) "$(subst /,\,$(SRC_MAIN))" -o "$(subst /,\,$(EXE_FILE))" -L "$(subst /,\,$(OBJ_DIR))"
-else
-	$(COMPILER) "$(subst \,/,$(SRC_MAIN))" -o "$(subst \,/,$(EXE_FILE))" -L "$(subst \,/,$(OBJ_DIR))"
-endif
+main: test_modules $(MODULES)
+	$(COMPILER) "$(SRC_MAIN)" -o "$(EXE_FILE)" -L "$(OBJ_DIR)"
 
-tests_overall:
-ifeq ($(OS),Windows_NT)
-	$(MAKE) -C "$(subst /,\,$(TESTS_MAKEFILE))" COMPILER=$(COMPILER) || exit \b
-else
-	$(MAKE) -C "$(subst \,/,$(TESTS_MAKEFILE))" COMPILER=$(COMPILER) || exit $$?
-endif
+test_modules:
+	$(MAKE) -C "$(TESTS_MAKEFILE_DIR)" COMPILER=$(COMPILER) OS="$(OS)" || exit \b
 
-modules_overall:
-ifeq ($(OS),Windows_NT)
-	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) -C "$(subst /,\,$(module))" COMPILER=$(COMPILER) &)
-else
-	$(foreach module,$(MODULES_MAKEFILES_DIRS),$(MAKE) -C "$(subst \,/,$(module))" COMPILER=$(COMPILER) &)
-endif
-
-copy:
-ifeq ($(OS),Windows_NT)
-	if not exist "$(subst /,\,$(OBJ_DIR))\" mkdir "$(subst /,\,$(OBJ_DIR))"
-	$(foreach lib,$(MODULES_LIBS),xcopy /Y /Q "$(subst /,\,$(lib))" "$(subst /,\,$(OBJ_DIR))" &)
-else
-	mkdir -p "$(subst \,/,$(OBJ_DIR))"
-	cp $(foreach lib,$(MODULES_LIBS),"$(subst \,/,$(lib))") "$(OBJ_DIR)"
-endif
+$(MODULES):
+	if not exist "$(OBJ_DIR)" mkdir "$(OBJ_DIR)"
+	$(MAKE) -C "src/$@" COMPILER="$(COMPILER)" OS="$(OS)" BUILD_DIR="$(abspath $(OBJ_DIR))"
 
 clean:
-ifeq ($(OS),Windows_NT)
-	$(MAKE) clean -C "$(subst /,\,$(TESTS_MAKEFILE))" COMPILER=$(COMPILER)
-	if exist "$(subst /,\,$(OBJ_DIR))" rmdir /Q /S "$(subst /,\,$(OBJ_DIR))"
-else
-	$(MAKE) clean -C "$(subst \,/,$(TESTS_MAKEFILE))" COMPILER=$(COMPILER)
-	rm -rf "$(subst \,/,$(OBJ_DIR))"
-endif
+	$(MAKE) clean -C "$(TESTS_MAKEFILE_DIR)" COMPILER=$(COMPILER) OS="$(OS)"
+	if exist "$(OBJ_DIR)" rmdir /Q /S "$(OBJ_DIR)"
 
 debug:
 	@echo "Compiler: $(COMPILER)"
@@ -53,5 +26,3 @@ debug:
 	@echo "Executable file: $(EXE_FILE)"
 	@echo "Object files directory: $(OBJ_DIR)"
 	@echo "Modules: $(MODULES)"
-	@echo "Modules makefiles directories: $(MODULES_MAKEFILES_DIRS)"
-	@echo "Modules libs: $(MODULES_LIBS)"
