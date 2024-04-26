@@ -384,22 +384,22 @@ void render_frame() {
 					for (int x = 0; x < board.width; x++) {
 						if (board.snake.bodyMap[y][x]) {
 							if (board.snake.body[0].x == x && board.snake.body[0].y == y) {
-								printf("%c", _settings->skin.snakeHead);
+								printf("%2.c", _settings->skin.snakeHead);
 							} else {
-								printf("%c", _settings->skin.snakeBody, _settings->skin.snakeBody);
+								printf("%2.c", _settings->skin.snakeBody, _settings->skin.snakeBody);
 							}
 							continue;
 						}
 						if (board.apple.x == x && board.apple.y == y) {
-							printf("%c", _settings->skin.appleCell);
+							printf("%2.c", _settings->skin.appleCell);
 							continue;
 						}
 						if (board.map[y][x] == board.free_cell) {
-							printf("%c", _settings->skin.freeCell);
+							printf("%2.c", _settings->skin.freeCell);
 							continue;
 						}
 						if (board.map[y][x] == board.wall_cell) {
-							printf("%c", _settings->skin.wallCell);
+							printf("%c%c", _settings->skin.wallCell, _settings->skin.wallCell);
 							continue;
 						}
 					}
