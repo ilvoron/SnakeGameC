@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include "board.h"
 #include "snake.h"
 #include "global.h"

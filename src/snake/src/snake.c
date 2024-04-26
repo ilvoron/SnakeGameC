@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h> // debug
 #include "snake.h"
 #include "global.h"
 
@@ -32,8 +31,10 @@ void delete_snake(struct Snake* snake) {
 }
 
 void move_snake(struct Snake* snake) {
+	snake->trailLastPos.x = snake->body[snake->length - 1].x;
+	snake->trailLastPos.y = snake->body[snake->length - 1].y;
 	snake->bodyMap[snake->body[snake->length - 1].y][snake->body[snake->length - 1].x] = false;
-	for (int i = snake->length; i > 0; i--) {
+	for (int i = snake->length-1; i > 0; i--) {
 		memcpy(&(snake->body[i].x), &(snake->body[i-1].x), sizeof(int));
 		memcpy(&(snake->body[i].y), &(snake->body[i-1].y), sizeof(int));
 	}
@@ -52,13 +53,16 @@ void move_snake(struct Snake* snake) {
 			break;
 		default: break;
 	}
-	
 	snake->bodyMap[snake->body[0].y][snake->body[0].x] = true;
 }
 
 void grow_snake(struct Snake* snake) {
 	snake->length++;
+	snake->body[snake->length - 1].x = snake->trailLastPos.x;
+	snake->body[snake->length - 1].y = snake->trailLastPos.y;
+	snake->bodyMap[snake->body[snake->length - 1].y][snake->body[snake->length - 1].x] = true;
 }
+
 
 bool check_snake(struct Snake* snake, int index) {
 	if (index == 0) { return true; }

@@ -8,7 +8,7 @@ long long frameTime;
 
 long long get_time() {
 	long long miliseconds = clock();
-    return miliseconds ;
+	return miliseconds;
 }
 
 void keyHandler (enum DIRECTIONS direction) {
@@ -18,14 +18,15 @@ void keyHandler (enum DIRECTIONS direction) {
 }
 
 void End_Of_Program(struct Settings settings){
-/*	if (settings.gameState != GS_INGAME_USER_ABORT) {
+	/*if (settings.gameState != GS_INGAME_USER_ABORT) {
 		show_end_game();								// Показываем конец игры пользователю
 	}*/
 	end_game();											// Завершение игры у BOARD	
 	show_error(settings.errorCode);	
 };	
 
-void Updater(struct Settings settings) {
+void Updater(struct Settings _settings) {
+	settings = _settings;
 	init_interface(&settings);
 	while (settings.gameState != GS_EXIT) {  			// Пока сосстояние игры != выход из игры
 		
@@ -49,10 +50,9 @@ void Updater(struct Settings settings) {
 					render_frame();							// Отрисовка экрана
 					lastframe = get_time();					// Фиксируем время последнего обновления 
 					Sleep(frameTime);						// Задержка потока в мс
-
 				} else {
 					Sleep(diff);							// Задержка потока в мс
-				}				
+				}
 			}
 			
 			if (settings.gameState == GS_INGAME_WIN) {
@@ -62,7 +62,7 @@ void Updater(struct Settings settings) {
 				show_end_game(EG_LOSE);
 			}
 			
-		End_Of_Program(settings);
+			End_Of_Program(settings);
 		} else {
 			settings.gameState = GS_EXIT;					// Переходим в состояние "ВЫХОД"
 		}
