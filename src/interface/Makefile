@@ -3,7 +3,7 @@ BUILD_DIR = .
 BUILD_FILE_LIB = libinterface.a
 SRC_DIR = src
 SRC_GLOBAL = ..\global.h
-SRC_FILES = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR_global)/*.c)
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
 OBJ_DIR = obj
 OBJ_FILES = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC_FILES:.c=.o))
 TMP_DIR = temp

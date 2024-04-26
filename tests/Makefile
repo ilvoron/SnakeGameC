@@ -8,7 +8,7 @@ main: $(MODULES)
 
 $(MODULES):
 	if not exist "$(BIN_DIR)" mkdir "$(BIN_DIR)"
-	$(MAKE) exe -C "../src/$@/tests" COMPILER="$(COMPILER)" OS="$(OS)" BUILD_DIR="$(abspath $(BIN_DIR))"
+	$(MAKE) exe -C "../src/$@/tests" COMPILER="$(COMPILER)" OS="$(OS)" BUILD_DIR="$(abspath $(BIN_DIR))" BUILD_FILE_EXE="lib$@_test.exe"
 	"$(BIN_DIR)\lib$@_test.exe" || @echo. & @echo TEST WAS FAILED... EXITING... & exit \b
 
 clean:

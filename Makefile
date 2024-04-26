@@ -13,7 +13,7 @@ test_modules:
 
 $(MODULES):
 	if not exist "$(OBJ_DIR)" mkdir "$(OBJ_DIR)"
-	$(MAKE) -C "src/$@" COMPILER="$(COMPILER)" OS="$(OS)" BUILD_DIR="$(abspath $(OBJ_DIR))"
+	$(MAKE) -C "src/$@" COMPILER="$(COMPILER)" OS="$(OS)" BUILD_DIR="$(abspath $(OBJ_DIR))" BUILD_FILE_LIB="lib$@.a"
 
 clean:
 	$(MAKE) clean -C "$(TESTS_MAKEFILE_DIR)" COMPILER=$(COMPILER) OS="$(OS)"
