@@ -20,9 +20,9 @@ clean:
 	if exist "$(OBJ_DIR)" rmdir /Q /S "$(OBJ_DIR)"
 
 debug:
-	@echo "Compiler: $(COMPILER)"
-	@echo "Tests makefile directory: $(TESTS_MAKEFILE)"
-	@echo "Source main file: $(SRC_MAIN)"
-	@echo "Executable file: $(EXE_FILE)"
-	@echo "Object files directory: $(OBJ_DIR)"
-	@echo "Modules: $(MODULES)"
+	@echo "Compiler (COMPILER): $(COMPILER)"
+	@echo "Tests makefile directory (TESTS_MAKEFILE): $(TESTS_MAKEFILE)"
+	@echo "Source main file (SRC_MAIN): $(SRC_MAIN)"
+	@echo "Executable file (EXE_FILE): $(EXE_FILE)"
+	@echo "Object files directory (OBJ_DIR): $(OBJ_DIR)"
+	@echo "Modules (MODULES): $(MODULES)"

@@ -19,8 +19,8 @@ clean:
 	$(foreach file,$(CLEAN_FILES),if exist "$(file)" del /Q "$(file)")
 
 debug:
-	@echo "Compiler: $(COMPILER)"
-	@echo "Binary files directory: $(BIN_DIR)"
-	@echo "Directories to clean up: $(CLEAN_DIR)"
-	@echo "Files to clean up: $(CLEAN_FILES)"
-	@echo "Modules: $(MODULES)"
+	@echo "Compiler (COMPILER): $(COMPILER)"
+	@echo "Binary files directory (BIN_DIR): $(BIN_DIR)"
+	@echo "Directories to clean up (CLEAN_DIR): $(CLEAN_DIR)"
+	@echo "Files to clean up (CLEAN_FILES): $(CLEAN_FILES)"
+	@echo "Modules (MODULES): $(MODULES)"
