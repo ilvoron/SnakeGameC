@@ -3,10 +3,10 @@ TESTS_MAKEFILE_DIR = tests
 SRC_MAIN = src/main.c
 EXE_FILE = snake.exe
 OBJ_DIR = obj
-MODULES = board controller interface snake
+MODULES = controller interface board snake
 
 main: test_modules $(MODULES)
-	$(COMPILER) "$(SRC_MAIN)" -o "$(EXE_FILE)" -L "$(OBJ_DIR)"
+	$(COMPILER) "$(SRC_MAIN)" -o "$(EXE_FILE)" $(foreach module,$(MODULES),-I "src\$(module)\src") -I "src" -L "$(OBJ_DIR)" $(foreach module,$(MODULES),-l "$(module)")
 
 test_modules:
 	$(MAKE) -C "$(TESTS_MAKEFILE_DIR)" COMPILER=$(COMPILER) OS="$(OS)" || exit \b

@@ -2,7 +2,7 @@ COMPILER = x86_64-w64-mingw32-gcc
 BIN_DIR = bin
 CLEAN_DIR = temp
 CLEAN_FILES = *.txt
-MODULES = board controller interface snake
+MODULES = controller interface board snake
 
 main: $(MODULES)
 
