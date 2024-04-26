@@ -28,7 +28,7 @@ copy:
 	if not exist "$(TMP_DIR)" mkdir "$(TMP_DIR)"
 	$(foreach file,$(SRC_FILES_IMPORTED),xcopy /Y /Q "$(file)" "$(TMP_DIR)" >nul 2>&1 &)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)\%.c
 	if not exist "$(dir $@)" mkdir "$(dir $@)"
 	$(COMPILER) -c "$<" -o "$@" -I "$(SRC_DIR)" -I "$(TMP_DIR)" -I "$(SRC_DIR_CORE)" -I "$(SRC_DIR_MIMIC)"
 

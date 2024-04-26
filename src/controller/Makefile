@@ -16,7 +16,7 @@ copy:
 	xcopy /Y /Q "$(SRC_DIR)" "$(TMP_DIR)" >nul 2>&1
 	xcopy /Y /Q ..\global.h "$(TMP_DIR)" >nul 2>&1
 
-$(OBJ_DIR)/%.o: $(TMP_DIR)/%.c
+$(OBJ_DIR)/%.o: $(TMP_DIR)\%.c
 	if not exist "$(OBJ_DIR)" mkdir "$(OBJ_DIR)"
 	$(COMPILER) -c "$<" -o "$@" -I "$(TMP_DIR)" -I tests\src
 
