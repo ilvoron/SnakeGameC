@@ -200,7 +200,7 @@ void init_interface(struct Settings* settings){
 
 int get_result(char Name[]){
 
-	if((Name == "Updater")&&(SEG != 2 || EG != 1 || SM != 2 || SG != 1 || UGS != 4 || RF != 4 || CD != 0 || CI != 1 || II != 1)){ 
+	if((Name == "Updater")&&(SEG != 1 || EG != 1 || SM != 2 || SG != 1 || UGS != 4 || RF != 4 || CD != 0 || CI != 1 || II != 1)){ 
 	printf("\nUncorrect work "); puts( Name);
 	printf("\nNumber of function calls:\n show_end_game - %d\n end_game - %d\n show_menu - %d\n start_game - %d\n update_game_state - %d\n render_frame - %d\n change_direction - %d\n close_interface - %d\n init_interface - %d\n",SEG , EG , SM , SG , UGS , RF , CD , CI , II );
 	return 1;
@@ -210,7 +210,7 @@ int get_result(char Name[]){
 	printf("\nNumber of function calls:\n show_end_game - %d\n end_game - %d\n show_menu - %d\n start_game - %d\n update_game_state - %d\n render_frame - %d\n change_direction - %d\n close_interface - %d\n init_interface - %d\n",SEG , EG , SM , SG , UGS , RF , CD , CI , II );
 	return 2;
 	}
-	if((Name == "End_Of_Program")&&(SEG != 1 || EG != 1 || SM != 0 || SG != 0 || UGS != 0 || RF != 0 || CD != 0 || CI != 0 || II != 0)) { 
+	if((Name == "End_Of_Program")&&(SEG != 0 || EG != 1 || SM != 0 || SG != 0 || UGS != 0 || RF != 0 || CD != 0 || CI != 0 || II != 0)) { 
 	printf("\nUncorrect work "); puts( Name); 
 	printf("\nNumber of function calls:\n show_end_game - %d\n end_game - %d\n show_menu - %d\n start_game - %d\n update_game_state - %d\n render_frame - %d\n change_direction - %d\n close_interface - %d\n init_interface - %d\n",SEG , EG , SM , SG , UGS , RF , CD , CI , II );
 	return 3;

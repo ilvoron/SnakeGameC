@@ -20,6 +20,7 @@ int main() {
 	if ((_board.width != 7 || _board.height != 7) || (NUM_FUNK != 3)){
 		printf("Testing start_game()... FAILED\n");
 		isFailed = true;
+		return -1;
 	}
 	else {
 		printf("Testing start_game()... OK\n");
@@ -31,6 +32,7 @@ int main() {
 	if (NUM_FUNK - f != 2) {
 		printf("Testing update_game_state()... FAILED\n");
 		isFailed = true;
+		return -2;
 	}
 	else {
 		printf("Testing update_game_state()... OK\n");
@@ -42,6 +44,7 @@ int main() {
 	if (_board.snake.direction != snake.direction) {
 		printf("Testing change_direction()... FAILED\n");
 		isFailed = true;
+		return -3;
 	}
 	else {
 		printf("Testing change_direction()... OK\n");
@@ -53,6 +56,7 @@ int main() {
 	if ((_board.map != 0) || (NUM_FUNK - f != 1)){
 		printf("Testing end_game()... FAILED\n");
 		isFailed = true;
+		return -4;
 	}
 	else{
 		printf("Testing end_game()... OK\n");
@@ -60,7 +64,7 @@ int main() {
 	printf("----------------------------------------\n");
 	printf("End testing module...\n");
 	if (isFailed) {
-		return -1;
+		return -5;
 	}
 	return 0;
 }

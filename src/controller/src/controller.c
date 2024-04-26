@@ -18,9 +18,9 @@ void keyHandler (enum DIRECTIONS direction) {
 }
 
 void End_Of_Program(struct Settings settings){
-	if (settings.gameState != GS_INGAME_USER_ABORT) {
+/*	if (settings.gameState != GS_INGAME_USER_ABORT) {
 		show_end_game();								// Показываем конец игры пользователю
-	}
+	}*/
 	end_game();											// Завершение игры у BOARD	
 	show_error(settings.errorCode);	
 };	
