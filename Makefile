@@ -18,6 +18,7 @@ $(MODULES):
 	$(MAKE) -C "src/$@" COMPILER="$(COMPILER)" OS="$(OS)" BUILD_DIR="$(abspath $(OBJ_DIR))" BUILD_FILE_LIB="lib$@.a"
 
 icon:
+	if not exist "$(OBJ_DIR)" mkdir "$(OBJ_DIR)"
 	echo SNAKE_ICON ICON ^"$(ICO_FILE)^" > "$(OBJ_DIR)\snake_ico.rc"
 	windres "$(OBJ_DIR)\snake_ico.rc" -O coff -o "$(OBJ_DIR)\snake_ico.res"
 
