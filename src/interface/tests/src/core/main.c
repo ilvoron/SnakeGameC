@@ -21,21 +21,21 @@ int main() {
 	freopen(DEFAULT_OUT, "w", stdout);
 	printf("Start testing...\n");
 	TestInitInterface(&Settings);
-	hasBad = TestShowMenu(&Settings) ^ hasBad;
-	hasBad = TestRenderFrame(&Settings) ^ hasBad;
-	hasBad = TestShowEndGame(&Settings) ^ hasBad;
-	hasBad = TestShowError(&Settings) ^ hasBad;
+	hasBad = TestShowMenu(&Settings) || hasBad;
+	hasBad = TestRenderFrame(&Settings) || hasBad;
+	hasBad = TestShowEndGame(&Settings) || hasBad;
+	hasBad = TestShowError(&Settings) || hasBad;
 	TestCloseInterface();
 	FreeTools();
 	FreeBoard();
 	ClearKeyInputBuffer();
 	printf("Testing was completed... ");
 	if (hasBad) {
-		PrintBAD(false, false);
+		PrintBAD(false, true);
 		return -1;
 	}
 	else {
-		PrintOK(false, false);
+		PrintOK(false, true);
 		return 0;
 	}
 }

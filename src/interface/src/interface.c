@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <windows.h>
+#include <wincon.h>
 #include <wchar.h>
 #include "interface.h"
 #include "board.h"
@@ -50,11 +51,9 @@ const struct Skin SKIN_DEFAULT = {219, '*', ' ', '$', '+',
 	{
 		"Start game",
 		"Change snake speed",
-		"Change render type",
 		"Exit game"
 	},
 	"Enter the speed of snake (enter from keyboard or use \"%s\" or \"%s\", \"%s\" to erase), then press \"%s\" or press \"%s\" to go back (default=%d, min=%d, max=%d): %d",
-	"Chose render type (use \"%s\" or \"%s\" to select), then press \"%s\" or press \"%s\" to go back: %d\n1. Character-based (slow, accurate)\n2. (recommended) String(line)-based (faster, accurate, may not work)\n3. Dynamic character-based (very fast, not accurate, may not work)",
 	"Score %d of %d. Press \"%s\", \"%s\", \"%s\" or \"%s\" to move or press \"%s\" to go back to menu",
 	{
 		"You lose! Scored %d of %d. Press \"%s\" to show menu...",
@@ -92,10 +91,9 @@ int _inputDelay = 10000;
 HANDLE _hThread = NULL;
 DWORD _dwThreadId;
 DWORD _originalConsoleMode;
-HANDLE _console;
-CONSOLE_SCREEN_BUFFER_INFO _screen;
 
-void _set_non_blocking_mode() {
+void _prepare_console() {
+	SetConsoleOutputCP(437);
 	HANDLE hStdin;
 	DWORD fdwMode, cRead;
 	GetConsoleMode(hStdin, &_originalConsoleMode);
@@ -103,11 +101,23 @@ void _set_non_blocking_mode() {
 	fdwMode &= ~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT);
 	fdwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 	SetConsoleMode(hStdin, fdwMode);
+	CONSOLE_CURSOR_INFO cursorInfo;
+	GetConsoleCursorInfo(hStdin, &cursorInfo);
+	cursorInfo.bVisible = false;
+	cursorInfo.dwSize = 1;
+	hStdin = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleCursorInfo(hStdin, &cursorInfo);
 }
 
-void _restore_default_mode() {
+void _restore_console() {
 	HANDLE hStdin;
 	SetConsoleMode(hStdin, _originalConsoleMode);
+	CONSOLE_CURSOR_INFO cursorInfo;
+	GetConsoleCursorInfo(hStdin, &cursorInfo);
+	cursorInfo.bVisible = true;
+	cursorInfo.dwSize = 25;
+	hStdin = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleCursorInfo(hStdin, &cursorInfo);
 }
 
 void _clear_screen() {
@@ -231,15 +241,8 @@ void _print_settings_speed() {
 	fflush(stdout);
 }
 
-void _print_settings_render() {
-	_clear_screen();
-	printf(_settings->skin.menuRenderLabel, _settings->inputTriggers[I_UP].keyLabels[0], _settings->inputTriggers[I_DOWN].keyLabels[0], _settings->inputTriggers[I_CONFIRM].keyLabels[0], _settings->inputTriggers[I_RETURN].keyLabels[0], (_settings->renderType+1));
-	printf("\n");
-	fflush(stdout);
-}
-
 void _select_item() {
-	if (_gameState != GS_MENU_SPEED && _gameState != GS_MENU_RENDER) { return; }
+	if (_gameState != GS_MENU_SPEED) { return; }
 	
 	bool inSettings = true;
 	struct _Key key;
@@ -285,38 +288,6 @@ void _select_item() {
 				}
 			}
 			break;
-		case GS_MENU_RENDER:
-			_gameState = GS_MENU_RENDER_CHANGING;
-			_print_settings_render();
-			while (inSettings) {
-				key = _get_key();
-				if (key.input >= 0) {
-					switch (key.input) {
-						case I_UP:
-							_settings->renderType++;
-							if (_settings->renderType > 2) {
-								_settings->renderType = 2;
-							}
-							_print_settings_render();
-							break;
-						case I_DOWN:
-							_settings->renderType--;
-							if ((int)_settings->renderType < 0) {
-								_settings->renderType = 0;
-							}
-							_print_settings_render();
-							break;
-						case I_RETURN:
-							inSettings = false;
-							show_menu();
-						case I_CONFIRM:
-							inSettings = false;
-							show_menu();
-						default: break;
-					}
-				}
-			}
-			break;
 		default: return; break;
 	}
 }
@@ -324,7 +295,7 @@ void _select_item() {
 // public
 
 void init_interface(struct Settings* settings) {
-	_set_non_blocking_mode();
+	_prepare_console();
 	_settings = settings;
 	_settings->speed._new = settings->speed._default;
 	_clear_input();
@@ -332,12 +303,10 @@ void init_interface(struct Settings* settings) {
 	while (_hThread == NULL) {
 		_hThread = CreateThread(NULL, 0, _key_handler_in_game, &_threadNumber, 0, &_dwThreadId);
 	}
-	_console = GetStdHandle(STD_OUTPUT_HANDLE);
-	GetConsoleScreenBufferInfo(_console, &_screen);
 }
 
 void close_interface() {
-	_restore_default_mode();
+	_restore_console();
 	CloseHandle(_hThread);
 }
 
@@ -376,7 +345,6 @@ void render_frame() {
 	if (!_isRendering) {
 		_isRendering = true;
 		struct Board board = get_board();
-		
 		switch (_settings->renderType) {
 			case RT_CBASED:
 				_clear_screen();
@@ -410,44 +378,6 @@ void render_frame() {
 				printf("\n");
 				fflush(stdout);
 				break;
-			case RT_SBASED:
-				_clear_screen();
-				char* output;
-				int counter = 0;
-				output = (char*)malloc(sizeof(char)*board.height*(board.width+1)+1);
-				for (int y = 0; y < board.height; y++) {
-					for (int x = 0; x < board.width; x++) {
-						if (board.snake.bodyMap[y][x]) {
-							if (board.snake.body[0].x == x && board.snake.body[0].y == y) {
-								output[counter++] = _settings->skin.snakeHead;
-							} else {
-								output[counter++] = _settings->skin.snakeBody;
-							}
-							continue;
-						}
-						if (board.apple.x == x && board.apple.y == y) {
-							output[counter++] = _settings->skin.appleCell;
-							continue;
-						}
-						if (board.map[y][x] == board.free_cell) {
-							output[counter++] = _settings->skin.freeCell;
-							continue;
-						}
-						if (board.map[y][x] == board.wall_cell) {
-							output[counter++] = _settings->skin.wallCell;
-							continue;
-						}
-					}
-					output[counter++] = '\n';
-				}
-				
-				output[board.height*(board.width+1)] = '\0';
-				printf("%s", output);
-				printf(_settings->skin.ingameLabel, board.snake.length, (board.width-2)*(board.height-2), _settings->inputTriggers[I_LEFT].keyLabels[0], _settings->inputTriggers[I_UP].keyLabels[0], _settings->inputTriggers[I_RIGHT].keyLabels[0], _settings->inputTriggers[I_DOWN].keyLabels[0], _settings->inputTriggers[I_RETURN].keyLabels[0]);
-				printf("\n");
-				fflush(stdout);
-				free(output);
-				break;
 			case RT_DYNAMIC:
 				if (!_isMapInit) {
 					_clear_screen();
@@ -455,22 +385,22 @@ void render_frame() {
 						for (int x = 0; x < board.width; x++) {
 							if (board.snake.bodyMap[y][x]) {
 								if (board.snake.body[0].x == x && board.snake.body[0].y == y) {
-									printf("%c", _settings->skin.snakeHead);
+									printf("%2.c", _settings->skin.snakeHead);
 								} else {
-									printf("%c", _settings->skin.snakeBody);
+									printf("%2.c", _settings->skin.snakeBody);
 								}
 								continue;
 							}
 							if (board.apple.x == x && board.apple.y == y) {
-								printf("%c", _settings->skin.appleCell);
+								printf("%2.c", _settings->skin.appleCell);
 								continue;
 							}
 							if (board.map[y][x] == board.free_cell) {
-								printf("%c", _settings->skin.freeCell);
+								printf("%2.c", _settings->skin.freeCell);
 								continue;
 							}
 							if (board.map[y][x] == board.wall_cell) {	
-								printf("%c", _settings->skin.wallCell);
+								printf("%c%c", _settings->skin.wallCell, _settings->skin.wallCell);
 								continue;
 							}
 						}
@@ -482,43 +412,53 @@ void render_frame() {
 					printf("\n");
 					fflush(stdout);
 				} else {
+					HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+					CONSOLE_SCREEN_BUFFER_INFO screen;
+					GetConsoleScreenBufferInfo(console, &screen);
+					COORD coordsBefore = screen.dwCursorPosition;
 					COORD coords;
-					COORD coordsBefore;
-					DWORD _writtenChars;
-					coordsBefore = _screen.dwCursorPosition;
 					
 					if (_apple.x != board.apple.x || _apple.y != board.apple.y) {
-						coords.X = _apple.x; coords.Y = _apple.y;
-						FillConsoleOutputCharacter(_console, _settings->skin.freeCell, 1, coords, &_writtenChars);
-						coords.X = board.apple.x; coords.Y = board.apple.y;
-						FillConsoleOutputCharacter(_console, _settings->skin.appleCell, 1, coords, &_writtenChars);
+						coords.X = _apple.x*2; coords.Y = _apple.y;
+						SetConsoleCursorPosition(console, coords);
+						printf("%2.c", _settings->skin.freeCell);
+						coords.X = board.apple.x*2; coords.Y = board.apple.y;
+						SetConsoleCursorPosition(console, coords);
+						printf("%2.c", _settings->skin.appleCell);
 					}
 					
 					if (board.snake.length == 1) {
-						coords.X = _snakeHead.x; coords.Y = _snakeHead.y;
-						FillConsoleOutputCharacter(_console, _settings->skin.freeCell, 1, coords, &_writtenChars);
-						coords.X = board.snake.body[0].x; coords.Y = board.snake.body[0].y;
-						FillConsoleOutputCharacter(_console, _settings->skin.snakeHead, 1, coords, &_writtenChars);
+						coords.X = _snakeHead.x*2; coords.Y = _snakeHead.y;
+						SetConsoleCursorPosition(console, coords);
+						printf("%2.c", _settings->skin.freeCell);
+						coords.X = board.snake.body[0].x*2; coords.Y = board.snake.body[0].y;
+						SetConsoleCursorPosition(console, coords);
+						printf("%2.c", _settings->skin.snakeHead);
 					} else if (_snakeLength != board.snake.length) {
-						coords.X = _snakeHead.x; coords.Y = _snakeHead.y;
-						FillConsoleOutputCharacter(_console, _settings->skin.snakeBody, 1, coords, &_writtenChars);
-						coords.X = board.snake.body[0].x; coords.Y = board.snake.body[0].y;
-						FillConsoleOutputCharacter(_console, _settings->skin.snakeHead, 1, coords, &_writtenChars);
+						coords.X = _snakeHead.x*2; coords.Y = _snakeHead.y;
+						SetConsoleCursorPosition(console, coords);
+						printf("%2.c", _settings->skin.snakeBody);
+						coords.X = board.snake.body[0].x*2; coords.Y = board.snake.body[0].y;
+						SetConsoleCursorPosition(console, coords);
+						printf("%2.c", _settings->skin.snakeHead);
 						coords.X = 0; coords.Y = board.height;
-						SetConsoleCursorPosition(_console, coords);
+						SetConsoleCursorPosition(console, coords);
 						printf(_settings->skin.ingameLabel, board.snake.length, (board.width-2)*(board.height-2), _settings->inputTriggers[I_LEFT].keyLabels[0], _settings->inputTriggers[I_UP].keyLabels[0], _settings->inputTriggers[I_RIGHT].keyLabels[0], _settings->inputTriggers[I_DOWN].keyLabels[0], _settings->inputTriggers[I_RETURN].keyLabels[0]);
 						printf("\n");
-						fflush(stdout);
 					} else {
-						coords.X = _snakeHead.x; coords.Y = _snakeHead.y;
-						FillConsoleOutputCharacter(_console, _settings->skin.snakeBody, 1, coords, &_writtenChars);
-						coords.X = board.snake.body[0].x; coords.Y = board.snake.body[0].y;
-						FillConsoleOutputCharacter(_console, _settings->skin.snakeHead, 1, coords, &_writtenChars);
-						coords.X = _snakeTail.x; coords.Y = _snakeTail.y;
-						FillConsoleOutputCharacter(_console, _settings->skin.freeCell, 1, coords, &_writtenChars);
+						coords.X = _snakeHead.x*2; coords.Y = _snakeHead.y;
+						SetConsoleCursorPosition(console, coords);
+						printf("%2.c", _settings->skin.snakeBody);
+						coords.X = board.snake.body[0].x*2; coords.Y = board.snake.body[0].y;
+						SetConsoleCursorPosition(console, coords);
+						printf("%2.c", _settings->skin.snakeHead);
+						coords.X = _snakeTail.x*2; coords.Y = _snakeTail.y;
+						SetConsoleCursorPosition(console, coords);
+						printf("%2.c", _settings->skin.freeCell);
 					}
 
-					SetConsoleCursorPosition(_console, coordsBefore);
+					SetConsoleCursorPosition(console, coordsBefore);
+					fflush(stdout);
 				}
 				
 				_apple = board.apple;
@@ -528,7 +468,6 @@ void render_frame() {
 				break;
 			default: break;
 		}
-				
 		_isRendering = false;
 	}
 }

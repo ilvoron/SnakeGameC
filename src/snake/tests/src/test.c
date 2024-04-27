@@ -234,15 +234,15 @@ bool test_delete_snake(){
 int main(){
 	bool isFailed = false;
 	printf("Start testing module snake...\n");
-	isFailed = test_move_snake() ^ isFailed;
+	isFailed = test_move_snake() || isFailed;
 	if (isFailed) { return -1; }
-	isFailed = test_creare_snake() ^ isFailed;
+	isFailed = test_creare_snake() || isFailed;
 	if (isFailed) { return -2; }
-	isFailed = test_grow_snake() ^ isFailed;
+	isFailed = test_grow_snake() || isFailed;
 	if (isFailed) { return -3; }
-	isFailed = test_check_snake() ^ isFailed;
+	isFailed = test_check_snake() || isFailed;
 	if (isFailed) { return -4; }
-	isFailed = test_delete_snake() ^ isFailed;
+	isFailed = test_delete_snake() || isFailed;
 	printf("End testing module snake\n");
 	if (isFailed) { return -5; }
 	return 0;

@@ -54,7 +54,6 @@ struct Board {
 enum GAME_STATE {
 	GS_MENU_START,
 	GS_MENU_SPEED,
-	GS_MENU_RENDER,
 	GS_MENU_EXIT,
 	GS__MENU_COUNT,
 	GS_MENU,
@@ -90,7 +89,6 @@ enum END_GAME_CODE {
 
 enum RENDER_TYPE {
 	RT_CBASED,
-	RT_SBASED,
 	RT_DYNAMIC
 };
 
@@ -117,7 +115,6 @@ struct Skin {
 	char menuMainLabel[MAX_STRING_SIZE];
 	char menuMainLabels[GS__MENU_COUNT][MAX_STRING_SIZE];
 	char menuSpeedLabel[MAX_STRING_SIZE];
-	char menuRenderLabel[MAX_STRING_SIZE];
 	char ingameLabel[MAX_STRING_SIZE];
 	char endameLabels[2][MAX_STRING_SIZE];
 	char errorCodeLabels[ERR__COUNT][MAX_STRING_SIZE];

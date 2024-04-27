@@ -15,13 +15,13 @@ void _OutMap(struct Board Board, struct Settings* Settings) {
 	for (int y = 0; y < Board.height; y++) {
 		for (int x = 0; x < Board.width; x++) {
 			if (Board.snake.bodyMap[y][x]) {
-				if (Board.snake.body[0].x == x && Board.snake.body[0].y == y) { printf("%c", Settings->skin.snakeHead);}
-				else { printf("%c", Settings->skin.snakeBody);}
+				if (Board.snake.body[0].x == x && Board.snake.body[0].y == y) { printf("%2.c", Settings->skin.snakeHead);}
+				else { printf("%2.c", Settings->skin.snakeBody);}
 				continue; 
 			}
-			if (Board.apple.x == x && Board.apple.y == y) { printf("%c", Settings->skin.appleCell); continue; }
-			if (Board.map[y][x] == Board.free_cell) { printf("%c", Settings->skin.freeCell); continue; }
-			if (Board.map[y][x] == Board.wall_cell) { printf("%c", Settings->skin.wallCell); continue; }
+			if (Board.apple.x == x && Board.apple.y == y) { printf("%2.c", Settings->skin.appleCell); continue; }
+			if (Board.map[y][x] == Board.free_cell) { printf("%2.c", Settings->skin.freeCell); continue; }
+			if (Board.map[y][x] == Board.wall_cell) { printf("%c%c", Settings->skin.wallCell, Settings->skin.wallCell); continue; }
 		}
 		printf("\n");
 	}

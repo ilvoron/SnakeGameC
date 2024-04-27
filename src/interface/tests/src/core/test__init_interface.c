@@ -28,7 +28,7 @@ void _TestInitInterface1(struct Settings* Settings) {
 	printf(" Test 1. Calling function... ");
 	
 	Settings->gameState = GS_START;
-	Settings->renderType = RT_SBASED;
+	Settings->renderType = RT_CBASED;
 	Settings->speed = SPEED_DEFAULT;
 	Settings->skin = SKIN_DEFAULT;
 	Settings->inGameKeyHandler = &_KeyHandler;

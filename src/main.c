@@ -6,7 +6,7 @@ int main(){
 	struct Settings settings;
 
 	settings.gameState = GS_START;
-	settings.renderType = RT_CBASED;
+	settings.renderType = RT_DYNAMIC;
 	settings.speed = SPEED_DEFAULT;
 	settings.skin = SKIN_DEFAULT;
 	settings.inGameKeyHandler = keyHandler;

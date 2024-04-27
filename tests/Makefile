@@ -12,7 +12,7 @@ $(MODULES):
 	@echo --^> Make an executable file to test module "$@"...
 	@$(MAKE) -s exe -C "../src/$@/tests" COMPILER="$(COMPILER)" OS="$(OS)" BUILD_DIR="$(abspath $(BIN_DIR))" BUILD_FILE_EXE="lib$@_test.exe"
 	@echo --^> Testing module "$@"...
-	@"$(BIN_DIR)\lib$@_test.exe" || @echo. & @echo --^> Test was failed... Exiting... & exit \b
+	@"$(BIN_DIR)\lib$@_test.exe" || @echo --^> Test was failed... Exiting... & exit \b
 	@echo --^> Testing module "$@"... Success!
 
 clean:
