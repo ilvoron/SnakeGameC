@@ -2,8 +2,8 @@
 ## Requirements to run `.exe`
  - OS: Windows XP and higher
 ## Requirements to build `.exe`
- - [MinGW-w64 11.0.1 (UCRT)](https://winlibs.com/)
- - [GnuWin Make](https://gnuwin32.sourceforge.net/packages/make.htm)
+ - GCC 13.2.0 (recommended: [MinGW-w64 (UCRT)](https://winlibs.com/))
+ - Make (recommended: [GnuWin Make](https://gnuwin32.sourceforge.net/packages/make.htm))
  - Run `make` in the root project folder
  - Run `make clean` to remove temporary files created during the build process
 ## Developers' info
