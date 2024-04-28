@@ -7,7 +7,7 @@ if [ -f $VERSION_FILE ]; then
 	if ! git rev-parse v$VERSION_FILE >/dev/null 2>&1; then
 		git tag -a v$VERSION_TEXT -m "Version $VERSION_TEXT"
 	fi
-	git push origin v$VERSION_TEXT
+	git push --force origin v$VERSION_TEXT
 else
 	echo VERSION FILE IS NOT EXISTS!
 	exit -1
