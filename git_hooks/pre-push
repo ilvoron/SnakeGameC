@@ -1,0 +1,12 @@
+VERSION_FILE="../src/snake2.version"
+
+if [ -f $VERSION_FILE ]; then
+	echo VERSION FILE IS NOT EXISTS!
+	exit -1
+else
+	VERSION_TEXT=$(cat "$VERSION_FILE")
+	git tag -a "$VERSION_TEXT" -m "Version $VERSION_TEXT"
+	git push origin "$VERSION_TEXT"
+fi
+
+exit 0
