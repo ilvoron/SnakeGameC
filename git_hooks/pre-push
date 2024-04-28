@@ -1,8 +1,13 @@
 #!/bin/sh
 
+if [ $PRE_PUSH_IN_PROGRESS == 1 ]; then
+	exit 0
+fi
+
 VERSION_FILE="src/snake.version"
 
 if [ -f $VERSION_FILE ]; then
+	export PRE_PUSH_IN_PROGRESS=1
 	VERSION_TEXT=$(cat $VERSION_FILE)
 	if ! git rev-parse v$VERSION_TEXT >/dev/null 2>&1; then
 		git tag -a v$VERSION_TEXT -m "Version $VERSION_TEXT"
@@ -15,6 +20,7 @@ if [ -f $VERSION_FILE ]; then
 		echo Pushed tag v$VERSION_TEXT
 	else
 		echo Remote tag v$VERSION_TEXT already exists
+		exit -1
 	fi
 else
 	echo Version file does not exist
