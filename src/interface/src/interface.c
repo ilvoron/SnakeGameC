@@ -46,7 +46,7 @@ const struct InputTrigger INPUT_TRIGGERS_DEFAULT[I__COUNT] = {
 
 const struct Speed SPEED_DEFAULT = {1, 10, 3, 3, 3};
 
-const struct Skin SKIN_DEFAULT = {219, '*', '.', '$', '+',
+const struct Skin SKIN_DEFAULT = {219, 149, 250, '$', 180, 195, 193, 194, 254, 187, 188, 201, 200, 205, 186,
 	"Use \"%s\" and \"%s\" to change menu item. Press \"%s\" to select",
 	{
 		"Start game",
@@ -121,8 +121,8 @@ void _restore_console() {
 }
 
 void _clear_screen() {
-	_isClearing = false;
-	while (!_isClearing) {
+	if (!_isClearing) {
+		_isClearing = true;
 		COORD topLeft = {0, 0};
 		HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 		CONSOLE_SCREEN_BUFFER_INFO screen;
@@ -131,7 +131,7 @@ void _clear_screen() {
 		FillConsoleOutputCharacter(console, ' ', screen.dwSize.X * screen.dwSize.Y, topLeft, &written);
 		FillConsoleOutputAttribute(console, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE, screen.dwSize.X * screen.dwSize.Y, topLeft, &written);
 		SetConsoleCursorPosition(console, topLeft);
-		_isClearing = true;
+		_isClearing = false;
 	}
 }
 
@@ -292,6 +292,54 @@ void _select_item() {
 	}
 }
 
+void print_snake_body(struct Board* board) {
+	if (board->snake.hasTurn) {
+		if ((board->snake.turn.before == DIR_LEFT && board->snake.turn.after == DIR_DOWN) || (board->snake.turn.before == DIR_UP && board->snake.turn.after == DIR_RIGHT)) {
+			printf("%2.c", _settings->skin.snakeBodyRightDown);
+		} else if ((board->snake.turn.before == DIR_LEFT && board->snake.turn.after == DIR_UP) || (board->snake.turn.before == DIR_DOWN && board->snake.turn.after == DIR_RIGHT)) {
+			printf("%2.c", _settings->skin.snakeBodyRightUp);
+		} else if ((board->snake.turn.before == DIR_RIGHT && board->snake.turn.after == DIR_DOWN) || (board->snake.turn.before == DIR_UP && board->snake.turn.after == DIR_LEFT)) {
+			printf("%c%c", _settings->skin.snakeBodyLeftRight, _settings->skin.snakeBodyLeftDown);
+		} else {
+			printf("%c%c", _settings->skin.snakeBodyLeftRight, _settings->skin.snakeBodyLeftUp);
+		}
+	} else {
+		if (board->snake.direction == DIR_LEFT || board->snake.direction == DIR_RIGHT) {
+			printf("%c%c", _settings->skin.snakeBodyLeftRight, _settings->skin.snakeBodyLeftRight);
+		} else {
+			printf("%2.c", _settings->skin.snakeBodyUpDown);
+		}
+	}
+}
+
+void print_snake_head(struct Board* board) {
+	char snakeHead;
+	switch (board->snake.direction) {
+		case DIR_LEFT: snakeHead = _settings->skin.snakeHeadLeft; break;
+		case DIR_RIGHT: snakeHead = _settings->skin.snakeHeadRight; break;
+		case DIR_UP: snakeHead = _settings->skin.snakeHeadUp; break;
+		case DIR_DOWN: snakeHead = _settings->skin.snakeHeadDown; break;
+		default: break;
+	}
+	if (board->snake.length > 1) {
+		if (!board->snake.hasTurn) {
+			if (board->snake.direction == DIR_RIGHT) {
+				printf("%c%c", _settings->skin.snakeBodyLeftRight, snakeHead);
+			} else {
+				printf("%2.c", snakeHead);
+			}
+		} else {
+			if ((board->snake.turn.before == DIR_DOWN && board->snake.turn.after == DIR_RIGHT) || (board->snake.turn.before == DIR_UP && board->snake.turn.after == DIR_RIGHT)) {
+				printf("%c%c", _settings->skin.snakeBodyLeftRight, snakeHead);
+			} else {
+				printf("%2.c", snakeHead);
+			}
+		}
+	} else {
+		printf("%2.c", snakeHead);
+	}
+}
+
 // public
 
 void init_interface(struct Settings* settings) {
@@ -354,7 +402,7 @@ void render_frame() {
 							if (board.snake.body[0].x == x && board.snake.body[0].y == y) {
 								printf("%2.c", _settings->skin.snakeHead);
 							} else {
-								printf("%2.c", _settings->skin.snakeBody, _settings->skin.snakeBody);
+								printf("%2.c", _settings->skin.snakeBody);
 							}
 							continue;
 						}
@@ -385,9 +433,9 @@ void render_frame() {
 						for (int x = 0; x < board.width; x++) {
 							if (board.snake.bodyMap[y][x]) {
 								if (board.snake.body[0].x == x && board.snake.body[0].y == y) {
-									printf("%2.c", _settings->skin.snakeHead);
+									print_snake_head(&board);
 								} else {
-									printf("%2.c", _settings->skin.snakeBody);
+									print_snake_body(&board);
 								}
 								continue;
 							}
@@ -399,8 +447,16 @@ void render_frame() {
 								printf("%2.c", _settings->skin.freeCell);
 								continue;
 							}
-							if (board.map[y][x] == board.wall_cell) {	
-								printf("%c%c", _settings->skin.wallCell, _settings->skin.wallCell);
+							if (board.map[y][x] == board.wall_cell) {
+								if (x == board.width - 1) {
+									if (y == 0 || y == board.height - 1) {
+										printf("%c%c%c", _settings->skin.wallCell, _settings->skin.wallCell, _settings->skin.wallCell);
+									} else {
+										printf(" %c%c", _settings->skin.wallCell, _settings->skin.wallCell);
+									}
+								} else {
+									printf("%c%c", _settings->skin.wallCell, _settings->skin.wallCell);
+								}
 								continue;
 							}
 						}
@@ -433,14 +489,14 @@ void render_frame() {
 						printf("%2.c", _settings->skin.freeCell);
 						coords.X = board.snake.body[0].x*2; coords.Y = board.snake.body[0].y;
 						SetConsoleCursorPosition(console, coords);
-						printf("%2.c", _settings->skin.snakeHead);
+						print_snake_head(&board);
 					} else if (_snakeLength != board.snake.length) {
 						coords.X = _snakeHead.x*2; coords.Y = _snakeHead.y;
 						SetConsoleCursorPosition(console, coords);
-						printf("%2.c", _settings->skin.snakeBody);
+						print_snake_body(&board);
 						coords.X = board.snake.body[0].x*2; coords.Y = board.snake.body[0].y;
 						SetConsoleCursorPosition(console, coords);
-						printf("%2.c", _settings->skin.snakeHead);
+						print_snake_head(&board);
 						coords.X = 0; coords.Y = board.height;
 						SetConsoleCursorPosition(console, coords);
 						printf(_settings->skin.ingameLabel, board.snake.length, (board.width-2)*(board.height-2), _settings->inputTriggers[I_LEFT].keyLabels[0], _settings->inputTriggers[I_UP].keyLabels[0], _settings->inputTriggers[I_RIGHT].keyLabels[0], _settings->inputTriggers[I_DOWN].keyLabels[0], _settings->inputTriggers[I_RETURN].keyLabels[0]);
@@ -448,10 +504,10 @@ void render_frame() {
 					} else {
 						coords.X = _snakeHead.x*2; coords.Y = _snakeHead.y;
 						SetConsoleCursorPosition(console, coords);
-						printf("%2.c", _settings->skin.snakeBody);
+						print_snake_body(&board);
 						coords.X = board.snake.body[0].x*2; coords.Y = board.snake.body[0].y;
 						SetConsoleCursorPosition(console, coords);
-						printf("%2.c", _settings->skin.snakeHead);
+						print_snake_head(&board);
 						coords.X = _snakeTail.x*2; coords.Y = _snakeTail.y;
 						SetConsoleCursorPosition(console, coords);
 						printf("%2.c", _settings->skin.freeCell);

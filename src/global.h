@@ -26,6 +26,12 @@ enum DIRECTIONS {
 	DIR_DOWN
 };
 
+struct Turn{
+	enum DIRECTIONS before;
+	enum DIRECTIONS after;
+	struct Point cell;
+};
+
 struct Snake{
 	int length;
 	int direction;
@@ -34,6 +40,8 @@ struct Snake{
 	bool** bodyMap;
 	int bodyMaxWidth;
 	int bodyMaxHeight;
+	struct Turn turn;
+	bool hasTurn;
 };
 
 // Board
@@ -111,7 +119,17 @@ struct Skin {
 	char appleCell;
 	char freeCell;
 	char snakeHead;
+	char snakeHeadLeft;
+	char snakeHeadRight;
+	char snakeHeadUp;
+	char snakeHeadDown;
 	char snakeBody;
+	char snakeBodyLeftDown;
+	char snakeBodyLeftUp;
+	char snakeBodyRightDown;
+	char snakeBodyRightUp;
+	char snakeBodyLeftRight;
+	char snakeBodyUpDown;
 	char menuMainLabel[MAX_STRING_SIZE];
 	char menuMainLabels[GS__MENU_COUNT][MAX_STRING_SIZE];
 	char menuSpeedLabel[MAX_STRING_SIZE];

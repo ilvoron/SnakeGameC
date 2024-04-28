@@ -6,7 +6,7 @@ int SEG; int EG; int SM; int SG; int UGS; int RF; int CD; int CI; int II; int Te
 
 const struct Speed SPEED_DEFAULT = {1, 3, 1, 3, 3};
 
-const struct Skin SKIN_DEFAULT = {'#', '*', '.', '$', '+',
+const struct Skin SKIN_DEFAULT = {219, 149, 250, '$', 180, 195, 193, 194, 254, 187, 188, 201, 200, 205, 186,
 	"menu item",
 	{
 		"Start",

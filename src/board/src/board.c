@@ -4,6 +4,7 @@
 #include "board.h"
 #include "snake.h"
 #include "global.h"
+#include <stdio.h>
 
 struct Board _board;
 
@@ -81,13 +82,15 @@ void end_game() {
 	delete_snake(&(_board.snake));
 }
 
-void update_game_state(enum GAME_STATE* gameState) {	
+void update_game_state(enum GAME_STATE* gameState) {
+	if (_board.snake.hasTurn && (_board.snake.turn.cell.x != _board.snake.body[0].x || _board.snake.turn.cell.y != _board.snake.body[0].y)) {
+		_board.snake.hasTurn = false;
+	}
 	move_snake(&(_board.snake));
 	*gameState = _check_collision();
 	if (_board.snake.length == (_board.width - 2) * (_board.height - 2)) { *gameState = GS_INGAME_WIN; }
 	if (*gameState == GS_INGAME_HIT_APPLE) { _create_apple(&_board); }
 }
-
 
 void change_direction(enum DIRECTIONS direction, enum GAME_STATE* gameState) {
 	if (_board.snake.length > 1 &&
@@ -96,7 +99,17 @@ void change_direction(enum DIRECTIONS direction, enum GAME_STATE* gameState) {
 		(_board.snake.direction == DIR_RIGHT && direction == DIR_LEFT) ||
 		(_board.snake.direction == DIR_DOWN && direction == DIR_UP)))
 	{ return; }
-	
+
+	if (_board.snake.length > 1 && _board.snake.direction != direction) {
+		_board.snake.hasTurn = true;
+		_board.snake.turn.before = _board.snake.direction;
+		_board.snake.turn.after = direction;
+		_board.snake.turn.cell.x = _board.snake.body[0].x;
+		_board.snake.turn.cell.y = _board.snake.body[0].y;
+	} else {
+		_board.snake.hasTurn = false;
+	}
+
 	_board.snake.direction = direction;
 	update_game_state(gameState);
 }

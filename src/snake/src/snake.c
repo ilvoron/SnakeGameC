@@ -5,6 +5,8 @@
 
 
 void create_snake(struct Snake* snake, int boardWidth, int boardHeight) {
+	snake->hasTurn = false;
+	
 	snake->length = 1;
 	snake->direction = DIR_UP;
 	snake->bodyMaxWidth = boardWidth - 2;
