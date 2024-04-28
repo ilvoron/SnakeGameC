@@ -1,4 +1,4 @@
-VERSION_FILE="../src/snake2.version"
+VERSION_FILE="../src/snake.version"
 
 if [ -f $VERSION_FILE ]; then
 	echo VERSION FILE IS NOT EXISTS!
