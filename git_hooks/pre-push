@@ -4,11 +4,19 @@ VERSION_FILE="src/snake.version"
 
 if [ -f $VERSION_FILE ]; then
 	VERSION_TEXT=$(cat $VERSION_FILE)
-	if ! git rev-parse v$VERSION_FILE >/dev/null 2>&1; then
+	if ! git rev-parse v$VERSION_TEXT >/dev/null 2>&1; then
+		echo Created tag v$VERSION_TEXT
 		git tag -a v$VERSION_TEXT -m "Version $VERSION_TEXT"
+	else
+		echo Tag v$VERSION_TEXT already exists
 	fi
-	git push --force origin v$VERSION_TEXT
+	if ! git ls-remote --tags origin v$VERSION_TEXT >/dev/null 2>&1; then
+		echo Pushed tag v$VERSION_TEXT
+		git push origin v$VERSION_TEXT
+	else
+		echo Remote tag v$VERSION_TEXT already exists
+	fi
 else
-	echo VERSION FILE IS NOT EXISTS!
+	echo Version file does not exist
 	exit -1
 fi
