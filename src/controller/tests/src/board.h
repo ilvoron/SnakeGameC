@@ -24,7 +24,7 @@ void update_game_state(enum GAME_STATE* gameState);
  * @param enum DIRECTIONS переменная, указывающая на текущее направлене движения
  * @param enum GAME_STATE* переменная, указывающая на текущее состояние игры
  */
-void change_direction(enum DIRECTIONS direction, enum GAME_STATE* gameState);
+bool change_direction(enum DIRECTIONS direction, enum GAME_STATE* gameState);
 
 /**
  * @brief init_interface – функция инициализирует интерфейс

@@ -3,17 +3,6 @@
 #include <stdbool.h>
 #include "global.h"
 
-extern const int VK_0;
-extern const int VK_1;
-extern const int VK_2;
-extern const int VK_3;
-extern const int VK_4;
-extern const int VK_5;
-extern const int VK_6;
-extern const int VK_7;
-extern const int VK_8;
-extern const int VK_9;
-
 extern const struct InputTrigger INPUT_TRIGGERS_DEFAULT[I__COUNT];
 extern const struct Speed SPEED_DEFAULT;
 extern const struct Skin SKIN_DEFAULT;

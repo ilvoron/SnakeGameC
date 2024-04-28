@@ -25,9 +25,6 @@ void _OutMap(struct Board Board, struct Settings* Settings) {
 		}
 		printf("\n");
 	}
-	
-	printf(Settings->skin.ingameLabel, Board.snake.length, (Board.width-2)*(Board.height-2), Settings->inputTriggers[I_LEFT].keyLabels[0], Settings->inputTriggers[I_UP].keyLabels[0], Settings->inputTriggers[I_RIGHT].keyLabels[0], Settings->inputTriggers[I_DOWN].keyLabels[0], Settings->inputTriggers[I_RETURN].keyLabels[0]);
-	printf("\n");
 	freopen(DEFAULT_OUT, "a", stdout);
 }
 

@@ -184,7 +184,7 @@ void render_frame(){
 	RF++;
 	printf("This is render_frame\n");
 };
-void change_direction(enum DIRECTIONS direction, enum GAME_STATE* gameState){
+bool change_direction(enum DIRECTIONS direction, enum GAME_STATE* gameState){
 	CD++;
 	printf("This is change_direction\n");
 	printf("Direction: %d\n", direction);

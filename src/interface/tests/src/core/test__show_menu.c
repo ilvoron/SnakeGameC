@@ -29,7 +29,7 @@ void _GenerateExpectedOutput(struct Settings* Settings) {
 	}
 	
 	freopen(TEMP_FILE_SPEED, "w", stdout);
-	SimulateKeyPressAssync(1, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false, NULL);
+	SimulateKeyPressAssync(1, Settings->inputTriggers[I__EXIT].keyCodes[0], 15000, false, NULL);
 	printf(Settings->skin.menuSpeedLabel, Settings->inputTriggers[I_UP].keyLabels[0], Settings->inputTriggers[I_DOWN].keyLabels[0], Settings->inputTriggers[I_ERASE].keyLabels[0], Settings->inputTriggers[I_CONFIRM].keyLabels[0], Settings->inputTriggers[I_RETURN].keyLabels[0], Settings->speed._default, Settings->speed.min, Settings->speed.max, Settings->speed._new);
 	printf("\n");
 	show_menu();
@@ -43,7 +43,7 @@ void _TestShowMenu1(struct Settings* Settings) {
 	printf(" Test 1. Calling function... ");
 	
 	freopen(TEMP_FILE, "w", stdout);
-	SimulateKeyPressAssync(1, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false, NULL);
+	SimulateKeyPressAssync(1, Settings->inputTriggers[I__EXIT].keyCodes[0], 15000, false, NULL);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
 	usleep(10000);
@@ -58,7 +58,7 @@ void _TestShowMenu2_1(struct Settings* Settings) {
 	
 	freopen(TEMP_FILE, "w", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_UP].keyCodes[0], 15000, false,
-							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, true,
+							  Settings->inputTriggers[I__EXIT].keyCodes[0], 15000, true,
 							  TEMP_FILE);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
@@ -74,7 +74,7 @@ void _TestShowMenu2_2(struct Settings* Settings) {
 	
 	freopen(TEMP_FILE, "w", stdout);
 	SimulateKeyPressAssync(2, Settings->inputTriggers[I_DOWN].keyCodes[0], 15000, false,
-							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, true,
+							  Settings->inputTriggers[I__EXIT].keyCodes[0], 15000, true,
 							  TEMP_FILE);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
@@ -91,7 +91,7 @@ void _TestShowMenu2_3(struct Settings* Settings) {
 	freopen(TEMP_FILE, "w", stdout);
 	SimulateKeyPressAssync(3, Settings->inputTriggers[I_DOWN].keyCodes[0], 15000, false,
 							  Settings->inputTriggers[I_DOWN].keyCodes[0], 15000, false,
-							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, true,
+							  Settings->inputTriggers[I__EXIT].keyCodes[0], 15000, true,
 							  TEMP_FILE);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
@@ -109,7 +109,7 @@ void _TestShowMenu2_4(struct Settings* Settings) {
 	SimulateKeyPressAssync(4, Settings->inputTriggers[I_DOWN].keyCodes[0], 15000, false,
 							  Settings->inputTriggers[I_DOWN].keyCodes[0], 15000, false,
 							  Settings->inputTriggers[I_DOWN].keyCodes[0], 15000, false,
-							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, true,
+							  Settings->inputTriggers[I__EXIT].keyCodes[0], 15000, true,
 							  TEMP_FILE);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
@@ -141,7 +141,7 @@ void _TestShowMenu3_2(struct Settings* Settings) {
 	SimulateKeyPressAssync(4, Settings->inputTriggers[I_DOWN].keyCodes[0], 15000, false,
 							  Settings->inputTriggers[I_CONFIRM].keyCodes[0], 15000, false,
 							  Settings->inputTriggers[I_CONFIRM].keyCodes[0], 15000, true,
-							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I__EXIT].keyCodes[0], 15000, false,
 							  TEMP_FILE);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
@@ -158,7 +158,7 @@ void _TestShowMenu3_3(struct Settings* Settings) {
 	freopen(TEMP_FILE, "w", stdout);
 	SimulateKeyPressAssync(3, Settings->inputTriggers[I_DOWN].keyCodes[0], 15000, false,
 							  Settings->inputTriggers[I_DOWN].keyCodes[0], 15000, false,
-							  Settings->inputTriggers[I_CONFIRM].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I__EXIT].keyCodes[0], 15000, false,
 							  NULL);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);

@@ -25,7 +25,7 @@ void Updater(struct Settings);
 void End_Of_Program(struct Settings);
 /**
  * @brief keyHandler Функция для обработки клавиш 
- * @param enum DIRECTIONS направление движение змеи
+ * @param enum DIRECTIONS direction - направление движение змеи
  */
 void keyHandler (enum DIRECTIONS direction);
 /**

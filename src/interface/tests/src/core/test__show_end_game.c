@@ -31,8 +31,8 @@ void _TestShowEndGame1(struct Settings* Settings) {
 	printf(" Test 1. Testing win endgame... ");
 	
 	freopen(TEMP_FILE, "w", stdout);
-	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+	SimulateKeyPressAssync(2, Settings->inputTriggers[I__EXIT].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I__EXIT].keyCodes[0], 15000, false,
 							  NULL);
 	show_end_game(EG_WIN);
 	freopen(DEFAULT_OUT, "a", stdout);
@@ -47,8 +47,8 @@ void _TestShowEndGame2(struct Settings* Settings) {
 	printf(" Test 2. Testing lose endgame... ");
 	
 	freopen(TEMP_FILE, "w", stdout);
-	SimulateKeyPressAssync(2, Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
-							  Settings->inputTriggers[I_RETURN].keyCodes[0], 15000, false,
+	SimulateKeyPressAssync(2, Settings->inputTriggers[I__EXIT].keyCodes[0], 15000, false,
+							  Settings->inputTriggers[I__EXIT].keyCodes[0], 15000, false,
 							  NULL);
 	show_end_game(EG_LOSE);
 	freopen(DEFAULT_OUT, "a", stdout);

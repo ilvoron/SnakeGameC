@@ -5,6 +5,7 @@
 #include "interface.h"
 #include "output.h"
 #include "tools.h"
+#include "consts.h"
 
 // private
 
@@ -32,11 +33,13 @@ void _TestInitInterface1(struct Settings* Settings) {
 	Settings->speed = SPEED_DEFAULT;
 	Settings->skin = SKIN_DEFAULT;
 	Settings->inGameKeyHandler = &_KeyHandler;
+	Settings->isPause = false;
 	for (int i = 0; i < I__COUNT; ++i) {
 		Settings->inputTriggers[i] = INPUT_TRIGGERS_DEFAULT[i];
 	}
-	
+	freopen(TEMP_FILE, "w", stdout);
 	init_interface(Settings);
+	freopen(DEFAULT_OUT, "a", stdout);
 	PrintOK(false, true);
 }
 

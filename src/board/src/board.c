@@ -92,13 +92,13 @@ void update_game_state(enum GAME_STATE* gameState) {
 	if (*gameState == GS_INGAME_HIT_APPLE) { _create_apple(&_board); }
 }
 
-void change_direction(enum DIRECTIONS direction, enum GAME_STATE* gameState) {
+bool change_direction(enum DIRECTIONS direction, enum GAME_STATE* gameState) {
 	if (_board.snake.length > 1 &&
 		((_board.snake.direction == DIR_LEFT && direction == DIR_RIGHT) ||
 		(_board.snake.direction == DIR_UP && direction == DIR_DOWN) ||
 		(_board.snake.direction == DIR_RIGHT && direction == DIR_LEFT) ||
 		(_board.snake.direction == DIR_DOWN && direction == DIR_UP)))
-	{ return; }
+	{ return false; }
 
 	if (_board.snake.length > 1 && _board.snake.direction != direction) {
 		_board.snake.hasTurn = true;
@@ -112,6 +112,7 @@ void change_direction(enum DIRECTIONS direction, enum GAME_STATE* gameState) {
 
 	_board.snake.direction = direction;
 	update_game_state(gameState);
+	return true;
 }
 
 struct Board get_board() {

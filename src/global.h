@@ -86,7 +86,9 @@ enum INPUTS {
 	I_CONFIRM,
 	I_RETURN,
 	I_ERASE,
+	I_PAUSE,
 	I_DIGIT,
+	I__EXIT,
 	I__COUNT
 };
 
@@ -133,7 +135,9 @@ struct Skin {
 	char menuMainLabel[MAX_STRING_SIZE];
 	char menuMainLabels[GS__MENU_COUNT][MAX_STRING_SIZE];
 	char menuSpeedLabel[MAX_STRING_SIZE];
-	char ingameLabel[MAX_STRING_SIZE];
+	char ingameLabelScore[MAX_STRING_SIZE];
+	char ingameLabelControls[MAX_STRING_SIZE];
+	char ingameLabelPause[MAX_STRING_SIZE];
 	char endameLabels[2][MAX_STRING_SIZE];
 	char errorCodeLabels[ERR__COUNT][MAX_STRING_SIZE];
 };
@@ -146,6 +150,7 @@ struct Settings {
 	struct Skin skin;
 	struct InputTrigger inputTriggers[I__COUNT];
 	void (*inGameKeyHandler)(enum DIRECTIONS);
+	bool isPause;
 };
 
 #endif
