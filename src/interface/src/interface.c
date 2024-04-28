@@ -46,7 +46,7 @@ const struct InputTrigger INPUT_TRIGGERS_DEFAULT[I__COUNT] = {
 
 const struct Speed SPEED_DEFAULT = {1, 10, 3, 3, 3};
 
-const struct Skin SKIN_DEFAULT = {219, '*', ' ', '$', '+',
+const struct Skin SKIN_DEFAULT = {219, '*', '.', '$', '+',
 	"Use \"%s\" and \"%s\" to change menu item. Press \"%s\" to select",
 	{
 		"Start game",

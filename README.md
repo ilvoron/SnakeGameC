@@ -1,4 +1,6 @@
 # SnakeGameC
+## Screenshot
+![Screenshot from the game](snake.png)
 ## Requirements to run `.exe`
  - OS: Windows XP and higher
 ## Requirements to build `.exe`
