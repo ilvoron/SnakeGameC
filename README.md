@@ -1,6 +1,24 @@
-# SnakeGameC
-## Screenshot
-![Screenshot from the game](snake.png)
+<p align="center">
+ <picture>
+   <source srcset="snake_logo.png" width="128px" alt="Snake Game Logo" />
+   <img src="snake_logo.png" width="128px" alt="Snake Game Logo" />
+ </picture>
+</p>
+<h1 align="center">SnakeGameC</h1>
+
+<p align="center">Console snake game for windows on C</p>
+
+<p align="center">
+  <picture>
+    <source srcset="snake_cover.png" height="539px"/>
+    <img src="snake_cover.png" height="539px">
+  </picture>
+  <picture>
+     <source srcset="snake_screenshot.png" height="539px"/>
+     <img src="snake_screenshot.png" width="539px">
+  </picture>
+</p>
+
 ## Requirements to run `.exe`
  - OS: Windows XP and higher
 ## Requirements to build `.exe`
