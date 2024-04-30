@@ -14,8 +14,16 @@
     <img src="promo/snake_cover.png" height="539px">
   </picture>
   <picture>
-     <source srcset="promo/snake_screenshot.png" height="539px"/>
-     <img src="promo/snake_screenshot.png" width="539px">
+     <source srcset="promo/snake_screenshot_1.png" height="714px"/>
+     <img src="promo/snake_screenshot_1.png" height="714px">
+  </picture>
+  <picture>
+     <source srcset="promo/snake_screenshot_2.png" height="357px"/>
+     <img src="promo/snake_screenshot_2.png" height="357px">
+  </picture>
+  <picture>
+     <source srcset="promo/snake_screenshot_3.png" height="357px"/>
+     <img src="promo/snake_screenshot_3.png" height="357px">
   </picture>
 </p>
 
