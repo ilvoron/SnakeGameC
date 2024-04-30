@@ -38,6 +38,15 @@ DWORD WINAPI _SimulateKeyPress(LPVOID lpParam) {
 
 // public
 
+const char* RemoveNewlines(char* str) {
+	int i, j;
+	for (i = 0, j = 0; str[i] != '\0'; i++) {
+		if (str[i] != '\n') { str[j++] = str[i]; }
+	}
+	str[j] = '\0';
+	return str;
+}
+
 bool CompareFiles(const char file1Path[], const char file2Path[]) {
 	FILE *file1 = fopen(file1Path, "rb");
 	FILE *file2 = fopen(file2Path, "rb");
@@ -94,10 +103,11 @@ void SimulateKeyPressAssync(unsigned int keysCount, ...) {
 	}
 	args->cleanPath = va_arg(argsV, const char*);
 	va_end(argsV);
-	if (dwThreadId != 0) {
+	if (hThread != NULL) {
 		CloseHandle(hThread);
 		hThread = NULL;
 	}
+	hThread = NULL;
 	while (hThread == NULL) { hThread = CreateThread(NULL, 0, &_SimulateKeyPress, args, 0, &dwThreadId); }
 }
 

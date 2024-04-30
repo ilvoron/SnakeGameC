@@ -1,5 +1,5 @@
-#ifndef TEST__RENDER_FRAME_H
-#define TEST__RENDER_FRAME_H
+#ifndef TEST__SHOW_FRAME_H
+#define TEST__SHOW_FRAME_H
 
 #include <stdbool.h>
 #include "global.h"

@@ -1,7 +1,7 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
-#include <stdbool.h>
 #include "global.h"
+#include "interface_global.h"
 
 extern const struct InputTrigger INPUT_TRIGGERS_DEFAULT[I__COUNT];
 extern const struct Speed SPEED_DEFAULT;
@@ -21,9 +21,9 @@ void close_interface();
  */
 void show_menu();
 /**
- * @brief render_frame – функция отрисовки игрового поля на экране
+ * @brief show_frame – функция выводит игровое поле на экран
  */
-void render_frame();
+void show_frame();
 /**
  * @brief show_end_game – функция выводит информацию о конце игры
  */

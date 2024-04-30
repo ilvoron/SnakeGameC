@@ -1,5 +1,5 @@
 #include "TestModel.h"
 
 int main(){	
-	return Test_Controller();;
+	return Test_Controller();
 }

@@ -13,14 +13,13 @@ long long get_time() {
 
 void keyHandler (enum DIRECTIONS direction) {
 	if (change_direction(direction, &(settings.gameState))) {
-		render_frame();
+		show_frame();
 		lastframe = get_time();
 	}
 }
 
 void End_Of_Program(struct Settings settings){
 	end_game();											// Завершение игры у BOARD	
-	show_error(settings.errorCode);	
 };
 
 void Updater(struct Settings _settings) {
@@ -47,7 +46,7 @@ void Updater(struct Settings _settings) {
 					diff = get_time() - lastframe;				// Считаем время с последнего обновления экрана
 					if (diff > frameTime * inaccuracy) {		// Если время обновления больше периода обновления с некоторой погрешностью
 						update_game_state(&(settings.gameState)); // Проверяем состояние игры у BOARD
-						render_frame();							// Отрисовка экрана
+						show_frame();							// Отрисовка экрана
 						lastframe = get_time();					// Фиксируем время последнего обновления 
 						Sleep(frameTime);						// Задержка потока в мс
 					} else {

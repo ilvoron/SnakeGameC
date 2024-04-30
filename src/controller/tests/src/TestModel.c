@@ -2,7 +2,7 @@
 #include "controller.h"
 
 int Choice;
-int SEG; int EG; int SM; int SG; int UGS; int RF; int CD; int CI; int II; int TestChoice = 1;
+int SEG; int EG; int SM; int SG; int UGS; int SF; int CD; int CI; int II; int TestChoice = 1;
 
 const struct Speed SPEED_DEFAULT = {1, 3, 1, 3, 3};
 
@@ -29,15 +29,15 @@ int Test_Controller(){
 	settings.inGameKeyHandler = keyHandler;
 
 	freopen("Output.txt", "a", stdout);	
-	settings.errorCode = EC_1; SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  RF = 0;  CD = 0;  CI = 0;  II = 0;
+	settings.errorCode = EC_1; SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  SF = 0;  CD = 0;  CI = 0;  II = 0;
 	End_Of_Program(settings);
 	if(get_result("End_Of_Program") != 0) return 2;
 
-	settings.errorCode = EC_2; SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  RF = 0;  CD = 0;  CI = 0;  II = 0;
+	settings.errorCode = EC_2; SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  SF = 0;  CD = 0;  CI = 0;  II = 0;
 	End_Of_Program(settings);
 	if(get_result("End_Of_Program") != 0) return 2;
 	
-	settings.errorCode = EC_3; SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  RF = 0;  CD = 0;  CI = 0;  II = 0;
+	settings.errorCode = EC_3; SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  SF = 0;  CD = 0;  CI = 0;  II = 0;
 	End_Of_Program(settings);
 	if(get_result("End_Of_Program") != 0) return 2;
 
@@ -46,21 +46,21 @@ int Test_Controller(){
 	End_Of_Program(settings);
 	
 	printf("\n"); 
-	SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  RF = 0;  CD = 0;  CI = 0;  II = 0;
+	SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  SF = 0;  CD = 0;  CI = 0;  II = 0;
 	keyHandler (DIR_LEFT);
 	if(get_result("keyHandler") != 0) return 3;
-	SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  RF = 0;  CD = 0;  CI = 0;  II = 0;
+	SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  SF = 0;  CD = 0;  CI = 0;  II = 0;
 	keyHandler (DIR_UP);
 	if(get_result("keyHandler") != 0) return 3;
-	SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  RF = 0;  CD = 0;  CI = 0;  II = 0;
+	SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  SF = 0;  CD = 0;  CI = 0;  II = 0;
 	keyHandler (DIR_RIGHT);
 	if(get_result("keyHandler") != 0) return 3;
-	SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  RF = 0;  CD = 0;  CI = 0;  II = 0;
+	SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  SF = 0;  CD = 0;  CI = 0;  II = 0;
 	keyHandler (DIR_DOWN);
 	if(get_result("keyHandler") != 0) return 3;
 
 
-	SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  RF = 0;  CD = 0;  CI = 0;  II = 0;
+	SEG = 0;  EG = 0;  SM = 0;  SG = 0;  UGS = 0;  SF = 0;  CD = 0;  CI = 0;  II = 0;
 	Updater(settings);
 	if(get_result("Updater") != 0) return 1;
 
@@ -180,9 +180,9 @@ void update_game_state(enum GAME_STATE* gameState){
 
 	if(UGS == 4) *gameState = GS_INGAME_HIT_SNAKE;
 };
-void render_frame(){
-	RF++;
-	printf("This is render_frame\n");
+void show_frame(){
+	SF++;
+	printf("This is show_frame\n");
 };
 bool change_direction(enum DIRECTIONS direction, enum GAME_STATE* gameState){
 	CD++;
@@ -200,19 +200,19 @@ void init_interface(struct Settings* settings){
 
 int get_result(char Name[]){
 
-	if((Name == "Updater")&&(SEG != 1 || EG != 1 || SM != 2 || SG != 1 || UGS != 4 || RF != 4 || CD != 0 || CI != 1 || II != 1)){ 
+	if((Name == "Updater")&&(SEG != 1 || EG != 1 || SM != 2 || SG != 1 || UGS != 4 || SF != 4 || CD != 0 || CI != 1 || II != 1)){ 
 	printf("\nUncorrect work "); puts( Name);
-	printf("\nNumber of function calls:\n show_end_game - %d\n end_game - %d\n show_menu - %d\n start_game - %d\n update_game_state - %d\n render_frame - %d\n change_direction - %d\n close_interface - %d\n init_interface - %d\n",SEG , EG , SM , SG , UGS , RF , CD , CI , II );
+	printf("\nNumber of function calls:\n show_end_game - %d\n end_game - %d\n show_menu - %d\n start_game - %d\n update_game_state - %d\n show_frame - %d\n change_direction - %d\n close_interface - %d\n init_interface - %d\n",SEG , EG , SM , SG , UGS , SF , CD , CI , II );
 	return 1;
 	}
-	if((Name == "keyHandler")&&(SEG != 0 || EG != 0 || SM != 0 || SG != 0 || UGS != 0 || RF != 1 || CD != 1 || CI != 0 || II != 0)) { 
+	if((Name == "keyHandler")&&(SEG != 0 || EG != 0 || SM != 0 || SG != 0 || UGS != 0 || SF != 1 || CD != 1 || CI != 0 || II != 0)) { 
 	printf("\nUncorrect work "); puts( Name);	
-	printf("\nNumber of function calls:\n show_end_game - %d\n end_game - %d\n show_menu - %d\n start_game - %d\n update_game_state - %d\n render_frame - %d\n change_direction - %d\n close_interface - %d\n init_interface - %d\n",SEG , EG , SM , SG , UGS , RF , CD , CI , II );
+	printf("\nNumber of function calls:\n show_end_game - %d\n end_game - %d\n show_menu - %d\n start_game - %d\n update_game_state - %d\n show_frame - %d\n change_direction - %d\n close_interface - %d\n init_interface - %d\n",SEG , EG , SM , SG , UGS , SF , CD , CI , II );
 	return 2;
 	}
-	if((Name == "End_Of_Program")&&(SEG != 0 || EG != 1 || SM != 0 || SG != 0 || UGS != 0 || RF != 0 || CD != 0 || CI != 0 || II != 0)) { 
+	if((Name == "End_Of_Program")&&(SEG != 0 || EG != 1 || SM != 0 || SG != 0 || UGS != 0 || SF != 0 || CD != 0 || CI != 0 || II != 0)) { 
 	printf("\nUncorrect work "); puts( Name); 
-	printf("\nNumber of function calls:\n show_end_game - %d\n end_game - %d\n show_menu - %d\n start_game - %d\n update_game_state - %d\n render_frame - %d\n change_direction - %d\n close_interface - %d\n init_interface - %d\n",SEG , EG , SM , SG , UGS , RF , CD , CI , II );
+	printf("\nNumber of function calls:\n show_end_game - %d\n end_game - %d\n show_menu - %d\n start_game - %d\n update_game_state - %d\n show_frame - %d\n change_direction - %d\n close_interface - %d\n init_interface - %d\n",SEG , EG , SM , SG , UGS , SF , CD , CI , II );
 	return 3;
 	}
 

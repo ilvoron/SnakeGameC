@@ -19,9 +19,9 @@ void close_interface();
 void show_menu(struct Settings* settings);
 
 /**
- * @brief render_frame – функция отрисовки игрового поля на экране
+ * @brief show_frame – функция отрисовки игрового поля на экране
  */
-void render_frame();
+void show_frame();
 
 /**
  * @brief show_end_game – функция выводит информацию о конце игры

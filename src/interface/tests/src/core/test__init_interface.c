@@ -10,12 +10,13 @@
 // private
 
 bool keyTest = false;
-struct _Key {
+struct Key {
 	enum INPUTS input;
 	int offset;
 };
 extern int _inputDelay;
-extern struct _Key _get_key();
+extern struct Key get_key();
+bool _hasTestInitInterfaceBad = false;
 
 void _KeyHandler(enum DIRECTIONS direction) {
 	keyTest = true;
@@ -46,17 +47,20 @@ void _TestInitInterface1(struct Settings* Settings) {
 void _TestInitInterface2(struct Settings* Settings) {
 	PrintSTATUS(false, false, "[init_interface]");
 	printf(" Test 2. Testing inputs (if they're working)... ");
-
+	ClearKeyInputBuffer();
+	bool _hasTestInitInterface2Warn = false;
+	
 	int testedKeys = 0;
 	for (int i = 0; i < I__COUNT; i++) {
 		for (int j = 0; j < Settings->inputTriggers[i].keysCount; j++) {
-			usleep(_inputDelay);
+			usleep(_inputDelay * 5);
 			SimulateKeyPress(Settings->inputTriggers[i].keyCodes[j]);
 			usleep(_inputDelay);
 			PrintSTATUS(true, false, "[init_interface]");
 			printf(" Test 2.%d. Testing key \"%s\"... ", i + j + 1, Settings->inputTriggers[i].keyLabels[j]);
-			if ((int)(_get_key().input) == i) { PrintOK(false, false); }
-			else { PrintWARN(false, false); }
+			freopen(TEMP_FILE, "w", stdout);
+			if ((int)(get_key().input) == i) { freopen(DEFAULT_OUT, "a", stdout); PrintOK(false, false); }
+			else { freopen(DEFAULT_OUT, "a", stdout); PrintWARN(false, false); _hasTestInitInterface2Warn = true; }
 			testedKeys++;
 		}
 	}
@@ -66,30 +70,35 @@ void _TestInitInterface2(struct Settings* Settings) {
 	} else {
 		PrintSTATUS(true, false, "[init_interface]");
 		printf(" Test 2. Testing inputs (if they're working)... ");
-		PrintOK(false, true);
+		if (_hasTestInitInterface2Warn) { PrintWARN(false, true); }
+		else { PrintOK(false, true); }
 	}
 }
 
 void _TestInitInterface3(struct Settings* Settings) {
 	PrintSTATUS(false, false, "[init_interface]");
 	printf(" Test 3. Testing inputs in game (for correct behavior)... ");
+	bool _hasTestInitInterface3Warn = false;
+	bool _hasTestInitInterface3Bad = false;
 	
 	Settings->gameState = GS_INGAME;
 	int testedKeys = 0;
-	keyTest = false;
+	keyTest = true;
+	ClearKeyInputBuffer();
+	
 	for (int i = 0; i < I__COUNT; i++) {
 		for (int j = 0; j < Settings->inputTriggers[i].keysCount; j++) {
-			usleep((int)(_inputDelay * 2.5));
+			usleep(_inputDelay * 5);
 			SimulateKeyPress(Settings->inputTriggers[i].keyCodes[j]);
-			usleep((int)(_inputDelay * 2.5));
+			usleep(_inputDelay);
 			PrintSTATUS(true, false, "[init_interface]");
 			printf(" Test 3.%d. Testing key \"%s\"... ", i + j + 1, Settings->inputTriggers[i].keyLabels[j]);
 			if (i == I_LEFT || i == I_UP || i == I_RIGHT || i == I_DOWN) {
 				if (keyTest) { PrintOK(false, false); }
-				else { PrintBAD(false, false); }
+				else { PrintBAD(false, false); _hasTestInitInterface3Bad = true; _hasTestInitInterfaceBad = true; }
 			} else {
 				if (!keyTest) { PrintOK(false, false); }
-				else { PrintWARN(false, false); }
+				else { PrintWARN(false, false); _hasTestInitInterface3Warn = true; }
 			}
 			keyTest = false;
 			testedKeys++;
@@ -102,13 +111,15 @@ void _TestInitInterface3(struct Settings* Settings) {
 	} else {
 		PrintSTATUS(true, false, "[init_interface]");
 		printf(" Test 3. Testing inputs in game (for correct behavior)... ");
-		PrintOK(false, true);
+		if (_hasTestInitInterface3Warn) { PrintWARN(false, true); }
+		else if (_hasTestInitInterface3Bad) { PrintBAD(false, true); }
+		else { PrintOK(false, true); }
 	}
 }
 
 // public
 
-void TestInitInterface(struct Settings* Settings) {
+bool TestInitInterface(struct Settings* Settings) {
 	printf("Testing ");
 	PrintSTATUS(false, false, "init_interface()");
 	printf("...\n");
@@ -120,5 +131,7 @@ void TestInitInterface(struct Settings* Settings) {
 	printf("Testing ");
 	PrintSTATUS(false, false, "init_interface()");
 	printf("... ");
-	PrintOK(false, true);
+	if (_hasTestInitInterfaceBad) { PrintBAD(false, true); }
+	else { PrintOK(false, true); }
+	return _hasTestInitInterfaceBad;
 }

@@ -2,6 +2,8 @@
 #define GLOBAL_H
 #define MAX_STRING_SIZE 512
 #define MAX_KEYS_PER_INPUT 20
+#define CONSOLE_WIDTH 80
+#define CONSOLE_HEIGHT 36
 #include <stdbool.h>
 
 struct Point {
@@ -97,11 +99,6 @@ enum END_GAME_CODE {
 	EG_WIN
 };
 
-enum RENDER_TYPE {
-	RT_CBASED,
-	RT_DYNAMIC
-};
-
 struct InputTrigger {
 	int keysCount;
 	int keyCodes[MAX_KEYS_PER_INPUT];
@@ -140,6 +137,11 @@ struct Skin {
 	char ingameLabelPause[MAX_STRING_SIZE];
 	char endameLabels[2][MAX_STRING_SIZE];
 	char errorCodeLabels[ERR__COUNT][MAX_STRING_SIZE];
+};
+
+enum RENDER_TYPE {
+	RT_CBASED,
+	RT_DYNAMIC
 };
 
 struct Settings {

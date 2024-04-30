@@ -5,7 +5,7 @@ BUILD_FILE_EXE = libinterface_test.exe
 SRC_DIR = src
 SRC_DIR_CORE = $(SRC_DIR)/core
 SRC_DIR_MIMIC = $(SRC_DIR)/mimic
-SRC_FILES_IMPORTED = ..\libinterface.a ..\src\interface.h ..\..\global.h
+SRC_FILES_IMPORTED = ..\libinterface.a $(wildcard ../src/interface*.h)  ..\..\global.h
 SRC_FILES = $(wildcard $(SRC_DIR_CORE)/*.c $(SRC_DIR_MIMIC)/*.c)
 OBJ_DIR = obj
 OBJ_FILES = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,$(SRC_FILES:.c=.o))
@@ -26,7 +26,7 @@ interface:
 
 copy:
 	if not exist "$(TMP_DIR)" mkdir "$(TMP_DIR)"
-	$(foreach file,$(SRC_FILES_IMPORTED),xcopy /Y /Q "$(file)" "$(TMP_DIR)" >nul 2>&1 &)
+	$(foreach file,$(SRC_FILES_IMPORTED),xcopy /Y /Q "$(subst /,\,$(file))" "$(TMP_DIR)" >nul 2>&1 &)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)\%.c
 	if not exist "$(dir $@)" mkdir "$(dir $@)"

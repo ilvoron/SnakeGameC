@@ -16,12 +16,10 @@ void _GenerateEndGames(struct Settings* Settings) {
 	struct Board board = get_board();
 	
 	freopen(TEMP_FILE_EG_WIN, "w", stdout);
-	printf(Settings->skin.endameLabels[EG_WIN], board.snake.length, (board.width-2)*(board.height-2), Settings->inputTriggers[I_CONFIRM].keyLabels[0]);
-	printf("\n");
+	printf(RemoveNewlines(Settings->skin.endameLabels[EG_WIN]), board.snake.length, (board.width-2)*(board.height-2), Settings->inputTriggers[I_CONFIRM].keyLabels[0]);
 	
 	freopen(TEMP_FILE_EG_LOSE, "w", stdout);
-	printf(Settings->skin.endameLabels[EG_LOSE], board.snake.length, (board.width-2)*(board.height-2), Settings->inputTriggers[I_CONFIRM].keyLabels[0]);
-	printf("\n");
+	printf(RemoveNewlines(Settings->skin.endameLabels[EG_LOSE]), board.snake.length, (board.width-2)*(board.height-2), Settings->inputTriggers[I_CONFIRM].keyLabels[0]);
 	
 	freopen(DEFAULT_OUT, "a", stdout);
 }

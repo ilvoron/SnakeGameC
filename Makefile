@@ -7,11 +7,11 @@ RESOURCE_FILE = src/snake.rc
 MODULES = controller interface board snake
 
 main: test_modules $(MODULES) resources
-	$(COMPILER) "$(SRC_MAIN)" "$(OBJ_DIR)\snake.res" -o "$(EXE_FILE)" $(foreach module,$(MODULES),-I "src\$(module)\src") -I "src" -L "$(OBJ_DIR)" $(foreach module,$(MODULES),-l "$(module)")
+	$(COMPILER) "$(SRC_MAIN)" "$(OBJ_DIR)\snake.res" -o "$(EXE_FILE)" $(foreach module,$(MODULES),-I "src\$(module)\src") -I "src" -L "$(OBJ_DIR)" $(foreach module,$(MODULES),-l "$(module)") -l gdi32
 	@echo --^> Executable project file is ready to use!
 
 no-tests: $(MODULES) resources
-	$(COMPILER) "$(SRC_MAIN)" "$(OBJ_DIR)\snake.res" -o "$(EXE_FILE)" $(foreach module,$(MODULES),-I "src\$(module)\src") -I "src" -L "$(OBJ_DIR)" $(foreach module,$(MODULES),-l "$(module)")
+	$(COMPILER) "$(SRC_MAIN)" "$(OBJ_DIR)\snake.res" -o "$(EXE_FILE)" $(foreach module,$(MODULES),-I "src\$(module)\src") -I "src" -L "$(OBJ_DIR)" $(foreach module,$(MODULES),-l "$(module)") -l gdi32
 	@echo --^> Executable project file is ready to use!
 
 test_modules:
