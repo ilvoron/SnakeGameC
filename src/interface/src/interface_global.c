@@ -60,7 +60,7 @@ const struct InputTrigger INPUT_TRIGGERS_DEFAULT[I__COUNT] = {
 	{1, {VK__EXIT}, {"__exit"}}
 };
 
-const struct Speed SPEED_DEFAULT = {1, 5, 2, 2, 2};
+const struct Speed SPEED_DEFAULT = {1, 5, 1, 1, 1};
 
 const struct Skin SKIN_DEFAULT = {219, 149, 250, '$', 180, 195, 193, 194, 254, 187, 188, 201, 200, 205, 186,
 	" \n \n\"%s\" and \"%s\" - change menu item\n\"%s\" - select",

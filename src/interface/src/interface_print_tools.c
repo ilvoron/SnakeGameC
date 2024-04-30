@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include "interface_console_tools.h"
+#include "interface_global.h"
 #include "interface_print_tools.h"
 
 

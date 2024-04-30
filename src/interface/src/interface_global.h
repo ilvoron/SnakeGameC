@@ -1,5 +1,7 @@
 #ifndef INTERFACE_GLOBAL_H
 #define INTERFACE_GLOBAL_H
+#define CONSOLE_WIDTH 80
+#define CONSOLE_HEIGHT 35
 #include "global.h"
 
 extern struct Settings* _settings;

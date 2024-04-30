@@ -2,8 +2,6 @@
 #define GLOBAL_H
 #define MAX_STRING_SIZE 512
 #define MAX_KEYS_PER_INPUT 20
-#define CONSOLE_WIDTH 80
-#define CONSOLE_HEIGHT 36
 #include <stdbool.h>
 
 struct Point {
