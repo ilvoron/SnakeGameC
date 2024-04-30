@@ -1,6 +1,6 @@
 <p align="center">
  <picture>
-   <source srcset="snake_logo.png" width="128px" alt="Snake Game Logo" />
+   <source srcset="promo/snake_logo.png" width="128px" alt="Snake Game Logo" />
    <img src="promo/snake_logo.png" width="128px" alt="Snake Game Logo" />
  </picture>
 </p>
@@ -10,11 +10,11 @@
 
 <p align="center">
   <picture>
-    <source srcset="snake_cover.png" height="539px"/>
+    <source srcset="promo/snake_cover.png" height="539px"/>
     <img src="promo/snake_cover.png" height="539px">
   </picture>
   <picture>
-     <source srcset="snake_screenshot.png" height="539px"/>
+     <source srcset="promo/snake_screenshot.png" height="539px"/>
      <img src="promo/snake_screenshot.png" width="539px">
   </picture>
 </p>
