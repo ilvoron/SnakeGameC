@@ -13,8 +13,8 @@ long long get_time() {
 
 void keyHandler (enum DIRECTIONS direction) {
 	if (change_direction(direction, &(settings.gameState))) {
-		show_frame();
 		lastframe = get_time();
+		show_frame();
 	}
 }
 
