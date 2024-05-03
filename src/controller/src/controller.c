@@ -1,10 +1,11 @@
 #include "controller.h"
 
-const int inaccuracy = 1.1;
+const int inaccuracy = 0.2;
 struct Settings settings;
 long long lastframe = 0.0;
 long long diff;
 long long frameTime;
+bool useInaccuracy = false;
 
 long long get_time() {
 	long long miliseconds = clock();
@@ -13,6 +14,7 @@ long long get_time() {
 
 void keyHandler (enum DIRECTIONS direction) {
 	if (change_direction(direction, &(settings.gameState))) {
+		useInaccuracy = true;
 		lastframe = get_time();
 		Sleep(200/(settings.speed.current));
 		show_frame();
@@ -45,7 +47,8 @@ void Updater(struct Settings _settings) {
 				if (!settings.isPause) {
 																// Если не в состоянии "СТОЛКНОВЕНИЕ С СТЕНОЙ" "СТОЛКНОВЕНИЕ С ЗМЕЕЙ" "ПРЕРЫВАНИЕ ИГРЫ" 
 					diff = get_time() - lastframe;				// Считаем время с последнего обновления экрана
-					if (diff > frameTime * inaccuracy) {		// Если время обновления больше периода обновления с некоторой погрешностью
+					if (diff > frameTime * (0.9 + inaccuracy * useInaccuracy)) {		// Если время обновления больше периода обновления с некоторой погрешностью
+						useInaccuracy = false;
 						update_game_state(&(settings.gameState)); // Проверяем состояние игры у BOARD
 						show_frame();							// Отрисовка экрана
 						lastframe = get_time();					// Фиксируем время последнего обновления 
