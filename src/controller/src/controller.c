@@ -16,7 +16,7 @@ void keyHandler (enum DIRECTIONS direction) {
 	if (change_direction(direction, &(settings.gameState))) {
 		useInaccuracy = true;
 		lastframe = get_time();
-		Sleep(200/(settings.speed.current));
+		Sleep(50);
 		show_frame();
 	}
 }
