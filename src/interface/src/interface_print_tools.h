@@ -2,6 +2,7 @@
 #define INTERFACE_PRINT_TOOLS_H
 #include <stdbool.h>
 #include "global.h"
+#include "interface_global.h"
 
 void clear_screen(bool fullClean);
 int print_centered_text(char lines[CONSOLE_HEIGHT][MAX_STRING_SIZE], int numLines, int offsetY);

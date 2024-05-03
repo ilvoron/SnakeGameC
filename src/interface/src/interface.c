@@ -55,7 +55,7 @@ void show_menu() {
 	render_menu();
 
 	while (_inMenu) {
-		key = get_key();
+		key = get_key(false);
 		if ((int)key.input >= 0) {
 			switch (key.input) {
 				case I_UP: change_select(MA_PREV); break;
@@ -93,7 +93,7 @@ void show_end_game(enum END_GAME_CODE endGameCode) {
 	bool inEndGame = true;
 	struct Key key;
 	while (inEndGame) {
-		key = get_key(_settings);
+		key = get_key(false);
 		if (key.input == I_CONFIRM || key.input == I__EXIT) { inEndGame = false; }
 	}
 }

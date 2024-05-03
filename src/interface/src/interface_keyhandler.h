@@ -9,7 +9,7 @@ struct Key {
 };
 
 void clear_input();
-struct Key get_key();
+struct Key get_key(bool forceGet);
 DWORD WINAPI key_handler_in_game(LPVOID lpParam);
 
 #endif

@@ -15,7 +15,7 @@ struct Key {
 	int offset;
 };
 extern int _inputDelay;
-extern struct Key get_key();
+extern struct Key get_key(bool forceGet);
 bool _hasTestInitInterfaceBad = false;
 
 void _KeyHandler(enum DIRECTIONS direction) {
@@ -59,7 +59,7 @@ void _TestInitInterface2(struct Settings* Settings) {
 			PrintSTATUS(true, false, "[init_interface]");
 			printf(" Test 2.%d. Testing key \"%s\"... ", i + j + 1, Settings->inputTriggers[i].keyLabels[j]);
 			freopen(TEMP_FILE, "w", stdout);
-			if ((int)(get_key().input) == i) { freopen(DEFAULT_OUT, "a", stdout); PrintOK(false, false); }
+			if ((int)(get_key(true).input) == i) { freopen(DEFAULT_OUT, "a", stdout); PrintOK(false, false); }
 			else { freopen(DEFAULT_OUT, "a", stdout); PrintWARN(false, false); _hasTestInitInterface2Warn = true; }
 			testedKeys++;
 		}

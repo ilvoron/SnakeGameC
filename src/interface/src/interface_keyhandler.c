@@ -32,10 +32,10 @@ void clear_input() {
 	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 }
 
-struct Key get_key() {
+struct Key get_key(bool forceGet) {
 	struct Key key = {-1, -1};
 	char keyState[256] = {0};
-	if (is_console_in_focus() && is_key_not_auto_repeat()) {
+	if ((is_console_in_focus() && is_key_not_auto_repeat()) || forceGet) {
 		for (int i = 0; i < I__COUNT; i++) {
 			for (int j = 0; j < _settings->inputTriggers[i].keysCount; j++) {
 				if (GetKeyState(_settings->inputTriggers[i].keyCodes[j]) & 0x8000) {
@@ -57,7 +57,7 @@ DWORD WINAPI key_handler_in_game(LPVOID lpParam) {
 	while (true) {
 		if (!_lockAsync && (_settings->gameState == GS_INGAME || _settings->gameState == GS_INGAME_HIT_APPLE)) {
 			_lockAsync = true;
-			key = get_key();
+			key = get_key(false);
 			if ((int)key.input >= 0) {
 				switch (key.input) {
 					case I_RETURN: _settings->gameState = GS_INGAME_USER_ABORT; break;

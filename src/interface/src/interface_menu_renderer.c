@@ -88,7 +88,7 @@ void select_item() {
 			_gameState = GS_MENU_SPEED_CHANGING;
 			_print_settings_speed();
 			while (inSettings) {
-				key = get_key();
+				key = get_key(false);
 				if (key.input >= 0) {
 					switch (key.input) {
 						case I_DIGIT:
