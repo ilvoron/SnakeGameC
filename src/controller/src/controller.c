@@ -14,6 +14,7 @@ long long get_time() {
 void keyHandler (enum DIRECTIONS direction) {
 	if (change_direction(direction, &(settings.gameState))) {
 		lastframe = get_time();
+		Sleep(200/(settings.speed.current));
 		show_frame();
 	}
 }
