@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 struct Board _board;
+bool _isUpdadingGameState = false;
 
 // private
 
@@ -83,36 +84,42 @@ void end_game() {
 }
 
 void update_game_state(enum GAME_STATE* gameState) {
-	if (_board.snake.hasTurn && (_board.snake.turn.cell.x != _board.snake.body[0].x || _board.snake.turn.cell.y != _board.snake.body[0].y)) {
-		_board.snake.hasTurn = false;
+	if (!_isUpdadingGameState) {
+		_isUpdadingGameState = true;
+		if (_board.snake.hasTurn && (_board.snake.turn.cell.x != _board.snake.body[0].x || _board.snake.turn.cell.y != _board.snake.body[0].y)) {
+			_board.snake.hasTurn = false;
+		}
+		move_snake(&(_board.snake));
+		*gameState = _check_collision();
+		if (_board.snake.length == (_board.width - 2) * (_board.height - 2)) { *gameState = GS_INGAME_WIN; }
+		if (*gameState == GS_INGAME_HIT_APPLE) { _create_apple(&_board); }
+		_isUpdadingGameState = false;
 	}
-	move_snake(&(_board.snake));
-	*gameState = _check_collision();
-	if (_board.snake.length == (_board.width - 2) * (_board.height - 2)) { *gameState = GS_INGAME_WIN; }
-	if (*gameState == GS_INGAME_HIT_APPLE) { _create_apple(&_board); }
 }
 
 bool change_direction(enum DIRECTIONS direction, enum GAME_STATE* gameState) {
-	if (_board.snake.length > 1 &&
-		((_board.snake.direction == DIR_LEFT && direction == DIR_RIGHT) ||
-		(_board.snake.direction == DIR_UP && direction == DIR_DOWN) ||
-		(_board.snake.direction == DIR_RIGHT && direction == DIR_LEFT) ||
-		(_board.snake.direction == DIR_DOWN && direction == DIR_UP)))
-	{ return false; }
+	if (!_isUpdadingGameState) {
+		if (_board.snake.length > 1 &&
+			((_board.snake.direction == DIR_LEFT && direction == DIR_RIGHT) ||
+			(_board.snake.direction == DIR_UP && direction == DIR_DOWN) ||
+			(_board.snake.direction == DIR_RIGHT && direction == DIR_LEFT) ||
+			(_board.snake.direction == DIR_DOWN && direction == DIR_UP)))
+		{ return false; }
 
-	if (_board.snake.length > 1 && _board.snake.direction != direction) {
-		_board.snake.hasTurn = true;
-		_board.snake.turn.before = _board.snake.direction;
-		_board.snake.turn.after = direction;
-		_board.snake.turn.cell.x = _board.snake.body[0].x;
-		_board.snake.turn.cell.y = _board.snake.body[0].y;
-	} else {
-		_board.snake.hasTurn = false;
-	}
+		if (_board.snake.length > 1 && _board.snake.direction != direction) {
+			_board.snake.hasTurn = true;
+			_board.snake.turn.before = _board.snake.direction;
+			_board.snake.turn.after = direction;
+			_board.snake.turn.cell.x = _board.snake.body[0].x;
+			_board.snake.turn.cell.y = _board.snake.body[0].y;
+		} else {
+			_board.snake.hasTurn = false;
+		}
 
-	_board.snake.direction = direction;
-	update_game_state(gameState);
-	return true;
+		_board.snake.direction = direction;
+		update_game_state(gameState);
+		return true;
+	} else { return false; }
 }
 
 struct Board get_board() {

@@ -59,7 +59,7 @@ void _set_font() {
 	GetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
 	cfi.dwFontSize.Y = 20;
 	cfi.FontWeight = FW_NORMAL;
-	wcscpy_s(cfi.FaceName, LF_FACESIZE, L"Courier New");
+	wcscpy_s(cfi.FaceName, LF_FACESIZE, L"Consolas");
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
 }
 

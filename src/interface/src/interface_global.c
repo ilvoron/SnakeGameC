@@ -35,7 +35,6 @@ const int VK_END = 0x23;
 const int VK_HOME = 0x24;
 const int VK_BACK = 0x08;
 const int VK_SPACE = 0x20;
-const int VK_PAUSE = 0x13;
 const int VK__EXIT = 0x0A;
 
 const struct InputTrigger INPUT_TRIGGERS_DEFAULT[I__COUNT] = {
@@ -44,9 +43,9 @@ const struct InputTrigger INPUT_TRIGGERS_DEFAULT[I__COUNT] = {
 	{2, {VK_RIGHT, VK_D}, {"right arrow", "d"}},
 	{2, {VK_DOWN, VK_S}, {"down arrow", "s"}},
 	{1, {VK_RETURN}, {"enter"}},
-	{3, {VK_ESCAPE, VK_END, VK_HOME}, {"escape", "end", "home"}},
+	{1, {VK_ESCAPE}, {"escape"}},
 	{1, {VK_BACK}, {"backspace"}},
-	{3, {VK_SPACE, VK_P, VK_PAUSE}, {"space", "p", "pause"}},
+	{2, {VK_SPACE, VK_P}, {"space", "p"}},
 	{20,
 		{
 			VK_0, VK_1, VK_2, VK_3, VK_4, VK_5, VK_6, VK_7, VK_8, VK_9,
