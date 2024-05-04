@@ -27,29 +27,29 @@ void Updater(struct Settings _settings) {
 			
 			while (settings.gameState != GS_INGAME_HIT_WALL && settings.gameState != GS_INGAME_HIT_SNAKE && settings.gameState != GS_INGAME_USER_ABORT && settings.gameState != GS_INGAME_WIN) {
 				geEvent = get_event();
-				
-				switch (geEvent) {
-					case GE_LEFT: direction = DIR_LEFT; break;
-					case GE_UP: direction = DIR_UP; break;
-					case GE_RIGHT: direction = DIR_RIGHT; break;
-					case GE_DOWN: direction = DIR_DOWN; break;
-				}
-				
-				if ((direction != DIR_NONE) && change_direction(direction, &(settings.gameState))) {
-					direction = DIR_NONE;
-					frameStopwatch = 0;
-					show_frame();
-				}
-				
-				if (geEvent == GE_NONE) {
-					frameStopwatch += updateFrequency;
-					if (frameStopwatch >= frameTime) {
+				if (!settings.isPause) {
+					switch (geEvent) {
+						case GE_LEFT: direction = DIR_LEFT; break;
+						case GE_UP: direction = DIR_UP; break;
+						case GE_RIGHT: direction = DIR_RIGHT; break;
+						case GE_DOWN: direction = DIR_DOWN; break;
+					}
+					
+					if ((direction != DIR_NONE) && change_direction(direction, &(settings.gameState))) {
+						direction = DIR_NONE;
 						frameStopwatch = 0;
-						update_game_state(&(settings.gameState));
 						show_frame();
 					}
-				}
-				
+					
+					if (geEvent == GE_NONE) {
+						frameStopwatch += updateFrequency;
+						if (frameStopwatch >= frameTime) {
+							frameStopwatch = 0;
+							update_game_state(&(settings.gameState));
+							show_frame();
+						}
+					}
+				} else { frameStopwatch = 0; }
 				Sleep(updateFrequency);
 			}
 			
