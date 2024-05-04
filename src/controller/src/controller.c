@@ -1,6 +1,6 @@
 #include "controller.h"
 
-const unsigned int updateFrequency = 10;
+const unsigned int updateFrequency = 50;
 
 struct Settings settings;
 long long frameTime;
