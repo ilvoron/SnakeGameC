@@ -4,7 +4,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <wchar.h>
-#include <windows.h>
 #include "board.h"
 #include "global.h"
 #include "interface.h"
@@ -22,7 +21,6 @@
 
 struct Settings* _settings;
 enum GAME_STATE _gameState = GS_MENU_START;
-HANDLE _hThreadKeyHandler = NULL;
 bool _isRendering = false;
 bool _inMenu = false;
 
@@ -33,7 +31,6 @@ bool _inMenu = false;
 // --------
 
 void init_interface(struct Settings* settings) {
-	while (_hThreadKeyHandler == NULL) { _hThreadKeyHandler = CreateThread(NULL, 0, key_handler_in_game, NULL, 0, NULL); }
 	_settings = settings;
 	_settings->speed._new = settings->speed._default;
 	setup_console(CONSOLE_WIDTH, CONSOLE_HEIGHT);
@@ -42,7 +39,6 @@ void init_interface(struct Settings* settings) {
 }
 
 void close_interface() {
-	CloseHandle(_hThreadKeyHandler);
 	clear_input(_settings);
 }
 

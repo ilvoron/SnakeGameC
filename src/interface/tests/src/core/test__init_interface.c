@@ -3,6 +3,7 @@
 #include "test__init_interface.h"
 #include "global.h"
 #include "interface.h"
+#include "interface_keyhandler.h"
 #include "output.h"
 #include "tools.h"
 #include "consts.h"
@@ -10,20 +11,8 @@
 // private
 
 bool keyTest = false;
-struct Key {
-	enum INPUTS input;
-	int offset;
-};
 extern int _inputDelay;
-extern struct Key get_key(bool forceGet);
 bool _hasTestInitInterfaceBad = false;
-
-void _KeyHandler(enum DIRECTIONS direction) {
-	keyTest = true;
-	BYTE keyboardState[256];
-	memset(keyboardState, 0, sizeof(keyboardState));
-	SetKeyboardState(keyboardState);
-}
 
 void _TestInitInterface1(struct Settings* Settings) {
 	PrintSTATUS(false, false, "[init_interface]");
@@ -33,7 +22,6 @@ void _TestInitInterface1(struct Settings* Settings) {
 	Settings->renderType = RT_CBASED;
 	Settings->speed = SPEED_DEFAULT;
 	Settings->skin = SKIN_DEFAULT;
-	Settings->inGameKeyHandler = &_KeyHandler;
 	Settings->isPause = false;
 	for (int i = 0; i < I__COUNT; ++i) {
 		Settings->inputTriggers[i] = INPUT_TRIGGERS_DEFAULT[i];
@@ -57,7 +45,7 @@ void _TestInitInterface2(struct Settings* Settings) {
 			SimulateKeyPress(Settings->inputTriggers[i].keyCodes[j]);
 			usleep(_inputDelay);
 			PrintSTATUS(true, false, "[init_interface]");
-			printf(" Test 2.%d. Testing key \"%s\"... ", i + j + 1, Settings->inputTriggers[i].keyLabels[j]);
+			printf(" Test 2.%d. Testing key \"%s\"... ", testedKeys + 1, Settings->inputTriggers[i].keyLabels[j]);
 			freopen(TEMP_FILE, "w", stdout);
 			if ((int)(get_key(true).input) == i) { freopen(DEFAULT_OUT, "a", stdout); PrintOK(false, false); }
 			else { freopen(DEFAULT_OUT, "a", stdout); PrintWARN(false, false); _hasTestInitInterface2Warn = true; }
@@ -81,18 +69,28 @@ void _TestInitInterface3(struct Settings* Settings) {
 	bool _hasTestInitInterface3Warn = false;
 	bool _hasTestInitInterface3Bad = false;
 	
-	Settings->gameState = GS_INGAME;
 	int testedKeys = 0;
 	keyTest = true;
 	ClearKeyInputBuffer();
 	
 	for (int i = 0; i < I__COUNT; i++) {
 		for (int j = 0; j < Settings->inputTriggers[i].keysCount; j++) {
+			Settings->gameState = GS_INGAME;
 			usleep(_inputDelay * 5);
+			freopen(TEMP_FILE, "w", stdout);
 			SimulateKeyPress(Settings->inputTriggers[i].keyCodes[j]);
 			usleep(_inputDelay);
+			switch (get_event()) {
+				case GE_LEFT:
+				case GE_UP:
+				case GE_RIGHT:
+				case GE_DOWN:
+					keyTest = true;
+					break;
+			}
+			freopen(DEFAULT_OUT, "a", stdout);
 			PrintSTATUS(true, false, "[init_interface]");
-			printf(" Test 3.%d. Testing key \"%s\"... ", i + j + 1, Settings->inputTriggers[i].keyLabels[j]);
+			printf(" Test 3.%d. Testing key \"%s\"... ", testedKeys + 1, Settings->inputTriggers[i].keyLabels[j]);
 			if (i == I_LEFT || i == I_UP || i == I_RIGHT || i == I_DOWN) {
 				if (keyTest) { PrintOK(false, false); }
 				else { PrintBAD(false, false); _hasTestInitInterface3Bad = true; _hasTestInitInterfaceBad = true; }

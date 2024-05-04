@@ -2,6 +2,7 @@
 #define INTERFACE_H
 #include "global.h"
 #include "interface_global.h"
+#include "interface_keyhandler.h"
 
 extern const struct InputTrigger INPUT_TRIGGERS_DEFAULT[I__COUNT];
 extern const struct Speed SPEED_DEFAULT;
@@ -33,5 +34,10 @@ void show_end_game(enum END_GAME_CODE endGameCode);
  * @param enum ERROR_CODE - код ошибки
  */
 void show_error(enum ERROR_CODE);
+/**
+ * @brief get_event - возвращает игровое событие, если оно произошло
+ * @return enum GAME_EVENT - код игрового события
+ */
+extern enum GAME_EVENT get_event();
 
 #endif

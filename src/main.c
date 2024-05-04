@@ -9,7 +9,6 @@ int main(){
 	settings.renderType = RT_DYNAMIC;
 	settings.speed = SPEED_DEFAULT;
 	settings.skin = SKIN_DEFAULT;
-	settings.inGameKeyHandler = keyHandler;
 	
 	for (int i = 0; i < I__COUNT; ++i) {
 		settings.inputTriggers[i] = INPUT_TRIGGERS_DEFAULT[i];

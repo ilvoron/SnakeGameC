@@ -1,78 +1,64 @@
 #include "controller.h"
 
-const int inaccuracy = 0.2;
+const unsigned int updateFrequency = 10;
+
 struct Settings settings;
-long long lastframe = 0.0;
-long long diff;
 long long frameTime;
-bool useInaccuracy = false;
-
-long long get_time() {
-	long long miliseconds = clock();
-	return miliseconds;
-}
-
-void keyHandler (enum DIRECTIONS direction) {
-	if (change_direction(direction, &(settings.gameState))) {
-		useInaccuracy = true;
-		lastframe = get_time();
-		Sleep(50);
-		show_frame();
-	}
-}
-
-void End_Of_Program(struct Settings settings){
-	end_game();											// Завершение игры у BOARD	
-};
+long long frameStopwatch = 0;
 
 void Updater(struct Settings _settings) {
 	settings = _settings;
 	init_interface(&settings);
-	while (settings.gameState != GS_EXIT) {  			// Пока сосстояние игры != выход из игры
+	while (settings.gameState != GS_EXIT) {
 		
-		settings.gameState = GS_MENU; 						// Переходим в состояние "В МЕНЮ"
+		settings.gameState = GS_MENU;
 		
-		while (settings.gameState != GS_MENU_EXIT && settings.gameState != GS_MENU_START) {
-			show_menu(&settings); 									// Показываем меню пока состояние из игры не Старт/Выход. Состояние игры меняется внутри функции show_menu
-		}
+		while (settings.gameState != GS_MENU_EXIT && settings.gameState != GS_MENU_START) { show_menu(&settings); }
 		
-		if (settings.gameState == GS_MENU_START) {			// Если в состояние "СТАРТ ИГРЫ"
-			settings.gameState = GS_START; 					// Переходим в состояние "СТАРТ" 
-			start_game(20, 20); 							// Функция первичного создания поля размером 20/20
-			frameTime = 1000 / (settings.speed.current);		// Период обновления экрана в мс  
+		if (settings.gameState == GS_MENU_START) {
+			settings.gameState = GS_START;
+			start_game(20, 20);
+			frameTime = 1000 / (settings.speed.current);
 			
-			settings.gameState = GS_INGAME; 				// Переходим в состояние "В ИГРЕ" 					 			
+			settings.gameState = GS_INGAME;
 			settings.isPause = false;
+			enum GAME_EVENT geEvent = GE_NONE;
+			enum DIRECTIONS direction = DIR_NONE;
+			
 			while (settings.gameState != GS_INGAME_HIT_WALL && settings.gameState != GS_INGAME_HIT_SNAKE && settings.gameState != GS_INGAME_USER_ABORT && settings.gameState != GS_INGAME_WIN) {
-				if (!settings.isPause) {
-																// Если не в состоянии "СТОЛКНОВЕНИЕ С СТЕНОЙ" "СТОЛКНОВЕНИЕ С ЗМЕЕЙ" "ПРЕРЫВАНИЕ ИГРЫ" 
-					diff = get_time() - lastframe;				// Считаем время с последнего обновления экрана
-					if (diff > frameTime * (0.9 + inaccuracy * useInaccuracy)) {		// Если время обновления больше периода обновления с некоторой погрешностью
-						useInaccuracy = false;
-						update_game_state(&(settings.gameState)); // Проверяем состояние игры у BOARD
-						show_frame();							// Отрисовка экрана
-						lastframe = get_time();					// Фиксируем время последнего обновления 
-						Sleep(frameTime);						// Задержка потока в мс
-					} else {
-						Sleep(diff);							// Задержка потока в мс
-					}
+				geEvent = get_event();
 				
-				} else {
-					lastframe = get_time();
-					Sleep(10);
+				switch (geEvent) {
+					case GE_LEFT: direction = DIR_LEFT; break;
+					case GE_UP: direction = DIR_UP; break;
+					case GE_RIGHT: direction = DIR_RIGHT; break;
+					case GE_DOWN: direction = DIR_DOWN; break;
 				}
+				
+				if ((direction != DIR_NONE) && change_direction(direction, &(settings.gameState))) {
+					direction = DIR_NONE;
+					frameStopwatch = 0;
+					show_frame();
+				}
+				
+				if (geEvent == GE_NONE) {
+					frameStopwatch += updateFrequency;
+					if (frameStopwatch >= frameTime) {
+						frameStopwatch = 0;
+						update_game_state(&(settings.gameState));
+						show_frame();
+					}
+				}
+				
+				Sleep(updateFrequency);
 			}
 			
-			if (settings.gameState == GS_INGAME_WIN) {
-				show_end_game(EG_WIN);
-			}
-			else {
-				show_end_game(EG_LOSE);
-			}
+			if (settings.gameState == GS_INGAME_WIN) { show_end_game(EG_WIN); }
+			else { show_end_game(EG_LOSE); }
 			
-			End_Of_Program(settings);
+			end_game();
 		} else {
-			settings.gameState = GS_EXIT;					// Переходим в состояние "ВЫХОД"
+			settings.gameState = GS_EXIT;
 		}
 	}
  

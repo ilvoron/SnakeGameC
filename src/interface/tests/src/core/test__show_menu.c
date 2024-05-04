@@ -30,7 +30,7 @@ void _GenerateExpectedOutput(struct Settings* Settings) {
 	}
 	
 	freopen(TEMP_FILE_SPEED, "w", stdout);
-	SimulateKeyPressAssync(1, Settings->inputTriggers[I__EXIT].keyCodes[0], 5000, false, NULL);
+	SimulateKeyPressAssync(1, Settings->inputTriggers[I__EXIT].keyCodes[0], 10000, false, NULL);
 	printf(RemoveNewlines(Settings->skin.menuSpeedLabel), Settings->speed._new, Settings->speed._default, Settings->speed.min, Settings->speed.max, Settings->inputTriggers[I_UP].keyLabels[0], Settings->inputTriggers[I_DOWN].keyLabels[0], Settings->inputTriggers[I_ERASE].keyLabels[0], Settings->inputTriggers[I_CONFIRM].keyLabels[0], Settings->inputTriggers[I_RETURN].keyLabels[0]);
 	usleep(10000);
 
@@ -38,28 +38,32 @@ void _GenerateExpectedOutput(struct Settings* Settings) {
 }
 
 void _TestShowMenu1(struct Settings* Settings) {
+	freopen(DEFAULT_OUT, "a", stdout);
+	usleep(50000);
 	PrintSTATUS(false, false, "[show_menu]");
 	printf(" Test 1. Calling function... ");
 	_gameState = GS_MENU_START;
-	
+
 	freopen(TEMP_FILE, "w", stdout);
-	SimulateKeyPressAssync(1, Settings->inputTriggers[I__EXIT].keyCodes[0], 5000, false, NULL);
+	SimulateKeyPressAssync(1, Settings->inputTriggers[I__EXIT].keyCodes[0], 10000, false, NULL);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
 	usleep(10000);
-	
+
 	if (CompareFiles(TEMP_FILE, TEMP_FILE_SM_0)) { PrintOK(false, true); }
 	else { PrintBAD(false, true); _hasTestShowMenuBad = true; }
 }
 
 void _TestShowMenu2_1(struct Settings* Settings) {
+	freopen(DEFAULT_OUT, "a", stdout);
+	usleep(50000);
 	PrintSTATUS(false, false, "[show_menu]");
 	printf(" Test 2.1. Testing menu inputs (select: \"%s\", keys: \"%s\")... ", Settings->skin.menuMainLabels[0], Settings->inputTriggers[I_UP].keyLabels[0]);
 	_gameState = GS_MENU_START;
-	
+
 	freopen(TEMP_FILE, "w", stdout);
-	SimulateKeyPressAssync(2, Settings->inputTriggers[I_UP].keyCodes[0], 5000, false,
-	                          Settings->inputTriggers[I__EXIT].keyCodes[0], 5000, true,
+	SimulateKeyPressAssync(2, Settings->inputTriggers[I_UP].keyCodes[0], 10000, false,
+	                          Settings->inputTriggers[I__EXIT].keyCodes[0], 10000, true,
 	                          TEMP_FILE);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
@@ -70,13 +74,15 @@ void _TestShowMenu2_1(struct Settings* Settings) {
 }
 
 void _TestShowMenu2_2(struct Settings* Settings) {
+	freopen(DEFAULT_OUT, "a", stdout);
+	usleep(50000);
 	PrintSTATUS(false, false, "[show_menu]");
 	printf(" Test 2.2. Testing menu inputs (select: \"%s\", keys: \"%s\")... ", Settings->skin.menuMainLabels[0], Settings->inputTriggers[I_DOWN].keyLabels[0]);
 	_gameState = GS_MENU_START;
-	
+
 	freopen(TEMP_FILE, "w", stdout);
-	SimulateKeyPressAssync(2, Settings->inputTriggers[I_DOWN].keyCodes[0], 5000, false,
-	                          Settings->inputTriggers[I__EXIT].keyCodes[0], 5000, true,
+	SimulateKeyPressAssync(2, Settings->inputTriggers[I_DOWN].keyCodes[0], 10000, false,
+	                          Settings->inputTriggers[I__EXIT].keyCodes[0], 10000, true,
 	                          TEMP_FILE);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
@@ -87,14 +93,16 @@ void _TestShowMenu2_2(struct Settings* Settings) {
 }
 
 void _TestShowMenu2_3(struct Settings* Settings) {
+	freopen(DEFAULT_OUT, "a", stdout);
+	usleep(50000);
 	PrintSTATUS(false, false, "[show_menu]");
 	printf(" Test 2.3. Testing menu inputs (select: \"%s\", keys: \"%s\", \"%s\")... ", Settings->skin.menuMainLabels[0], Settings->inputTriggers[I_DOWN].keyLabels[0], Settings->inputTriggers[I_DOWN].keyLabels[0]);
 	_gameState = GS_MENU_START;
-	
+
 	freopen(TEMP_FILE, "w", stdout);
-	SimulateKeyPressAssync(3, Settings->inputTriggers[I_DOWN].keyCodes[0], 5000, false,
-	                          Settings->inputTriggers[I_DOWN].keyCodes[0], 5000, false,
-	                          Settings->inputTriggers[I__EXIT].keyCodes[0], 5000, true,
+	SimulateKeyPressAssync(3, Settings->inputTriggers[I_DOWN].keyCodes[0], 10000, false,
+	                          Settings->inputTriggers[I_DOWN].keyCodes[0], 10000, false,
+	                          Settings->inputTriggers[I__EXIT].keyCodes[0], 10000, true,
 	                          TEMP_FILE);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
@@ -105,15 +113,17 @@ void _TestShowMenu2_3(struct Settings* Settings) {
 }
 
 void _TestShowMenu2_4(struct Settings* Settings) {
+	freopen(DEFAULT_OUT, "a", stdout);
+	usleep(50000);
 	PrintSTATUS(false, false, "[show_menu]");
 	printf(" Test 2.4. Testing menu inputs (select: \"%s\", keys: \"%s\", \"%s\", \"%s\")... ", Settings->skin.menuMainLabels[0], Settings->inputTriggers[I_DOWN].keyLabels[0], Settings->inputTriggers[I_DOWN].keyLabels[0], Settings->inputTriggers[I_DOWN].keyLabels[0]);
 	_gameState = GS_MENU_START;
-	
+
 	freopen(TEMP_FILE, "w", stdout);
-	SimulateKeyPressAssync(4, Settings->inputTriggers[I_DOWN].keyCodes[0], 5000, false,
-							  Settings->inputTriggers[I_DOWN].keyCodes[0], 5000, false,
-							  Settings->inputTriggers[I_DOWN].keyCodes[0], 5000, false,
-							  Settings->inputTriggers[I__EXIT].keyCodes[0], 5000, true,
+	SimulateKeyPressAssync(4, Settings->inputTriggers[I_DOWN].keyCodes[0], 10000, false,
+							  Settings->inputTriggers[I_DOWN].keyCodes[0], 10000, false,
+							  Settings->inputTriggers[I_DOWN].keyCodes[0], 10000, false,
+							  Settings->inputTriggers[I__EXIT].keyCodes[0], 10000, true,
 							  TEMP_FILE);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
@@ -124,12 +134,14 @@ void _TestShowMenu2_4(struct Settings* Settings) {
 }
 
 void _TestShowMenu3_1(struct Settings* Settings) {
+	freopen(DEFAULT_OUT, "a", stdout);
+	usleep(50000);
 	PrintSTATUS(false, false, "[show_menu]");
 	printf(" Test 3.1. Testing menu inputs (selected: \"%s\")... ", Settings->skin.menuMainLabels[0]);
 	_gameState = GS_MENU_START;
 	
 	freopen(TEMP_FILE, "w", stdout);
-	SimulateKeyPressAssync(1, Settings->inputTriggers[I_CONFIRM].keyCodes[0], 5000, false, NULL);
+	SimulateKeyPressAssync(1, Settings->inputTriggers[I_CONFIRM].keyCodes[0], 10000, false, NULL);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
 	usleep(10000);
@@ -139,15 +151,17 @@ void _TestShowMenu3_1(struct Settings* Settings) {
 }
 
 void _TestShowMenu3_2(struct Settings* Settings) {
+	freopen(DEFAULT_OUT, "a", stdout);
+	usleep(50000);
 	PrintSTATUS(false, false, "[show_menu]");
 	printf(" Test 3.2. Testing menu inputs (selected: \"%s\")... ", Settings->skin.menuMainLabels[1]);
 	_gameState = GS_MENU_START;
 	
 	freopen(TEMP_FILE, "w", stdout);
-	SimulateKeyPressAssync(4, Settings->inputTriggers[I_DOWN].keyCodes[0], 5000, false,
-							  Settings->inputTriggers[I_CONFIRM].keyCodes[0], 5000, false,
-							  Settings->inputTriggers[I_CONFIRM].keyCodes[0], 5000, true,
-							  Settings->inputTriggers[I__EXIT].keyCodes[0], 5000, false,
+	SimulateKeyPressAssync(4, Settings->inputTriggers[I_DOWN].keyCodes[0], 10000, false,
+							  Settings->inputTriggers[I_CONFIRM].keyCodes[0], 10000, false,
+							  Settings->inputTriggers[I_CONFIRM].keyCodes[0], 10000, true,
+							  Settings->inputTriggers[I__EXIT].keyCodes[0], 10000, false,
 							  TEMP_FILE);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);
@@ -158,14 +172,16 @@ void _TestShowMenu3_2(struct Settings* Settings) {
 }
 
 void _TestShowMenu3_3(struct Settings* Settings) {
+	freopen(DEFAULT_OUT, "a", stdout);
+	usleep(50000);
 	PrintSTATUS(false, false, "[show_menu]");
 	printf(" Test 3.3. Testing menu inputs (selected: \"%s\")... ", Settings->skin.menuMainLabels[2]);
 	_gameState = GS_MENU_START;
 	
 	freopen(TEMP_FILE, "w", stdout);
-	SimulateKeyPressAssync(3, Settings->inputTriggers[I_DOWN].keyCodes[0], 5000, false,
-							  Settings->inputTriggers[I_DOWN].keyCodes[0], 5000, false,
-							  Settings->inputTriggers[I__EXIT].keyCodes[0], 5000, false,
+	SimulateKeyPressAssync(3, Settings->inputTriggers[I_DOWN].keyCodes[0], 10000, false,
+							  Settings->inputTriggers[I_DOWN].keyCodes[0], 10000, false,
+							  Settings->inputTriggers[I__EXIT].keyCodes[0], 10000, false,
 							  NULL);
 	show_menu();
 	freopen(DEFAULT_OUT, "a", stdout);

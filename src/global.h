@@ -20,6 +20,7 @@ enum ERROR_CODE{
 // Snake
 
 enum DIRECTIONS {
+	DIR_NONE,
 	DIR_LEFT,
 	DIR_UP,
 	DIR_RIGHT,
@@ -97,6 +98,16 @@ enum END_GAME_CODE {
 	EG_WIN
 };
 
+enum GAME_EVENT {
+	GE_NONE,
+	GE_ABORT,
+	GE_LEFT,
+	GE_UP,
+	GE_RIGHT,
+	GE_DOWN,
+	GE_PAUSE
+};
+
 struct InputTrigger {
 	int keysCount;
 	int keyCodes[MAX_KEYS_PER_INPUT];
@@ -149,7 +160,6 @@ struct Settings {
 	struct Speed speed;
 	struct Skin skin;
 	struct InputTrigger inputTriggers[I__COUNT];
-	void (*inGameKeyHandler)(enum DIRECTIONS);
 	bool isPause;
 };
 

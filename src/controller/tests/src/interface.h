@@ -34,4 +34,10 @@ void show_end_game();
  */
 void show_error(enum ERROR_CODE);
 
+/**
+ * @brief get_event - возвращает игровое событие, если оно произошло
+ * @return enum GAME_EVENT - код игрового события
+ */
+extern enum GAME_EVENT get_event();
+
 #endif

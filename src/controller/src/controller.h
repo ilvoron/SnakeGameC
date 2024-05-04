@@ -18,18 +18,5 @@
  * @param Settings – структура для хранения всех данных игрока
  */
 void Updater(struct Settings);
-/**
- * @brief End_Of_Program Функция завершение 
- * @param Settings – структура для хранения всех данных игрока
- */
-void End_Of_Program(struct Settings);
-/**
- * @brief keyHandler Функция для обработки клавиш 
- * @param enum DIRECTIONS direction - направление движение змеи
- */
-void keyHandler (enum DIRECTIONS direction);
-/**
- * @brief get_time Функция для рассчета времени между кадрами
- */
- long long get_time();
+
 #endif

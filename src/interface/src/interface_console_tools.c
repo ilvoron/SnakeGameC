@@ -144,19 +144,3 @@ bool is_console_in_focus() {
 		return (consoleWindow == foregroundWindow);
 	} else { return true; };
 }
-
-bool is_key_not_auto_repeat() {
-	if (is_console_in_output()) {
-		HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
-		INPUT_RECORD record;
-		DWORD read;
-		ReadConsoleInput(hInput, &record, 1, &read);
-		if (record.EventType == KEY_EVENT) {
-			KEY_EVENT_RECORD keyEvent = record.Event.KeyEvent;
-			if (keyEvent.bKeyDown && keyEvent.wRepeatCount == 1) {
-				return true;
-			}
-		}
-		return false;
-	} else { return true; }
-}

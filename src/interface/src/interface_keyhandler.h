@@ -10,6 +10,6 @@ struct Key {
 
 void clear_input();
 struct Key get_key(bool forceGet);
-DWORD WINAPI key_handler_in_game(LPVOID lpParam);
+enum GAME_EVENT get_event();
 
 #endif
