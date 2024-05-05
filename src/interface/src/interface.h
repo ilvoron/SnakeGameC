@@ -30,11 +30,6 @@ void show_frame();
  */
 void show_end_game(enum END_GAME_CODE endGameCode);
 /**
- * @brief show_error - выводит сообщение-ошибку на экран
- * @param enum ERROR_CODE - код ошибки
- */
-void show_error(enum ERROR_CODE);
-/**
  * @brief get_event - возвращает игровое событие, если оно произошло
  * @return enum GAME_EVENT - код игрового события
  */

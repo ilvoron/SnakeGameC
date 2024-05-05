@@ -9,14 +9,6 @@ struct Point {
 	int y;
 };
 
-enum ERROR_CODE{
-	EC_1,
-	EC_2,
-	EC_3,
-	ERR_NO,
-	ERR__COUNT
-};
-
 // Snake
 
 enum DIRECTIONS {
@@ -145,7 +137,6 @@ struct Skin {
 	char ingameLabelControls[MAX_STRING_SIZE];
 	char ingameLabelPause[MAX_STRING_SIZE];
 	char endameLabels[2][MAX_STRING_SIZE];
-	char errorCodeLabels[ERR__COUNT][MAX_STRING_SIZE];
 };
 
 enum RENDER_TYPE {
@@ -154,7 +145,6 @@ enum RENDER_TYPE {
 };
 
 struct Settings {
-	enum ERROR_CODE errorCode;
 	enum GAME_STATE gameState;
 	enum RENDER_TYPE renderType;
 	struct Speed speed;

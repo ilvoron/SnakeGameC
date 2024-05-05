@@ -10,7 +10,6 @@
 #include "test__show_menu.h"
 #include "test__show_frame.h"
 #include "test__show_end_game.h"
-#include "test__show_error.h"
 #include "test__close_interface.h"
 
 struct Settings Settings;
@@ -24,7 +23,6 @@ int main() {
 	hasBad = TestShowMenu(&Settings) || hasBad;
 	hasBad = TestRenderFrame(&Settings) || hasBad;
 	hasBad = TestShowEndGame(&Settings) || hasBad;
-	hasBad = TestShowError(&Settings) || hasBad;
 	TestCloseInterface();
 	FreeTools();
 	FreeBoard();

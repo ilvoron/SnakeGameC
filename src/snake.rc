@@ -1,7 +1,7 @@
 #include "winuser.h"
 #define VERSION_MAJOR 1
 #define VERSION_MINOR 4
-#define VERSION_PATCH 1
+#define VERSION_PATCH 2
 #define VERSION_BUILD 0
 #define STRINGIFY(x) #x
 #define TO_STRING(x) STRINGIFY(x)

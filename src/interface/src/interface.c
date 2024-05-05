@@ -93,11 +93,3 @@ void show_end_game(enum END_GAME_CODE endGameCode) {
 		if (key.input == I_CONFIRM || key.input == I__EXIT) { inEndGame = false; }
 	}
 }
-
-void show_error(enum ERROR_CODE errCode) {
-	if (is_console_in_output()) {
-		MessageBox(NULL, _settings->skin.errorCodeLabels[errCode], "Error", MB_OK | MB_ICONERROR);
-	} else {
-		printf("%s", _settings->skin.errorCodeLabels[errCode]);
-	}
-}

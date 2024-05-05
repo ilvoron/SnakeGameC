@@ -24,6 +24,7 @@ void Updater(struct Settings _settings) {
 			settings.isPause = false;
 			enum GAME_EVENT geEvent = GE_NONE;
 			enum DIRECTIONS direction = DIR_NONE;
+			show_frame();
 			
 			while (settings.gameState != GS_INGAME_HIT_WALL && settings.gameState != GS_INGAME_HIT_SNAKE && settings.gameState != GS_INGAME_USER_ABORT && settings.gameState != GS_INGAME_WIN) {
 				geEvent = get_event();

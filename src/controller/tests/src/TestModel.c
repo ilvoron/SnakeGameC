@@ -131,7 +131,7 @@ void Updater (struct Settings settings){
 	close_interface();
 };*/
 
-void show_error(enum ERROR_CODE errorCode){
+/*void show_error(enum ERROR_CODE errorCode){
 	
 	freopen("CON", "a", stdout);
 	switch(errorCode){
@@ -150,7 +150,7 @@ void show_error(enum ERROR_CODE errorCode){
 	}
 	fclose(stdout);
 	freopen("Output.txt", "a",stdout);
-};
+};*/
 
 void show_end_game(enum END_GAME_CODE){
 	SEG++;
@@ -212,10 +212,11 @@ extern enum GAME_EVENT get_event(){
 
 int get_result(char Name[]){
 
-	if((Name == "Updater")&&(GE != 11 || SEG != 1 || EG != 1 || SM != 2 || SG != 1 || UGS != 1 || SF != 5 || CD != 4 || CI != 1 || II != 1)){ 
-	printf("\nUncorrect work "); puts( Name);
-	printf("\nNumber of function calls:\n get_event - %d\n show_end_game - %d\n end_game - %d\n show_menu - %d\n start_game - %d\n update_game_state - %d\n show_frame - %d\n change_direction - %d\n close_interface - %d\n init_interface - %d\n", GE ,SEG , EG , SM , SG , UGS , SF , CD , CI , II );
-	return 1;
+	if((Name == "Updater")&&(GE != 11 || SEG != 1 || EG != 1 || SM != 2 || SG != 1 || UGS != 1 || SF != 6 || CD != 4 || CI != 1 || II != 1)){
+		freopen("CON", "a", stdout);
+		printf("Uncorrect work "); puts( Name);
+		printf("Number of function calls:\n get_event - %d\n show_end_game - %d\n end_game - %d\n show_menu - %d\n start_game - %d\n update_game_state - %d\n show_frame - %d\n change_direction - %d\n close_interface - %d\n init_interface - %d\n", GE ,SEG , EG , SM , SG , UGS , SF , CD , CI , II );
+		return 1;
 	}
 /*	if((Name == "keyHandler")&&(GE != 1 || SEG != 0 || EG != 0 || SM != 0 || SG != 0 || UGS != 0 || SF != 1 || CD != 1 || CI != 0 || II != 0)) { 
 	printf("\nUncorrect work "); puts( Name);	
