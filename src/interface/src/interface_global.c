@@ -74,6 +74,6 @@ const struct Skin SKIN_DEFAULT = {219, 149, 250, '$', 180, 195, 193, 194, 254, 1
 	"     Game paused...     ",
 	{
 		"You lose! Scored %d of %d\nPress \"%s\" to show menu...",
-		"You win! Scored %d of %d\nPress \"%s\" to show menu..."
+		"You won! Scored %d of %d\nPress \"%s\" to show menu..."
 	}
 };
