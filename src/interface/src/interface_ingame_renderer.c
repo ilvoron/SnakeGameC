@@ -172,15 +172,15 @@ void render_frame_dynamic(struct Board* board) {
 			sprintf(str, _settings->skin.ingameLabelScore, board->snake.length, (board->width-2)*(board->height-2));
 			print_centered_line(str);
 		} else {
+			coords.X = _snakeTailLast.x*2 + offsetX; coords.Y = _snakeTailLast.y + offsetY;
+			SetConsoleCursorPosition(console, coords);
+			printf("%2.c", _settings->skin.freeCell);
 			coords.X = _snakeHeadLast.x*2 + offsetX; coords.Y = _snakeHeadLast.y + offsetY;
 			SetConsoleCursorPosition(console, coords);
 			_print_snake_body(board);
 			coords.X = board->snake.body[0].x*2 + offsetX; coords.Y = board->snake.body[0].y + offsetY;
 			SetConsoleCursorPosition(console, coords);
 			_print_snake_head(board);
-			coords.X = _snakeTailLast.x*2 + offsetX; coords.Y = _snakeTailLast.y + offsetY;
-			SetConsoleCursorPosition(console, coords);
-			printf("%2.c", _settings->skin.freeCell);
 		}
 
 		coords.X = 0;
