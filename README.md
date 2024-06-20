@@ -35,7 +35,7 @@
  - Run `make` in the root project folder
  - Run `make clean` to remove temporary files created during the build process
 ## Developers' info
-- Controller module developer - [**Fazdo**  Reject Stability](https://github.com/Fazdo)
 - Interface module developer - [**ilvoron**  Ilya](https://github.com/ilvoron)
+- Controller module developer - [**Fazdo**  Reject Stability](https://github.com/Fazdo)
 - Board module developer- [**AlenaBls**  alnbls](https://github.com/AlenaBls)
 - Snake module developer - [**entyziast**  entyziast](https://github.com/entyziast)
