@@ -1,6 +1,6 @@
 <div align="center">
   
-  <a href="" title="Platform">![Platform](https://img.shields.io/badge/platform-Windows-blue)</a>
+  <a href="" title="OS">![OS](https://img.shields.io/badge/os-Windows-blue)</a>
   <a href="" title="GitHub Release">![GitHub Release](https://img.shields.io/github/v/release/ilvoron/SnakeGameC)</a>
   <a href="" title="GitHub License">![GitHub License](https://img.shields.io/github/license/ilvoron/SnakeGameC)</a>
   <a href="" title="GitHub Downloads">![GitHub Downloads](https://img.shields.io/github/downloads/ilvoron/SnakeGameC/total)</a>
