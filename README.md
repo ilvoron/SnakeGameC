@@ -1,24 +1,19 @@
-<p align="center">
-  <a href="https://github.com/ilvoron/SnakeGameC">
-    <img src="https://img.shields.io/badge/platform-Windows-blue" alt="Platform">
-  </a>
-  <a href="https://github.com/ilvoron/SnakeGameC/releases">
-    <img src="https://img.shields.io/github/v/release/ilvoron/SnakeGameC" alt="GitHub Release">
-  </a>
-  <a href="https://github.com/ilvoron/SnakeGameC/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/ilvoron/SnakeGameC" alt="GitHub License">
-  </a>
-  <a href="https://github.com/ilvoron/SnakeGameC/releases">
-    <img src="https://img.shields.io/github/downloads/ilvoron/SnakeGameC/total" alt="GitHub Downloads">
-  </a>
-</p>
+<div align="center">
+  
+  <a href="" title="Platform">![Platform](https://img.shields.io/badge/platform-Windows-blue)</a>
+  <a href="" title="GitHub Release">![GitHub Release](https://img.shields.io/github/v/release/ilvoron/SnakeGameC)</a>
+  <a href="" title="GitHub License">![GitHub License](https://img.shields.io/github/license/ilvoron/SnakeGameC)</a>
+  <a href="" title="GitHub Downloads">![GitHub Downloads](https://img.shields.io/github/downloads/ilvoron/SnakeGameC/total)</a>
+  
+</div>
 
-<p align="center">
+<div align="center">
  <picture>
    <source srcset="promo/snake_logo.png" width="128px" alt="Snake Game Logo" />
    <img src="promo/snake_logo.png" width="128px" alt="Snake Game Logo" />
  </picture>
-</p>
+</div>
+
 <h1 align="center">SnakeGameC</h1>
 
 <p align="center">A console-based snake game for Windows, written in C.</p>
