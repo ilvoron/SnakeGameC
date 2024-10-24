@@ -1,9 +1,9 @@
 <div align="center">
   
-  <a href="" title="OS">![OS](https://img.shields.io/badge/os-Windows-blue)</a>
-  <a href="" title="GitHub Release">![GitHub Release](https://img.shields.io/github/v/release/ilvoron/SnakeGameC)</a>
-  <a href="" title="GitHub License">![GitHub License](https://img.shields.io/github/license/ilvoron/SnakeGameC)</a>
-  <a href="" title="GitHub Downloads">![GitHub Downloads](https://img.shields.io/github/downloads/ilvoron/SnakeGameC/total)</a>
+  <a href="" title="OS">![OS](https://img.shields.io/badge/os-Windows-blue?cacheSeconds=3600)</a>
+  <a href="" title="GitHub Release">![GitHub Release](https://img.shields.io/github/v/release/ilvoron/SnakeGameC?cacheSeconds=300)</a>
+  <a href="" title="GitHub License">![GitHub License](https://img.shields.io/github/license/ilvoron/SnakeGameC?cacheSeconds=3600)</a>
+  <a href="" title="GitHub Downloads">![GitHub Downloads](https://img.shields.io/github/downloads/ilvoron/SnakeGameC/total?cacheSeconds=300)</a>
   
 </div>
 
