@@ -4,8 +4,6 @@
   <a href="" title="GitHub Release">![GitHub Release](https://img.shields.io/github/v/release/ilvoron/SnakeGameC?cacheSeconds=300)</a>
   <a href="" title="GitHub License">![GitHub License](https://img.shields.io/github/license/ilvoron/SnakeGameC?cacheSeconds=3600)</a>
   <a href="" title="GitHub Downloads">![GitHub Downloads](https://img.shields.io/github/downloads/ilvoron/SnakeGameC/total?cacheSeconds=300)</a>
-  <a href="" title="Make 3.81">![Make 3.81](https://img.shields.io/badge/make-3.81-blue?cacheSeconds=300)</a>
-  <a href="" title="GCC 13.2.0">![GCC 13.2.0](https://img.shields.io/badge/GCC-13.2.0-brightgreen?cacheSeconds=300)</a>
   
 </div>
 
