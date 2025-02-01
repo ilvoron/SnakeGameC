@@ -39,12 +39,14 @@
 
 ## Overview
 
-**SnakeGameC** is a simple console snake game built for Windows, developed in C. It was created as part of a university project aimed at teaching students how to work in a team on a modular basis. Each member of the team was responsible for designing and implementing their own module, after which the modules were integrated into a single project.
+**SnakeGameC** is a simple console-based snake game built for Windows, developed in C.  
+This project was created as part of a university course, designed to teach students the fundamentals of **team-based modular programming**.  
 
-This approach allowed each team member to work independently, while learning how to combine their efforts to complete the game. The goal was to help students gain experience in team-based software development and modular programming.
+Each team member was responsible for designing and implementing a separate module, which was later integrated into a single project.  
+This approach allowed participants to work independently while also learning to collaborate in a structured software development environment.
 
-## System Requirements to Run `.exe`
-- OS: Windows XP or higher
+## System Requirements
+- **OS**: Windows XP or higher
 
 ## Build Requirements
 To build the executable, you will need:
@@ -52,12 +54,29 @@ To build the executable, you will need:
 - **GNU Make** (Recommended: [GnuWin Make](https://gnuwin32.sourceforge.net/packages/make.htm))
 
 ### Build Instructions
-- Run `make` in the root of the project folder to compile the game.
-- Run `make clean` to remove temporary files generated during the build process.
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/ilvoron/SnakeGameC.git
+   cd SnakeGameC
+   ```
+2. Build the project using `make`:
+   ```sh
+   make
+   ```
+3. Run the compiled executable:
+   ```sh
+   ./snake.exe
+   ```
+4. To clean up temporary build files, use:
+   ```sh
+   make clean
+   ```
 
-## Developer Information
+## Developers
 
-- **Interface Module Developer**: [**ilvoron**](https://github.com/ilvoron)
-- **Controller Module Developer**: [**Fazdo**](https://github.com/Fazdo)
-- **Board Module Developer**: [**AlenaBls**](https://github.com/AlenaBls)
-- **Snake Module Developer**: [**entyziast**](https://github.com/entyziast)
+| Module | Developer |
+| ------ | --------- |
+| Interface | [ilvoron](https://github.com/ilvoron) |
+| Controller | [Fazdo](https://github.com/Fazdo) |
+| Board | [AlenaBls](https://github.com/AlenaBls) |
+| Snake Logic | [entyziast](https://github.com/entyziast) |
