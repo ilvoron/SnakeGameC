@@ -14,7 +14,7 @@
  </picture>
 </div>
 
-<h1 align="center">SnakeGameC</h1>
+<h1 align="center">snake-game-c-win</h1>
 
 <p align="center">A console-based snake game for Windows, written in C.</p>
 
@@ -39,7 +39,7 @@
 
 ## Overview
 
-**SnakeGameC** is a simple console-based snake game built for Windows, developed in C.  
+**snake-game-c-win** is a simple console-based snake game built for Windows, developed in C.  
 This project was created as part of a university course, designed to teach students the fundamentals of **team-based modular programming**.  
 
 Each team member was responsible for designing and implementing a separate module, which was later integrated into a single project.  
